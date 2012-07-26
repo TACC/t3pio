@@ -136,7 +136,7 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
       int flags              = (O_WRONLY | O_CREAT | O_EXCL);
       // Create a Lustre Striped Test File
       char fn[MAXLINE];
-      sprintf(&fn[0], "foo_%d.bar", getpid());
+      sprintf(&fn[0], "%s/foo_%d.bar", dir, getpid());
       int rc = llapi_file_create(fn, stripe_size, stripe_offset, stripes_max,
                                  stripe_pattern);
       if (rc == 0)
