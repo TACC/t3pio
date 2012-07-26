@@ -8,42 +8,25 @@ HAVE_FDEPEND := @have_fdepend@
 
 include $(TOPDIR)cmplrflags.mk
 
-EXEC := mpiio
-LIBS := @LIBS@ 
-
-ifneq ($(TACC_HDF5_LIB),)
-  ifneq ($(TACC_SZIP_LIB),)
-    SZIP_LIBS := -L$(TACC_SZIP_LIB) -lsz
-  endif
-  ifneq ($(wildcard $(TACC_HDF5_LIB)/libsz.so),)
-    SZIP_LIBS := -lsz
-  endif
-  override LIBS    := $(LIBS)    -L$(TACC_HDF5_LIB)  -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5  -lz
-  override FFLAGS  := $(FFLAGS)  -I$(TACC_HDF5_INC) -DUSE_HDF5
-  override FCFLAGS := $(FCFLAGS) -I$(TACC_HDF5_INC) -DUSE_HDF5
-endif
+LIBRARY := libt3pio.a
+LIBS    := @LIBS@ 
 
 VPATH := $(TOPDIR)src
 
 
-F_SRC :=                      \
-           assert.F90         \
-           cmdline.F90        \
-           grid.F90           \
-           master.F90         \
-	   parallel.F90       \
-           writer.F90         \
+F_SRC :=   f_t3pio.f90
 
 
 C_SRC :=                      \
-	   measure.c          \
+	   f2c_internal.c     \
            pfs.c              \
+           t3pio.c            \
 
 
 SRC   := $(F_SRC) $(C_SRC)
 
 
-OBJ   := $(patsubst %.F90, %.o,   $(F_SRC)) \
+OBJ   := $(patsubst %.f90, %.o,   $(F_SRC)) \
          $(patsubst %.c,   %.o,   $(C_SRC))
 
 TAGLIST := Makefile cmplrflags.mk $(foreach f, $(SRC), src/$(f))
@@ -53,15 +36,20 @@ TAGLIST := Makefile cmplrflags.mk $(foreach f, $(SRC), src/$(f))
 all:	config.status
 	$(MAKE) -f build.mk HAVE_SRC_BUILT=yes _all
 
-_all: $(EXEC)
+_all: $(LIBRARY)
 
-$(EXEC) : $(OBJ)
-	$(LINK.F) -o $@ $(OBJ) $(LIBS) -lm
-	if [ -d $(SCRATCH)/mpiio/ ]; then mkdir -p $(SCRATCH)/mpiio/$(TARG); cp $(EXEC) $(SCRATCH)/mpiio/$(TARG); fi
+$(LIBRARY) : $(OBJ)
+	$(AR) $(ARFLAGS) $@ $(OBJ)
+	-$(RANLIB) $@
+
+tst: $(LIBRARY) tst.o
+	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ tst.o -L. -lt3pio -lm
+
+
 
 echo:
-	@echo F_SRC: $(F_SRC)
-	@echo libsz: $(wildcard $(TACC_HDF5_LIB)/libsz.so)
+	@echo OBJ: $(OBJ)
+
 neat:
 	$(RM) .*~ *~ src/*~ src/.*~
 
@@ -106,9 +94,6 @@ tags:
 	etags `cat file_list.2`
 	$(RM) file_list.*
 
-depend:
-	cd $(TOPDIR)/src; fdepend --ignore mpi --ignore hdf5 $(F_SRC) > $(TOPDIR).depend
-
 config.h: stamp-h
 
 stamp-h: $(TOPDIR)config.h.in config.status
@@ -120,12 +105,9 @@ build.mk:: $(TOPDIR)Build.in config.status
 config.status: $(TOPDIR)configure
 	cd $(TOPDIR) && $(O_DIR)config.status --recheck
 
-ifeq ($(HAVE_SRC_BUILT),yes)
-  include $(patsubst %.c,   %.d, $(C_SRC))
-  ifeq ($(HAVE_FDEPEND),yes)
-    include $(patsubst %.F90, %.d, $(F_SRC))
-  endif
-endif
+f_t3pio.mod f_t3pio.o : f_t3pio.f90
+include $(patsubst %.c,   %.d, $(C_SRC))
+
 
 # Local Variables:
 # mode: makefile-gmake

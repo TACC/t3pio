@@ -20,7 +20,7 @@
 #   include "lustre/lustre_user.h"
 #endif
 
-void t3pio_init(T3pio_t* t3)
+void t3pio_init(T3Pio_t* t3)
 {
   t3->globalSz   = -1;
   t3->maxStripes = -1;
@@ -28,7 +28,9 @@ void t3pio_init(T3pio_t* t3)
   t3->numNodes   = -1;
   t3->numIO      = -1;
   t3->numStripes = -1;
+  t3->nodeMem    = -1;
   t3->stripeSz   = -1;
+  t3->dir        = NULL;
   t3->fn         = NULL;
 }
 
@@ -164,6 +166,7 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
                 count++;
             }
           stripes = count;
+          fclose(fp);
         }
       unlink(fn);
     }
@@ -172,44 +175,38 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
   return stripes;
 }
 
-#define f_numStripesIOunits F77_FUNC(numstripesiounits,NUMSTRIPESIOUNITS)
 
 
-void f_numStripesIOunits(int* factor, int* Stripes, int * nStripes, int * nIO)
+int t3pio_nodeMemory(MPI_Comm comm, int myProc)
 {
-  static int numNodes   = 0;
-  static int numIO      = 0;
-  static int numStripes = 0;
-  int nProc, myProc, mStripes;
-  int f = *factor;
+  int   memSz = 2048;
+  char  line[MAXLINE];
+  FILE* fp;
 
-  if (numNodes != 0)
+  if (myProc == 0)
     {
-      *nStripes = numStripes;
-      *nIO      = numIO;
-      return;
+      if ( (fp = popen("free -m","r")) == NULL)
+        {
+          fprintf(stderr,"Unable to popen \"free -m\"\n");
+          abort();
+        }
+      
+      while ( fgets(line, MAXLINE, fp) != NULL)
+        {
+          if (strncmp(line,"Mem:",4) == 0)
+            {
+              sscanf(&line[4],"%d", &memSz);
+              break;
+            }
+        }
+      fclose(fp);
     }
-
-  MPI_Comm_rank(MPI_COMM_WORLD, &myProc);
-  MPI_Comm_size(MPI_COMM_WORLD, &nProc);
-
-  numNodes  = numComputerNodes(nProc);
-
-  numStripes = maxStripes(myProc);
-  if (numNodes*f < numStripes) numStripes = numNodes*f;
-
-  if (*Stripes > 0)
-    {
-      numIO = *Stripes/f;
-      if (numIO > 2*numNodes) numIO = 2*numNodes;
-      numStripes = numIO*f;
-    }
-
-  numIO      = numStripes/f;
-  *nStripes  = numStripes;
-  *nIO       = numIO;
-  return;
+  int ierr = MPI_Bcast(&memSz, 1, MPI_INTEGER, 0, comm);
+  return memSz;
 }
+
+
+#if 0
 
 int readStripes(int myProc, const char * fn)
 {
@@ -310,3 +307,5 @@ void f_dateL(char *timeL, int datelen)
   for (; a < &timeL[datelen]; ++a)
     *a = ' ';
 }
+
+#endif
