@@ -43,7 +43,7 @@ $(LIBRARY) : $(OBJ)
 	-$(RANLIB) $@
 
 tst: $(LIBRARY) tst.o
-	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ tst.o -L. -lt3pio -lm
+	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ tst.o -L. -lt3pio $(LIBS) -lm 
 
 
 
