@@ -45,6 +45,8 @@ $(LIBRARY) : $(OBJ)
 tst: $(LIBRARY) tst.o
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ tst.o -L. -lt3pio $(LIBS) -lm 
 
+ftst: $(LIBRARY) ftst.o
+	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ tst.o -L. -lt3pio $(LIBS) -lm 
 
 
 echo:
@@ -105,6 +107,7 @@ build.mk:: $(TOPDIR)Build.in config.status
 config.status: $(TOPDIR)configure
 	cd $(TOPDIR) && $(O_DIR)config.status --recheck
 
+ftst.o: ftst.f90
 f_t3pio.mod f_t3pio.o : f_t3pio.f90
 include $(patsubst %.c,   %.d, $(C_SRC))
 
