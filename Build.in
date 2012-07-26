@@ -46,7 +46,7 @@ tst: $(LIBRARY) tst.o
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ tst.o -L. -lt3pio $(LIBS) -lm 
 
 ftst: $(LIBRARY) ftst.o
-	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ tst.o -L. -lt3pio $(LIBS) -lm 
+	$(FC) $(LDFLAGS) $(FFLAGS) -o $@ ftst.o -L. -lt3pio $(LIBS) -lm 
 
 
 echo:

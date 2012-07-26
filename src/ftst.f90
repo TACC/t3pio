@@ -14,7 +14,7 @@ program ftst
    call MPI_Comm_rank(MPI_COMM_WORLD, myProc, ierr)
    call MPI_Comm_size(MPI_COMM_WORLD, nProcs,  ierr)
 
-   call MPI_create(info, ierr)
+   call MPI_Info_create(info, ierr)
 
    gblSz = 789 ! in MB
    
@@ -31,7 +31,7 @@ program ftst
          call MPI_Info_get_valuelen(info, key, valuelen, flag, ierr)
          call MPI_Info_get(info, key, valuelen+1, value, flag, ierr)
 
-         write(*,'(''Key: '',a,'' value: '', a)') key, value
+         write(*,'(''Key: '',a,'' value: '', a)') trim(key), trim(value)
       end do
 
    end if
