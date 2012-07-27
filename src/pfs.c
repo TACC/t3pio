@@ -206,9 +206,8 @@ int t3pio_nodeMemory(MPI_Comm comm, int myProc)
 }
 
 
-#if 0
 
-int readStripes(int myProc, const char * fn)
+int t3pio_readStripes(MPI_Comm comm, int myProc, const char * fn)
 {
   int count   = 0;
   int stripes = 4;
@@ -233,79 +232,7 @@ int readStripes(int myProc, const char * fn)
         }
       stripes = count;
     }
-  ierr = MPI_Bcast(&stripes, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+  ierr = MPI_Bcast(&stripes, 1, MPI_INTEGER, 0, comm);
 #endif
   return stripes;
 }
-
-#define f_readStripesIOunits F77_FUNC(readstripesiounits,READSTRIPESIOUNITS)
-
-void f_readStripesIOunits(const char * fn, int factor, int* nStripes, int * nIO, int fnLen)
-{
-  char *p;
-  char fnZ[MAXLINE];
-  int myProc, nProc, numIO, numStripes, numNodes;
-
-  MPI_Comm_rank(MPI_COMM_WORLD, &myProc);
-  MPI_Comm_size(MPI_COMM_WORLD, &nProc);
-
-  assert(MAXLINE >= fnLen);
-  memcpy(&fnZ[0], fn, fnLen);
-  fnZ[fnLen] = '\0';
-  p = strchr(&fnZ[0],' ');
-  *p = '\0';
-
-  numStripes = readStripes(myProc, fn);
-  numNodes   = numComputerNodes(nProc);
-  assert(fn != NULL);
-  if (numNodes*factor < numStripes) numStripes = numNodes*factor;
-
-  if (factor < 1 || factor > 4) factor = 4;
-  numIO     = numStripes/factor;
-  *nStripes = numStripes;
-  *nIO      = numIO;
-}
-
-#define f_dateZ F77_FUNC(datez, DATEZ)
-#define f_dateL F77_FUNC(datel, DATEL)
-
-void f_dateZ(char *timeZ, int datelen)
-{
-
-  char * a, * b;
-  time_t t;
-  time(&t);
-  char * d;
-  d = asctime(gmtime(&t));
-
-  memcpy(timeZ,d, 19);
-  b    = &d[19];
-  a    = &timeZ[19];
-  *a++ = 'Z';
-  memcpy(a, b, 5);
-  a += 5;
-
-  for (; a < &timeZ[datelen]; ++a)
-    *a = ' ';
-}
-
-void f_dateL(char *timeL, int datelen)
-{
-
-  int len ;
-  char * a;
-  time_t t;
-  char * d;
-
-  time(&t);
-  d = asctime(localtime(&t));
-  len = strlen(d);
-  if (d[len-1] == '\n')
-    len--;
-  memcpy(timeL,d, len);
-  a   = &timeL[len];
-  for (; a < &timeL[datelen]; ++a)
-    *a = ' ';
-}
-
-#endif

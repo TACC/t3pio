@@ -15,7 +15,6 @@ if test x$OBJ_DIR_NAME = xOBJ ; then
 else
   PP_SET_OUTPUT_DIR_BY_CMD(targ)
 fi
-AC_CHECK_PROG(have_fdepend, fdepend, yes, no)
 AC_CONFIG_HEADER($pp_output_dir/config.h:config.h.in)
 AC_F77_WRAPPERS
 AC_PROG_CC

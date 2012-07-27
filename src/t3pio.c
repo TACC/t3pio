@@ -43,7 +43,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   va_end(ap);
 
   /* Set factor to 2 unless the user specified something different*/
-  if (t3.factor < 0)
+  if (t3.factor < 0 || t3.factor > 4)
     t3.factor = 2;
 
   MPI_Comm_rank(comm, &myProc);
@@ -51,19 +51,6 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   
   t3.nodeMem    = t3pio_nodeMemory(comm, myProc);
   t3.numNodes   = t3pio_numComputerNodes(comm, nProcs);
-  t3.numStripes = t3pio_maxStripes(comm, myProc, dir);
-
-  if (t3.numNodes * t3.factor < t3.numStripes)
-    t3.numStripes = t3.numNodes*t3.factor;
-
-  if (t3.maxStripes > 0)
-    {
-      t3.numIO = t3.maxStripes / t3.factor;
-      if (t3.numIO > 2*t3.numNodes) t3.numIO = 2*t3.numNodes;
-      t3.numStripes = t3.numIO*t3.factor;
-    }
-
-  t3.numIO = t3.numStripes / t3.factor;
 
   if (t3.globalSz > 0)
     {
@@ -76,8 +63,39 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       double exp      = floor(log(sz)/log2);
       exp             = min(coreExp,exp);
       exp             = max(1.0, exp);
-      t3.stripeSz     = (1 << ((int) exp)) * 1024 * 1024;
+      t3.stripeSz     = 1 << ((int) exp) + 20;
     }
+
+
+  if (t3.fn && t3.fn[0])
+    {
+      /* Check for user supplied file for reading */
+
+      t3.numStripes = t3pio_readStripes(comm, myProc, t3.fn);
+      if (t3.numNodes * t3.factor < t3.numStripes)
+        t3.numStripes = t3.numNodes * t3.factor;
+
+      t3.stripeSz = -1;         /* Can not change stripe sz on files
+                                   to be read */
+    }
+          
+  else
+    {
+      
+      t3.numStripes = t3pio_maxStripes(comm, myProc, dir);
+      if (t3.numNodes * t3.factor < t3.numStripes)
+        t3.numStripes = t3.numNodes*t3.factor;
+
+      if (t3.maxStripes > 0)
+        {
+          t3.numIO = t3.maxStripes / t3.factor;
+          if (t3.numIO > 2*t3.numNodes) t3.numIO = 2*t3.numNodes;
+          t3.numStripes = t3.numIO*t3.factor;
+        }
+    }
+
+  t3.numIO = t3.numStripes / t3.factor;
+
 
   sprintf(buf, "%d", t3.numIO);
   MPI_Info_set(info, (char *) "cb_nodes", buf);

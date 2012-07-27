@@ -1,10 +1,11 @@
+prefix       := @prefix@
 NAME         := $(shell $(TOPDIR)/config.guess)
 LIST         := $(subst -, ,$(NAME))
 MACHINE      := $(word 1, $(LIST))
 VENDOR       := $(word 2, $(LIST))
 OS           := $(subst  $(MACHINE)-$(VENDOR)-,,$(strip $(NAME)))
 VDATE        := $(shell date +'%F %H:%M')
-HAVE_FDEPEND := @have_fdepend@
+DIRLIST      := $(DESTDIR)$(prefix)/lib $(DESTDIR)$(prefix)/include
 
 include $(TOPDIR)cmplrflags.mk
 
@@ -48,6 +49,12 @@ tst: $(LIBRARY) tst.o
 ftst: $(LIBRARY) ftst.o
 	$(FC) $(LDFLAGS) $(FFLAGS) -o $@ ftst.o -L. -lt3pio $(LIBS) -lm 
 
+install: $(DIRLIST) $(LIBRARY)
+	cp $(LIBRARY) $(DESTDIR)/$(prefix)/lib
+	cp t3pio.h t3pio.mod $(DESTDIR)/$(prefix)/include
+
+$(DIRLIST):
+	mkdir -p $@
 
 echo:
 	@echo OBJ: $(OBJ)
