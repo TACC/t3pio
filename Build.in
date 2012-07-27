@@ -49,9 +49,9 @@ tst: $(LIBRARY) tst.o
 ftst: $(LIBRARY) ftst.o
 	$(FC) $(LDFLAGS) $(FFLAGS) -o $@ ftst.o -L. -lt3pio $(LIBS) -lm 
 
-install: $(DIRLIST) $(LIBRARY)
-	cp $(LIBRARY) $(DESTDIR)/$(prefix)/lib
-	cp t3pio.h t3pio.mod $(DESTDIR)/$(prefix)/include
+install: $(DIRLIST) $(LIBRARY) 
+	cp $(LIBRARY) $(DESTDIR)$(prefix)/lib
+	cp $(TOPDIR)src/t3pio.h t3pio.mod $(DESTDIR)$(prefix)/include
 
 $(DIRLIST):
 	mkdir -p $@
