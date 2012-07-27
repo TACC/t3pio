@@ -213,7 +213,7 @@ int t3pio_readStripes(MPI_Comm comm, int myProc, const char * fn)
   int stripes = 4;
   int ierr;
 #ifdef HAVE_LUSTRE
-  if (myProc == 0 && usingLustreFS())
+  if (myProc == 0 && t3pio_usingLustreFS())
     {
       FILE* fp;
       char  line[MAXLINE];
