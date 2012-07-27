@@ -49,6 +49,11 @@ tst: $(LIBRARY) tst.o
 ftst: $(LIBRARY) ftst.o
 	$(FC) $(LDFLAGS) $(FFLAGS) -o $@ ftst.o -L. -lt3pio $(LIBS) -lm 
 
+
+dist:
+	git archive --prefix=t3pio-`cat $(TOPDIR).version`/ master | bzip2 > t3pio-`cat $(TOPDIR).version`.tar.bz2
+
+
 install: $(DIRLIST) $(LIBRARY)
 	cp $(LIBRARY) $(DESTDIR)/$(prefix)/lib
 	cp t3pio.h t3pio.mod $(DESTDIR)/$(prefix)/include
