@@ -52,6 +52,8 @@ ftst: $(LIBRARY) ftst.o
 install: $(DIRLIST) $(LIBRARY) 
 	cp $(LIBRARY) $(DESTDIR)$(prefix)/lib
 	cp $(TOPDIR)src/t3pio.h t3pio.mod $(DESTDIR)$(prefix)/include
+dist:
+	git archive --prefix=t3pio-`cat $(TOPDIR).version`/ master | bzip2 > t3pio-`cat $(TOPDIR).version`.tar.bz2
 
 $(DIRLIST):
 	mkdir -p $@
