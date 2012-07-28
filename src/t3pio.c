@@ -17,6 +17,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   va_list ap;
   int     nProcs, myProc;
   char    buf[128];
+  int     remoteFile = 0;
 
   T3PIO_results_t *results = NULL;
 
@@ -59,7 +60,36 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   t3.numNodes   = t3pio_numComputerNodes(comm, nProcs);
   t3.stripeSz   = 1024 * 1024;
 
-  if (t3.globalSz > 0)
+  if (t3.fn && t3.fn[0])
+    {
+      /* Check for user supplied file for reading */
+
+      t3.numStripes = t3pio_readStripes(comm, myProc, t3.fn);
+      if (t3.numNodes * t3.factor < t3.numStripes)
+        t3.numStripes = t3.numNodes * t3.factor;
+
+      t3.stripeSz = -1;         /* Can not change stripe sz on files
+                                   to be read */
+      remoteFile = 1;
+    }
+          
+  else
+    {
+      t3.numStripes = t3pio_maxStripes(comm, myProc, dir);
+      if (t3.numNodes * t3.factor < t3.numStripes)
+        t3.numStripes = t3.numNodes*t3.factor;
+
+      if (t3.maxStripes > 0)
+        {
+          t3.numIO = t3.maxStripes / t3.factor;
+          if (t3.numIO > 2*t3.numNodes) t3.numIO = 2*t3.numNodes;
+          t3.numStripes = t3.numIO*t3.factor;
+        }
+    }
+
+  t3.numIO = t3.numStripes / t3.factor;
+
+  if (t3.globalSz > 0 && !remoteFile)
     {
       double log2     = log(2.0);
       double numCores = nProcs/t3.numNodes;
@@ -74,34 +104,6 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     }
 
 
-  if (t3.fn && t3.fn[0])
-    {
-      /* Check for user supplied file for reading */
-
-      t3.numStripes = t3pio_readStripes(comm, myProc, t3.fn);
-      if (t3.numNodes * t3.factor < t3.numStripes)
-        t3.numStripes = t3.numNodes * t3.factor;
-
-      t3.stripeSz = -1;         /* Can not change stripe sz on files
-                                   to be read */
-    }
-          
-  else
-    {
-      
-      t3.numStripes = t3pio_maxStripes(comm, myProc, dir);
-      if (t3.numNodes * t3.factor < t3.numStripes)
-        t3.numStripes = t3.numNodes*t3.factor;
-
-      if (t3.maxStripes > 0)
-        {
-          t3.numIO = t3.maxStripes / t3.factor;
-          if (t3.numIO > 2*t3.numNodes) t3.numIO = 2*t3.numNodes;
-          t3.numStripes = t3.numIO*t3.factor;
-        }
-    }
-
-  t3.numIO = t3.numStripes / t3.factor;
 
 
   sprintf(buf, "%d", t3.numIO);
