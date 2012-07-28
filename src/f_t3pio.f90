@@ -23,7 +23,7 @@ contains
       character(PATHMAX)              :: dir
       character(PATHMAX)              :: usrFile
       character(256)                  :: key, value
-      integer                         :: len, valuelen
+      integer                         :: len, valuelen, myProc
       logical                         :: flag
       integer                         :: gblSz, maxStripes, f
       type(T3PIO_Results_t), optional :: results
@@ -45,6 +45,10 @@ contains
 
       len     = len_trim(usrFile)+1
       usrFile = usrFile(1:len-1) // CHAR(0)
+
+      call mpi_comm_rank(comm, myProc, ierr)
+      if (myProc == 0)  write(*,*) "gblSz = ", gblSz
+      
 
       ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, f, usrFile)
       
