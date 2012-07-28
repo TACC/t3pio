@@ -15,18 +15,18 @@ contains
    subroutine t3pio_set_info(comm, info, dirIn, ierr,       &
       global_size, max_stripes, factor, file, results)
 
-      integer, parameter            :: PATHMAX = 2048
-      integer                       :: comm, info, ierr
-      character(*)                  :: dirIn
-      integer,          optional    :: global_size, max_stripes, factor
-      character(*),     optional    :: file
-      character(PATHMAX)            :: dir
-      character(PATHMAX)            :: usrFile
-      character(256)                :: key, value
-      integer                       :: len, valuelen
-      logical                       :: flag
-      integer                       :: gblSz, maxStripes, f
-      T3PIO_Results_t, optional     :: results
+      integer, parameter              :: PATHMAX = 2048
+      integer                         :: comm, info, ierr
+      character(*)                    :: dirIn
+      integer,          optional      :: global_size, max_stripes, factor
+      character(*),     optional      :: file
+      character(PATHMAX)              :: dir
+      character(PATHMAX)              :: usrFile
+      character(256)                  :: key, value
+      integer                         :: len, valuelen
+      logical                         :: flag
+      integer                         :: gblSz, maxStripes, f
+      type(T3PIO_Results_t), optional :: results
 
 
       gblSz      = -1
