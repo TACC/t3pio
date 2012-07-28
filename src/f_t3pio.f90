@@ -23,8 +23,10 @@ contains
       character(PATHMAX)            :: dir
       character(PATHMAX)            :: usrFile
       character(256)                :: key, value
-      integer                       :: len
+      integer                       :: len, valuelen
+      logical                       :: flag
       integer                       :: gblSz, maxStripes, f
+      T3PIO_Results_t, optional     :: results
 
 
       gblSz      = -1
