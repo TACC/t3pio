@@ -121,7 +121,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       results->numIO      = t3.numIO;
       results->numStripes = t3.numStripes;
       results->factor     = t3.factor;
-      results->stripeSize = t3.stripeSize;
+      results->stripeSize = t3.stripeSz;
     }
 
   return ierr;
