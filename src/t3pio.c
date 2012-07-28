@@ -98,12 +98,15 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       double coreExp  = floor(log(bufMemSz)/log2);
       double sz       = ((double)t3.globalSz) / ((double)t3.numIO);
       double exp      = floor(log(sz)/log2);
+      if (myProc == 0) 
+	{
+	  printf("gblSz: %d, numCores: %g, coreMem: %g, bufMemSz: %g, coreExp: %g, sz: %g, exp: %g\n",
+		 t3.globalSz, numCores, coreMem, bufMemSz, coreExp, sz, exp);
+	}
       exp             = min(coreExp,exp);
       exp             = max(1.0, exp);
       t3.stripeSz     = 1 << ((int) exp) + 20;
     }
-
-
 
 
   sprintf(buf, "%d", t3.numIO);
