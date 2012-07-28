@@ -119,14 +119,14 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   if (results)
     {
       char key[128], value[128];
-      int i, valuelen, nkeys;
-      ierr = MPI_Info_get_nkeys(info, nkeys);
+      int i, valuelen, nkeys, flag;
+      ierr = MPI_Info_get_nkeys(info, &nkeys);
 
       for (i = 0; i < nkeys; ++i)
         {
           ierr = MPI_Info_get_nthkey(info, i, key);
-          ierr = MPI_Info_get_valuelen(info, key, valuelen, flag);
-          ierr = MPI_Info_get(info, key, valuelen+1, value, flag);
+          ierr = MPI_Info_get_valuelen(info, key, &valuelen, &flag);
+          ierr = MPI_Info_get(info, key, valuelen+1, value, &flag);
 
           if      (strcmp("cb_nodes",        key) == 0) sscanf(value, "%d", &(*results).numIO);
           else if (strcmp("striping_factor", key) == 0) sscanf(value, "%d", &(*results).numStripes);
