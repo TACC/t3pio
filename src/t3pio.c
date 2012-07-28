@@ -45,7 +45,8 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
           t3.fn = va_arg(ap,char *);
           break;
         case T3PIO_RESULT:
-          results = va_arg(ap, T3PIO_results_t *)
+          results = va_arg(ap, T3PIO_results_t *);
+          break;
         }
     }
   va_end(ap);
