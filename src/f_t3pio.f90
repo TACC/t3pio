@@ -46,10 +46,6 @@ contains
       len     = len_trim(usrFile)+1
       usrFile = usrFile(1:len-1) // CHAR(0)
 
-      call mpi_comm_rank(comm, myProc, ierr)
-      if (myProc == 0)  write(*,*) "gblSz = ", gblSz
-      
-
       ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, f, usrFile)
       
       if (present(results)) then

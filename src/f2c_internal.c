@@ -28,11 +28,6 @@ int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, 
   MPI_Comm comm = MPI_Comm_f2c(*f_comm);
   MPI_Info info = MPI_Info_f2c(*f_info);
 
-  ierr = MPI_Comm_rank(comm, &myProc);
-
-  if (myProc == 0) 
-    printf("gblSz: %d\n",*global_size);
-
   ierr = t3pio_set_info(comm, info, dir,
 			T3PIO_GLOBAL_SIZE, *global_size,
 			T3PIO_MAX_STRIPES, *max_stripes,
