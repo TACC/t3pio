@@ -18,6 +18,9 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   int     nProcs, myProc;
   char    buf[128];
 
+  T3PIO_results_t *results = NULL;
+
+
   t3pio_init(&t3);
   
   va_start(ap, dir);
@@ -38,6 +41,11 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
         case T3PIO_FILE:
           t3.fn = va_arg(ap,char *);
           break;
+        case T3PIO_FILE:
+          t3.fn = va_arg(ap,char *);
+          break;
+        case T3PIO_RESULT:
+          results = va_arg(ap, T3PIO_results_t *)
         }
     }
   va_end(ap);
@@ -51,6 +59,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   
   t3.nodeMem    = t3pio_nodeMemory(comm, myProc);
   t3.numNodes   = t3pio_numComputerNodes(comm, nProcs);
+  t3.stripeSz   = 1024 * 1024;
 
   if (t3.globalSz > 0)
     {
@@ -106,6 +115,15 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     {
       sprintf(buf, "%d", t3.stripeSz);
       MPI_Info_set(info, (char *) "striping_unit", buf);
+    }
+
+
+  if (results)
+    {
+      results->numIO      = t3.numIO;
+      results->numStripes = t3.numStripes;
+      results->factor     = t3.factor;
+      results->stripeSize = t3.stripeSize;
     }
 
   return ierr;

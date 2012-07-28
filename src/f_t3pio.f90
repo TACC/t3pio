@@ -2,9 +2,18 @@ module t3pio
 
    use mpi
 
+   type T3PIO_Results_t
+      integer :: numIO       ! The number of readers/writers
+      integer :: numStripes  ! The number of stripes
+      integer :: factor      ! numStripes/numIO
+      integer :: stripeSize  ! stripe size in bytes
+   end type T3PIO_Results_t
+
+
+
 contains
    subroutine t3pio_set_info(comm, info, dirIn, ierr,       &
-      global_size, max_stripes, factor, file)
+      global_size, max_stripes, factor, file, results)
 
       integer, parameter            :: PATHMAX = 2048
       integer                       :: comm, info, ierr
@@ -13,6 +22,7 @@ contains
       character(*),     optional    :: file
       character(PATHMAX)            :: dir
       character(PATHMAX)            :: usrFile
+      character(256)                :: key, value
       integer                       :: len
       integer                       :: gblSz, maxStripes, f
 
@@ -36,6 +46,25 @@ contains
 
       ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, f, usrFile)
       
+      if (present(results)) then
+         call MPI_Info_get_nkeys(info, nkeys, ierr)
+
+         do i = 0, nkeys - 1
+            call MPI_Info_get_nthkey(info, i, key, ierr)
+            call MPI_Info_get_valuelen(info, key, valuelen, flag, ierr)
+            call MPI_Info_get(info, key, valuelen+1, value, flag, ierr)
+
+            if       (key == "cb_nodes") then
+               read(value,'(i15)') results % numIO
+            else if  (key == "striping_factor") then
+               read(value,'(i15)') results % numStripes
+            else if  (key == "striping_unit") then
+               read(value,'(i15)') results % stripeSize
+            end if
+         end do
+
+         results % factor = results % numStripes / results % numIO
+      end if
 
    end subroutine t3pio_set_info
 
