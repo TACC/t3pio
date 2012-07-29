@@ -1,6 +1,10 @@
 #ifndef T3PIO_H
 #define T3PIO_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <mpi.h>
 
 #define T3PIO_GLOBAL_SIZE  1001
@@ -19,8 +23,8 @@ typedef struct
 
 int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char *dir, ...);
 
-
-
-
+#ifdef __cplusplus
+}
+#endif
 
 #endif  /*T3PIO_H*/
