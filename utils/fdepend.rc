@@ -1,0 +1,22 @@
+# -*- cperl -*-
+# $Id$
+
+%extT        = ( "f"   => "Fixed",     "f77" => "Fixed",     "for" => "Fixed",
+                 "F"   => "Fixed_CPP", "F77" => "Fixed_CPP", "For" => "Fixed_CPP",
+                 "f90" => "Free",      "f95" => "Free",
+                 "F90" => "Free_CPP",  "F95" => "Free_CPP",
+               );
+
+%cpp2fstyleT = ( 1 => { "Fixed" => "Fixed_CPP", "Free" => "Free_CPP"},
+                 0 => { "Fixed" => "Fixed",     "Free" => "Free"},
+               );
+
+%compilerT   = (
+                default => { obj_ext => "o", mod_ext => "mod", case => "lower" },
+                intel   => { obj_ext => "o", mod_ext => "mod", case => "lower" },
+                pgi     => { obj_ext => "o", mod_ext => "mod", case => "lower" },
+                ibm     => { obj_ext => "o", mod_ext => "mod", case => "lower" },
+                sgi     => { obj_ext => "o", mod_ext => "MOD", case => "upper" },
+                hp      => { obj_ext => "o", mod_ext => "MOD", case => "upper" },
+                absoft  => { obj_ext => "o", mod_ext => "MOD", case => "upper" },
+               );
