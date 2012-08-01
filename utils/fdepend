@@ -1,0 +1,431 @@
+#!/usr/bin/env perl
+# -*- cperl -*-
+# $Id$
+#######################################################################
+#                                                                     #
+# Fortran 90/77 (with or without C-preprocessing                      #
+#                                                                     #
+#######################################################################
+
+#######################################################################
+#  fdepend License
+#  -----------
+#
+#   fdepend is licensed under the terms of the MIT license reproduced below.
+#   This means that fdepend is free software and can be used for both academic
+#   and commercial purposes at absolutely no cost.
+#
+#   ===============================================================================
+#
+#   Copyright (C) 2009 Robert McLay
+#
+#   Permission is hereby granted, free of charge, to any person obtaining a copy
+#   of this software and associated documentation files (the "Software"), to deal
+#   in the Software without restriction, including without limitation the rights
+#   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#   copies of the Software, and to permit persons to whom the Software is
+#   furnished to do so, subject to the following conditions:
+#
+#   The above copyright notice and this permission notice shall be included in
+#   all copies or substantial portions of the Software.
+#
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+#   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+#   THE SOFTWARE.
+#
+#   ===============================================================================
+#   (end of COPYRIGHT)
+#######################################################################
+
+
+BEGIN {
+  $^W = 1;
+  $_ = $0;
+  $Dirname = ".";
+  $_ = s/(.*)[\\\/]//;
+  $Dirname = $1 if $_;
+  push @INC, $Dirname;
+}
+use strict;
+use FileHandle;
+use Pod::Usage;
+use Getopt::Long;
+use FortranParserFactory;
+use SourceDepend;
+use Version;
+sub findSrc
+{
+  my ($file, $pathA) = @_;
+
+  if (-f $file)
+    {
+      $file =~ s/^\.\///;   #convert ./foo.ext to foo.ext
+      return $file;
+    }
+
+  for my $path (@$pathA)
+    {
+      my $fn = $path . "/" . $file;
+      if (-f $fn)
+        {
+          $fn =~ s/^\.\///;   #convert ./foo.ext to foo.ext
+          return $fn
+        }
+    }
+  return "";
+}
+
+sub upper
+{
+  my ($name) = @_;
+  return uc($name)
+}
+
+sub lower
+{
+  my ($name) = @_;
+  return lc($name)
+}
+
+sub asis
+{
+  my ($name) = @_;
+  return $name
+}
+
+our $opt_strip  = 0;
+our $obj_prefix = "";
+our $mod_prefix = "";
+our $prefix     = "";
+our $cpp_prog   = "cpp";
+our (@incdirs, %ignoreT, %extT, %cpp2fstyleT, %compilerT, @defines);
+
+sub main
+{
+
+  my ($opt_help, $opt_man, $opt_file, $opt_modext, $opt_dumpversion,
+      $opt_case, $opt_version, $opt_fixed, $opt_free, @ignoreList,
+     );
+
+  my $opt_cpp    = 0;
+  my $compiler   = "default";
+
+  # Read in fdepend.rc for tables
+  my $fn      = "fdepend.rc";
+  my $result  = do $fn ;
+  die "Dying at ".__FILE__.":".__LINE__." no $fn file found: $!\n" if (! defined $result);
+  warn $@ if $@;
+
+  my %defaultT;
+  for $_ (keys %{$compilerT{$compiler}})
+    { $defaultT{$_} = $compilerT{$compiler}{$_}; }
+
+  Getopt::Long::Configure( "bundling" );
+  GetOptions("help"         => \$opt_help,          "version"      => \$opt_version,
+             "file=s"       => \$opt_file,          "I=s@"         => \@incdirs,
+             "D=s@"         => \@defines,           "prefix=s"     => \$prefix,
+             "objext=s"     => \$defaultT{obj_ext}, "modext=s"     => \$defaultT{mod_ext},
+             "case=s"       => \$defaultT{case},    "compiler=s"   => \$compiler,
+             "fixed"        => \$opt_fixed,         "free"         => \$opt_free,
+             "ignore=s@"    => \@ignoreList,        "cpp=n"        => \$opt_cpp,
+	     "man"          => \$opt_man,           "cpp_prog=s"   => \$cpp_prog,
+             "dumpversion"  => \$opt_dumpversion,   "strip"        => \$opt_strip,
+             "obj_prefix=s" => \$obj_prefix,        "mod_prefix=s" => \$mod_prefix);
+  pod2usage(-verbose => 1) if $opt_help;
+  pod2usage(-verbose => 2) if $opt_man;
+
+  $opt_strip  = 1 if ($prefix ne "");
+
+  if ($opt_dumpversion)
+    {
+      my $vn = Version::number();
+      print "$vn\n";
+    }
+
+  if ($opt_version)
+    {
+      my $version = Version::name();
+      print "$version\n";
+      exit(0);
+    }
+
+  my %funcT = ( upper => \&upper,
+                lower => \&lower,
+                asis  => \&asis
+              );
+
+  # Convert ignoreList array to hash table
+  # if the name does NOT have a "." in it then
+  # store it also in lower case.
+  for $_ (@ignoreList)
+    {
+      $ignoreT{$_}     = 1;
+      $ignoreT{lc($_)} = 1  if ($_ !~ /\./);
+    }
+
+  my %tbl;
+  if ($compiler eq "default")
+    {
+      for $_ (keys %defaultT)
+        { $tbl{$_} = $defaultT{$_}; }
+    }
+  else
+    {
+      for $_ (keys %{$compilerT{$compiler}})
+        {
+          $tbl{$_} = $compilerT{$compiler}{$_};
+          if ($defaultT{$_} ne $compilerT{"default"}{$_})
+            { $tbl{$_} = $defaultT{$_}; }
+        }
+    }
+
+  $tbl{"case"} = $funcT{$tbl{"case"}};
+
+
+  # Use default file format unless overwritten by command line options
+  my $fileFormatCmdLine = decideFileformat($opt_fixed, $opt_free, $opt_cpp);
+
+  my %srcT;
+  my $file;
+  for $file (@ARGV)
+    {
+      my $fileFormat = $fileFormatCmdLine;
+      my $fn  = findSrc($file, \@incdirs);
+      if ($fileFormat eq "default")
+        {
+          my $ext = ($fn =~ /.*\.(.*)/) ? $1 : "f90";
+          $fileFormat = $extT{$ext};
+        }
+      my $parser = FortranParserFactory->instantiate($fileFormat);
+
+      $srcT{$file} = SourceDepend->new($fn, $file, $parser);
+      $srcT{$file}->find_includes(\%tbl);
+    }
+
+  my $fh = FileHandle->new();
+  if ($opt_file)
+    { $fh->open("> $opt_file"); }
+  else
+    { $fh->fdopen(fileno(STDOUT),"w"); }
+
+  for my $target (sort keys(%srcT))
+    {
+      my $s = $srcT{$target}->extract(\%tbl);
+      print $fh "$s\n";
+    }
+  $fh->close();
+}
+
+
+# Use "default" file format unless overwritten by command line options
+# The default uses the file extension to control the CPP/Fixed/Free decision.
+sub decideFileformat
+{
+  our %cpp2fstyleT;
+
+  my ($fixed, $free, $cpp) = @_;
+  my $fileFormat           = "default";
+  $fileFormat = "Fixed"  if ($fixed);
+  $fileFormat = "Free"   if ($free);
+  $fileFormat = $cpp2fstyleT{$cpp}{$fileFormat} if ($fileFormat ne "default");
+  return $fileFormat;
+}
+
+
+main();
+
+__END__
+
+fdepend - Dependency Generator for Fortran (90/77) files.
+
+=head1 SYNOPSIS
+
+fdepend [--version] [--help] [--man] [--file=file]
+        [-I dir] [-D TAG=file] [--ignore name]
+        [--compiler=default|intel|pgi|sgi|hp|absoft]
+        [--objext ext] [--modext ext] [--case=asis|upper|lower]
+        [--fixed] [--free] [--cpp=1|0] [--cpp_prog=alternate_cpp]
+        [--prefix name] [--strip] [--obj_prefix name ] [--mod_prefix name ]
+
+=head1 DESCRIPTION
+
+This tool reads Fortran Source Files to generate dependencies.  It is designed to work with
+Gnu Make to generate dependencies automatically.  This way the dependencies are ALWAYS up-to-date.
+This way you NEVER include an old module file.
+
+The way I<fdepend> works is that it reads the entire fortran file into memory. Then it removes comments,
+join continuation lines and splits lines that have semicolons.  It uses the fortran file extension to
+determine whether the file is in fixed or free format.  So files with (.f, .F) are assumed to be in fixed format
+and files with .f90, .f95, .F90 are in free format.   If the files have capital F in its extension then it
+is assumed that the file requires that it be run through the C-preprocessor.   All fortran files that require
+C-preprocessing are read after preprocessing.  This way any files that are conditionally included will be handled
+correctly.
+
+You can easily override this behavior by command line options.  Also these assumptions are controlled by the
+fdepend.rc file which just contains tables.  These assumptions can be easily changed there.
+
+
+=head1 C-PreProcessing
+
+When I<fdepend> is to run the c-preprocessor on a fortran source file, the program searches for the program I<cpp>
+in your I<PATH>.  If I<fdepend> find I<cpp>, then it test runs it to see if it is the Free Software Foundation version.
+If it is then the "-w" option is used to tell it to ignore warnings.  I<fdepend> searches for line directives of the form:
+
+   # 1 "top.hf"
+
+or
+
+   #line 1 "top.hf"
+
+If your I<cpp> program produces something different let me know about this format.
+
+If there is no I<cpp> program in your path then you can use the I<--cpp_prog> option
+to specify a program to use.  Many fortran compiler support the I<-E> option  so you could use:
+I<fdepend --cpp_prog="gfortran -E" ...>.  Make sure that your fortran compiler produces line directives.
+For example, I<gfortran -E> does, but I<g95 -E> does not produce line directives.
+
+=head1 OPTIONS AND ARGUMENTS
+
+=over 4
+
+=item I<--help>
+
+Print more details about the arguments.
+
+=item I<--man>
+
+Prints the full man page.
+
+=item I<--file file>
+
+Write dependencies to a file instead of standard out.
+
+=item I<-I dir>
+
+Look in alternate directories for the source and include files. There can be
+several "-I dir" options used at once. The current directory is
+still searched first.  This list of alternate directories is passed to the I<cpp> execution.
+
+
+=item I<--compiler=default|intel|pgi|sgi|hp|absoft>
+
+The default choice is "default".  This assumes that the object file extension is ".o".
+The module file extension is ".mod" and the case for the module file is "lower".
+You can specify the compiler then use I<--objext ext>, I<--modext ext> or
+I<--case up|down|asis> to override any individual option.
+
+
+=item I<--objext ext>
+
+The default object file extension is 'o'.  Use this option to override this.
+
+
+=item I<--modext ext>
+
+The default module file extension is 'mod'.  Use this option to override this.
+
+
+=item I<-D tag=value>
+
+These defines are passed to the C-preprocessor.
+
+=item I<--cpp = 1|0>
+
+With the argument set to I<1>, it forces the use of the cpp program independent of extension.
+With the argument set to I<0>, it prevents the use of the cpp program independent of extension.
+
+=item I<--strip>
+
+remove directory from object name.
+
+=item I<--cpp_prog = name>
+
+Use I<name> instead of I<cpp> as the pre-processing program.
+
+
+=item I<--ignore name>
+
+Sometimes you wish to ignore certain modules or include files.
+For example you may not want to depend on the mpi module or "mpif.h".
+There can be several I<--ignore name> as you wish.  If a name does NOT have a "."
+then it is assumed to be a module name.  All module names are checked in a case
+independent fashion.
+
+=item I<--prefix name>
+
+You can have fdepend prefix all object files and module files with a string I<name>.
+See EXAMPLE for an example of use.
+
+=item I<--obj_prefix name>
+
+Specify a prefix for just the object files.  This overrides --prefix.
+
+=item I<--mod_prefix name>
+
+Specify a prefix for just the mod files.  This overrides --prefix.
+
+=back
+
+=head1 EXAMPLE
+
+A fortran source file main.F90:
+
+   #include "top.hf"
+
+   module a
+     integer :: aaa
+   end module a
+
+   program example
+      use b
+      use c
+      call printK()
+   end program example
+
+Using : I<fdepend --file main.d  main.F90> would write to file main.d:
+
+   main.o a.mod : b.mod c.mod top.hf main.F90
+
+Using : I<fdepend --prefix OBJ/ --file main.d  main.F90> would write to file main.d:
+
+   OBJ/main.o OBJ/a.mod : OBJ/b.mod OBJ/c.mod top.hf main.F90
+
+
+Here is an example for a Makefile for Gnu Make:
+
+    SRC := main.F90 b.F90  c.F90   assert.F90
+
+    EXEC := example
+
+    FD_FLAGS := -I /usr/local/include --ignore mpi
+
+    %.d : %.F90
+    	$(SHELL) -ec '$(FDEPEND) $(FD_FLAGS) $< > $@; \
+    	[ -s $@ ] || rm -f $@'
+
+    %.o %.mod: %.F90
+    	$(COMPILE.F) $< -o $*.o
+
+
+    OBJ := $(patsubst %.F90, %.o, $(SRC))
+
+    all: $(EXEC)
+    $(EXEC): $(OBJ)
+    	$(LINK.F) -o $@ $(OBJ)
+
+    include $(patsubst %.F90, %.d, $(SRC))
+
+
+=head1 AUTHOR
+
+Robert McLay  (mclay@tacc.utexas.edu)
+
+=head1 ACKNOWLEDGMENTS
+
+This program used many ideas from I<sfmakedepend> written by Kate Hedstrom (kate@arsc.edu).
+
+=cut

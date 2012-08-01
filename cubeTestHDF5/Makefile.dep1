@@ -1,0 +1,6 @@
+assert.o : assert.F90
+cmdline.o cmdline.mod : cmdline.F90 parallel.mod
+grid.o grid.mod : grid.F90 cmdline.mod parallel.mod
+master.o : master.F90 cmdline.mod grid.mod parallel.mod writer.mod assert.hf
+parallel.o parallel.mod : parallel.F90 assert.hf
+writer.o writer.mod : writer.F90 cmdline.mod grid.mod parallel.mod assert.hf

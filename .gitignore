@@ -3,3 +3,15 @@ OBJ
 *~
 config.log
 stamp-h
+stamp-h1
+autom4te.cache
+.deps
+.libs
+*.lo
+*.o
+Makefile.in
+*.mod
+Makefile
+config.h
+config.status
+*.la
