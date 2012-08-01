@@ -4,7 +4,7 @@ SUBDIRS = .
 
 all-local: Makefile.dep1 
 
-AM_FCFLAGS = 
+AM_FCFLAGS = -I $(top_srcdir)/libt3pio
 AM_CFLAGS  = 
 AM_LIBTOOLFLAGS = 
 
@@ -24,11 +24,15 @@ standalone_PROGRAMS         = cubeTestHDF5
 
 
 
-IGNORED_MODULES = --ignore mpi --ignore hdf5 --ignore t3pio
+#IGNORED_MODULES = --ignore mpi --ignore hdf5 --ignore t3pio
+IGNORED_MODULES = -i mpi -i hdf5 -i t3pio
 PARSE_OPTIONS = -I $(top_srcdir)/include $(IGNORED_MODULES)
 
+#Makefile.dep1: $(fc_sources)
+#	$(top_srcdir)/utils/fdepend $(PARSE_OPTIONS) $^ > $@
+
 Makefile.dep1: $(fc_sources)
-	$(top_srcdir)/utils/fdepend $(PARSE_OPTIONS) $^ > $@
+	$(top_srcdir)/utils/sfmakedepend.pl $(PARSE_OPTIONS) $^ > $@
 
 
 -include Makefile.dep1

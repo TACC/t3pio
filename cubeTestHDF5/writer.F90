@@ -101,9 +101,9 @@ contains
 
 
       call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,   &
-                          global_size = iTotalSz,               &
-                          factor      = Factor,
-                          max_stripes = Stripes,
+                          global_size = iTotalSz,             &
+                          factor      = Factor,               &
+                          max_stripes = Stripes,              &
                           results     = results )
       nIOUnits   = results % numIO
       nStripes   = results % numStripes
@@ -261,6 +261,7 @@ contains
 
       integer              :: sz(3),gsz(3), starts(3), iTotalSz
       integer              :: status(MPI_STATUS_SIZE), filehandle, coreData, gblData
+      type(T3PIO_results_t) :: results
 
       fn = FILE_NAME // ".mpiio"
 
@@ -301,9 +302,9 @@ contains
 
       iTotalSz = totalSz / (1024*1024)
       call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,   &
-                          global_size = iTotalSz,
-                          factor      = Factor,
-                          max_stripes = Stripes,
+                          global_size = iTotalSz,             &
+                          factor      = Factor,               &
+                          max_stripes = Stripes,              &
                           results     = results )
 
       nIOUnits   = results % numIO

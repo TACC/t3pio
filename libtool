@@ -2,7 +2,7 @@
 
 # libtool - Provide generalized library-building support services.
 # Generated automatically by config.status (t3pio) 1.0
-# Libtool was configured on host mclay-d630:
+# Libtool was configured on host jedrik:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 #   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005,
@@ -187,7 +187,7 @@ extract_expsyms_cmds=""
 
 # Variables whose values should be saved in libtool wrapper scripts and
 # restored at link time.
-variables_saved_for_relink="PATH LD_LIBRARY_PATH LD_RUN_PATH GCC_EXEC_PREFIX COMPILER_PATH LIBRARY_PATH"
+variables_saved_for_relink="PATH LD_LIBRARY_PATH LD_RUN_PATH"
 
 # Do we need the "lib" prefix for modules?
 need_lib_prefix=no
@@ -234,7 +234,7 @@ finish_eval=""
 hardcode_into_libs=yes
 
 # Compile-time system search path for libraries.
-sys_lib_search_path_spec="/opt/apps/gcc/4.6.2/lib/gcc/x86_64-unknown-linux-gnu/4.6.2 /opt/apps/gcc/4.6.2/lib64 /lib64 /usr/lib64"
+sys_lib_search_path_spec="/opt/apps/intel/12.1/composer_xe_2011_sp1.7.256/compiler/lib/intel64 /usr/lib64"
 
 # Run-time system search path for libraries.
 sys_lib_dlsearch_path_spec="/lib /usr/lib /usr/lib/nvidia-current /usr/lib32/nvidia-current /lib32 /usr/lib32 /usr/lib32/alsa-lib /usr/lib/alsa-lib /usr/local/lib /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu "
@@ -266,7 +266,7 @@ CC="mpicc"
 with_gcc=yes
 
 # Compiler flag to turn off builtin functions.
-no_builtin_flag=" -fno-builtin"
+no_builtin_flag=" -fno-builtin -fno-rtti -fno-exceptions"
 
 # How to pass a linker flag through the compiler.
 wl="-Wl,"
@@ -8922,10 +8922,10 @@ LD="/usr/bin/ld -m elf_x86_64"
 old_archive_cmds="\$AR \$AR_FLAGS \$oldlib\$oldobjs~\$RANLIB \$oldlib"
 
 # A language specific compiler.
-CC="gfortran"
+CC="ifort"
 
 # Is the compiler the GNU compiler?
-with_gcc=yes
+with_gcc=
 
 # Compiler flag to turn off builtin functions.
 no_builtin_flag=""
@@ -8964,11 +8964,11 @@ old_archive_from_new_cmds=""
 old_archive_from_expsyms_cmds=""
 
 # Commands used to build a shared archive.
-archive_cmds="\$CC -shared \$libobjs \$deplibs \$compiler_flags \${wl}-soname \$wl\$soname -o \$lib"
+archive_cmds="\$CC -shared -nofor_main \$libobjs \$deplibs \$compiler_flags \${wl}-soname \$wl\$soname -o \$lib"
 archive_expsym_cmds="echo \\\"{ global:\\\" > \$output_objdir/\$libname.ver~
 	    cat \$export_symbols | sed -e \\\"s/\\\\(.*\\\\)/\\\\1;/\\\" >> \$output_objdir/\$libname.ver~
 	    echo \\\"local: *; };\\\" >> \$output_objdir/\$libname.ver~
-	    \$CC -shared \$libobjs \$deplibs \$compiler_flags \${wl}-soname \$wl\$soname \${wl}-version-script \${wl}\$output_objdir/\$libname.ver -o \$lib"
+	    \$CC -shared -nofor_main \$libobjs \$deplibs \$compiler_flags \${wl}-soname \$wl\$soname \${wl}-version-script \${wl}\$output_objdir/\$libname.ver -o \$lib"
 
 # Commands used to build a loadable module if different from building
 # a shared archive.
@@ -9077,7 +9077,7 @@ old_archive_cmds="\$AR \$AR_FLAGS \$oldlib\$oldobjs~\$RANLIB \$oldlib"
 CC="mpif90"
 
 # Is the compiler the GNU compiler?
-with_gcc=yes
+with_gcc=no
 
 # Compiler flag to turn off builtin functions.
 no_builtin_flag=""
@@ -9085,11 +9085,12 @@ no_builtin_flag=""
 # How to pass a linker flag through the compiler.
 wl="-Wl,"
 
+
 # Additional compiler flags for building library objects.
-pic_flag=" -fPIC"
+pic_flag=""
 
 # Compiler flag to prevent dynamic linking.
-link_static_flag="-static"
+link_static_flag=""
 
 # Does compiler simultaneously support -c and -o options?
 compiler_c_o="yes"

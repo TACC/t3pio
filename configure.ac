@@ -16,11 +16,21 @@ AC_F77_WRAPPERS
 AC_PROG_CC([mpicc])
 AC_PROG_FC([mpif90])
 FC=mpif90
+AM_PROG_LIBTOOL
+AC_FC_SRCEXT(f90)
+AC_LANG(Fortran)
+AC_LANG(C)
+AX_COMPILER_VENDOR
+if test "x${ax_cv_compiler_vendor}" = "xintel" ; then
+   echo Compiler vendor... : $ax_cv_compiler_vendor
+fi
+
+
 AC_HEADER_STDC
 AC_CHECK_HEADERS(lustre/liblustreapi.h)
 AC_CHECK_LIB(lustreapi,llapi_file_create)
 AC_CONFIG_MACRO_DIR([m4])
-AM_PROG_LIBTOOL
+
 
 AC_CONFIG_COMMANDS([timestamp], [date > stamp-h])
 AC_CONFIG_FILES([Makefile
