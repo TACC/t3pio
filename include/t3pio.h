@@ -11,7 +11,7 @@ extern "C" {
 #define T3PIO_MAX_STRIPES  1002
 #define T3PIO_FACTOR       1003
 #define T3PIO_FILE         1004
-#define T3PIO_RESULT       1005
+#define T3PIO_RESULTS      1005
 
 typedef struct
 {

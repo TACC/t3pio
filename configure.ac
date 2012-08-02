@@ -9,12 +9,21 @@ AM_INIT_AUTOMAKE([t3pio], [1.0])
 CXX=mpicxx
 CC=mpicc
 FC=mpif90
-AC_ARG_WITH(phdf5, [ --with-phdf5   use Parallel HDF5 with test programs], with_phdf5=$withval, with_phdf5=no)
+PHDF5_DIR=""
+
+AC_ARG_WITH(phdf5, [ --with-phdf5      use Parallel HDF5 with test programs], with_phdf5=$withval, with_phdf5=no)
+if test x$with_phdf5 != no; then
+   PHDF5_DIR=$with_phdf5
+fi
+AC_SUBST(PHDF5_DIR)
+AM_CONDITIONAL(PHDF5_ENABLED, test -n PHDF5_DIR)
+
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADER(config.h:config.h.in)
 AC_F77_WRAPPERS
 AC_PROG_CC([mpicc])
 AC_PROG_FC([mpif90])
+AC_PROG_CXX([mpicxx])
 FC=mpif90
 AM_PROG_LIBTOOL
 AC_FC_SRCEXT(f90)
@@ -24,7 +33,6 @@ AX_COMPILER_VENDOR
 if test "x${ax_cv_compiler_vendor}" = "xintel" ; then
    echo Compiler vendor... : $ax_cv_compiler_vendor
 fi
-
 
 AC_HEADER_STDC
 AC_CHECK_HEADERS(lustre/liblustreapi.h)
@@ -36,7 +44,8 @@ AC_CONFIG_COMMANDS([timestamp], [date > stamp-h])
 AC_CONFIG_FILES([Makefile
                  libt3pio/Makefile
 		 include/Makefile
-		 cubeTestHDF5/Makefile])
+		 cubeTestHDF5/Makefile
+		 unstructTestHDF5/Makefile])
 
 AC_OUTPUT()
 
