@@ -5,7 +5,6 @@
 #include "cmdLineOptions.h"
 #include "h5test.h"
 #include "h5writer.h"
-#include "pfs.h"
 Parallel P;
 
 

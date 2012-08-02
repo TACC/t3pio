@@ -2,7 +2,6 @@
 #include "h5writer.h"
 #include "parallel.h"
 #include "cmdLineOptions.h"
-#include "pfs.h"
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
