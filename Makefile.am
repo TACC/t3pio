@@ -1,2 +1,22 @@
 SUBDIRS = include libt3pio cubeTestHDF5 unstructTestHDF5
 ACLOCAL_AMFLAGS = -I m4
+
+gittag:
+        ifneq ($(TAG),)
+	  @git status -s > /tmp/t3pio$$$$;                                             \
+          if [ -s /tmp/t3pio$$$$ ]; then                                               \
+	    echo "All files not checked in => try again";                              \
+	  else                                                                         \
+	    $(RM)                                                      $(VERSION_SRC); \
+	    echo $(TAG)                                             >  $(VERSION_SRC); \
+            git commit -m "moving to TAG_VERSION $(TAG)"               $(VERSION_SRC); \
+            git tag -a $(TAG) -m 'Setting TAG_VERSION to $(TAG)'                     ; \
+	    git push --tags                                                          ; \
+          fi;                                                                          \
+          rm -f /tmp/t3pio$$$$
+        else
+	  @echo "To git tag do: make gittag TAG=?"
+        endif
+
+t3pio-dist:  
+	git archive --prefix=t3pio-`cat .version`/ master | bzip2 > t3pio-`cat .version`.tar.bz2
