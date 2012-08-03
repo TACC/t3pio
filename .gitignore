@@ -9,9 +9,9 @@ autom4te.cache
 .libs
 *.lo
 *.o
-Makefile.in
 *.mod
 Makefile
 config.h
 config.status
 *.la
+libtool
