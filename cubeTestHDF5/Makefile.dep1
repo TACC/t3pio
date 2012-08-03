@@ -1,0 +1,18 @@
+# include search path = ../include 
+# INFO: koomie ignoring modules mpi hdf5 t3pio 
+# WARN: koomie ignoring #include for assert.hf (master.F90)
+# INFO: koomie found module mpi to ignore inside master.F90 
+# WARN: koomie ignoring #include for assert.hf (parallel.F90)
+# INFO: koomie found module mpi to ignore inside parallel.F90 
+# WARN: koomie ignoring #include for assert.hf (writer.F90)
+# INFO: koomie found module mpi to ignore inside writer.F90 
+# INFO: koomie found module hdf5 to ignore inside writer.F90 
+# INFO: koomie found module t3pio to ignore inside writer.F90 
+cmdline.o: parallel.mod
+grid.o: cmdline.mod parallel.mod
+master.o: cmdline.mod grid.mod parallel.mod writer.mod
+writer.o: cmdline.mod grid.mod parallel.mod
+cmdline.mod: .//cmdline.o
+grid.mod: .//grid.o
+parallel.mod: .//parallel.o
+writer.mod: .//writer.o

@@ -1,0 +1,15 @@
+#ifndef ASSERT_HF
+#define ASSERT_HF
+
+#if (defined(__GFORTRAN__) || defined(__G95__) || defined (__PGI) )
+#   define MKSTR(x) "x"
+#else
+#   define MKSTR(x) #x
+#endif
+#ifndef NDEBUG
+#  define ASSERT(x, msg) if (.not. (x) ) call assert(__FILE__,__LINE__,MKSTR(x),msg)
+#else
+#  define ASSERT(x, msg)
+#endif
+
+#endif

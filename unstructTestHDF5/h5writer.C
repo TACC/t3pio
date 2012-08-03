@@ -1,0 +1,180 @@
+#include "h5test.h"
+#include "h5writer.h"
+#include "parallel.h"
+#include "cmdLineOptions.h"
+#include <stdlib.h>
+#include <iostream>
+#include <string.h>
+#include "measure.h"
+#include "t3pio.h"
+
+struct Var_t
+{
+  const char * name;
+  const char * descript;
+};
+
+Var_t varT[] =
+  {
+    {"T", "Temp in K"},
+    {"p", "Pressure in N/m^2"},
+    {"u", "X Velocity in m/s"},
+    {"v", "Y Velocity in m/s"},
+    {"w", "Z Velocity in m/s"}
+  };
+
+H5::H5()
+  : m_t(0.0), m_rate(0.0), m_totalSz(1.0), m_stripeSz(-1)
+{}
+
+
+void H5::writer(CmdLineOptions& cmd)
+{
+
+  hid_t   file_id;       //file      identifier
+  hid_t   group_id;      //group     identifier
+  hid_t   dset_id;       //Dataset   identifier
+  hid_t   filespace;     //Dataspace id in file
+  hid_t   memspace;      //Dataspace id in memory.
+  hid_t   plist_id;      //Property List id
+  hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1];
+  hsize_t is, num;
+
+  // compute size info
+
+  double lSz     = 1.0;
+
+  int nVar = sizeof(varT)/sizeof(Var_t);
+
+  num         = cmd.localSz;
+  lSz         = num;
+  is          = P.myProc*num;
+  count[0]    = 1;
+  h5stride[0] = 1;
+  starts[0]   = is;
+  sz[0]       = num;
+  gsz[0]      = P.nProcs*num;
+  m_totalSz   = P.nProcs*num*nVar*sizeof(double);
+  
+  // Initialize data buffer
+  double xk = num*P.myProc;
+
+  double *data = new double[num];
+  for (int i = 0; i < num; ++i)
+    data[i] = xk++;
+
+
+  double t1, t2;
+
+  // Build MPI info;
+  MPI_Info info = MPI_INFO_NULL;
+  MPI_Info_create(&info);
+
+
+  T3PIO_results_t results;
+  int ierr = t3pio_set_info(P.comm, info, "./",
+                            T3PIO_GLOBAL_SIZE, m_totalSz,
+                            T3PIO_MAX_STRIPES, cmd.stripes,
+                            T3PIO_FACTOR,      cmd.factor,
+                            T3PIO_RESULTS,     &results);
+  
+
+  m_factor   = results.factor;
+  m_nStripes = results.numStripes;
+  m_nIOUnits = results.numIO;
+  m_stripeSz = results.stripeSize;
+
+  plist_id = H5Pcreate(H5P_FILE_ACCESS);
+  H5Pset_fapl_mpio(plist_id, P.comm, info);
+
+  
+  // Create file collectively
+  file_id = H5Fcreate("myfile.h5", H5F_ACC_TRUNC, H5P_DEFAULT, plist_id);
+  H5Pclose(plist_id);
+
+  // Create Group
+  group_id = H5Gcreate(file_id, "Solution", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+  
+  std::string timeZ, timeL;
+  dateZ(timeZ);
+  add_attribute(group_id,"Zulu Time", timeZ.c_str());
+
+  dateL(timeL);
+  add_attribute(group_id,"Local Time", timeL.c_str());
+
+
+  for (int ivar = 0; ivar < nVar; ++ivar)
+    {
+
+      // Create the dataspace for the dataset
+      filespace = H5Screate_simple(1, &gsz[0], NULL);
+      memspace  = H5Screate_simple(1, sz,      NULL);
+
+      if (cmd.h5chunk) 
+        {
+          plist_id = H5Pcreate(H5P_DATASET_CREATE);
+          H5Pset_chunk(plist_id,1, sz);
+          
+          dset_id = H5Dcreate(group_id, varT[ivar].name, H5T_NATIVE_DOUBLE, filespace,
+                              H5P_DEFAULT, plist_id, H5P_DEFAULT);
+          H5Pclose(plist_id);
+          H5Sclose(filespace);
+            
+          filespace = H5Dget_space(dset_id);
+          H5Sselect_hyperslab(filespace, H5S_SELECT_SET, starts, h5stride, count, sz);
+        }
+      else if (cmd.h5slab)
+        {
+          // Create the dataset w/ default properties and close filespace
+          dset_id = H5Dcreate(group_id, varT[ivar].name, H5T_NATIVE_DOUBLE, filespace,
+                              H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+          H5Sclose(filespace);
+  
+          // Select hyperslab in the file.
+          filespace = H5Dget_space(dset_id);
+          H5Sselect_hyperslab(filespace, H5S_SELECT_SET, starts, NULL, sz , NULL);
+        }
+
+      plist_id = H5Pcreate(H5P_DATASET_XFER);
+      H5Pset_dxpl_mpio(plist_id, H5FD_MPIO_COLLECTIVE);
+
+      add_attribute(dset_id, "Variable Description", varT[ivar].descript);
+
+      t1   = walltime();
+
+      herr_t status = H5Dwrite(dset_id, H5T_NATIVE_DOUBLE, memspace, filespace,
+                               plist_id, data);
+      t2   = walltime();
+      m_t += (t2 - t1);
+
+      H5Dclose(dset_id);
+      H5Sclose(filespace);
+      H5Sclose(memspace);
+      H5Pclose(plist_id);
+    }
+
+  m_rate = m_totalSz /(m_t * 1024.0 * 1024.0);
+  free(data);
+  H5Gclose(group_id);
+  H5Fclose(file_id);
+}
+
+void H5::add_attribute(hid_t id, const char* descript, const char* value)
+{
+  hid_t attr_id, aspace_id, atype_id;
+  hsize_t attrlen, num[1];
+
+
+  attrlen = strlen(value);
+  num[0]  = 1;
+
+  atype_id = H5Tcopy(H5T_C_S1);
+  H5Tset_size(atype_id, attrlen);
+
+  aspace_id = H5Screate_simple(1,num, NULL);
+
+  attr_id   = H5Acreate(id, descript, atype_id, aspace_id, H5P_DEFAULT, H5P_DEFAULT);
+  H5Awrite(attr_id, atype_id, value);
+  H5Aclose(attr_id);
+  H5Sclose(aspace_id);
+}
