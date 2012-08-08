@@ -1,6 +1,7 @@
 #include "config.h"
 #include <stdarg.h>
 #include <stdio.h>
+#include <string.h>
 #include "t3pio.h"
 #include "t3pio_internal.h"
 #include <math.h>
