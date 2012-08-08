@@ -36,7 +36,7 @@ if test x$with_phdf5 != xno; then
    PHDF5_DIR=$with_phdf5
 fi
 AC_SUBST(PHDF5_DIR)
-AM_CONDITIONAL(PHDF5_ENABLED, test -n PHDF5_DIR)
+AM_CONDITIONAL(PHDF5_ENABLED, test -n "$PHDF5_DIR")
 
 AC_OUTPUT([Makefile
            libt3pio/Makefile

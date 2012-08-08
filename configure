@@ -23092,7 +23092,7 @@ if test x$with_phdf5 != xno; then
    PHDF5_DIR=$with_phdf5
 fi
 
- if test -n PHDF5_DIR; then
+ if test -n "$PHDF5_DIR"; then
   PHDF5_ENABLED_TRUE=
   PHDF5_ENABLED_FALSE='#'
 else
