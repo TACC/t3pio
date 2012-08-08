@@ -46,7 +46,14 @@ for dir in $AX_lustreDir; do
   AX_LUSTRE_FS="$dir:$ost:$AX_LUSTRE_FS"
 done
 
-AC_SUBST(AX_LUSTRE_FS)
+AC_CACHE_CHECK([for lustre file systems],[my_lustre_fs],
+[
+  if test -n $AX_LUSTRE_FS ; then
+     my_lustre_fs=$AX_LUSTRE_FS
+     AC_DEFINE([AX_LUSTRE_FS],$my_lustre_fs,[A colon string of file system names and OSTs])
+  fi
+])
+
 
 OLDIFS=$IFS
 IFS=$OLDIFS
