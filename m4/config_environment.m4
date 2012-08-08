@@ -29,7 +29,7 @@ AC_CANONICAL_HOST
 BUILD_USER=${USER}
 BUILD_ARCH=${host}
 BUILD_HOST=${ac_hostname}
-BUILD_DATE=`date +'%F %H:%M'`
+BUILD_DATE=$(date +'%F %H:%M')
 
 
 AC_PATH_PROG(gitquery,git)

@@ -20,3 +20,6 @@ gittag:
 
 t3pio-dist:  
 	git archive --prefix=t3pio-`cat .version`/ master | bzip2 > t3pio-`cat .version`.tar.bz2
+
+echoMe:
+	@echo AX_LUSTRE_FS: @AX_LUSTRE_FS@

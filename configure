@@ -632,7 +632,8 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='BUILD_VERSION
+ac_subst_vars='AX_LUSTRE_FS
+BUILD_VERSION
 BUILD_DATE
 BUILD_HOST
 BUILD_ARCH
@@ -26232,7 +26233,7 @@ fi
 BUILD_USER=${USER}
 BUILD_ARCH=${host}
 BUILD_HOST=${ac_hostname}
-BUILD_DATE=`date +'%F %H:%M'`
+BUILD_DATE=$(date +'%F %H:%M')
 
 
 # Extract the first word of "git", so it can be a program name with args.
@@ -26357,6 +26358,56 @@ echo
 echo Configure complete, now type \'make\' and then \'make install\'.
 echo
 
+
+
+
+howManyOSTs()
+{
+  local j=0
+  local dir=FILESYSTEM
+  local IFS='
+'
+  local df=$(lfs df $dir)
+
+  for line in $df; do
+    case "$line" in
+      *[OST*)
+        j=$((j+1));;
+    esac
+  done
+  echo $j
+}
+
+AX_lustre_df=$(df)
+
+
+AX_lustreDir=""
+
+j=0
+for i in $AX_lustre_df; do
+  j=$((j+1))
+
+  case "$i" in
+    *o2ib*)
+      dir=$(expr $i : '.*:\(.*\)')
+      AX_lustreDir="$dir:$AX_lustreDir"
+      ;;
+  esac
+done
+
+
+IFS=":"
+
+AX_LUSTRE_FS=""
+for dir in $AX_lustreDir; do
+  ost=`howManyOSTs $dir`
+  AX_LUSTRE_FS="$dir:$ost:$AX_LUSTRE_FS"
+done
+
+
+
+OLDIFS=$IFS
+IFS=$OLDIFS
 
 
 rm -f conftest*
