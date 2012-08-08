@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* A colon string of file system names and OSTs */
+#undef AX_LUSTRE_FS
+
 /* Architecture of the build host */
 #undef BUILD_ARCH
 

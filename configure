@@ -632,8 +632,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='AX_LUSTRE_FS
-BUILD_VERSION
+ac_subst_vars='BUILD_VERSION
 BUILD_DATE
 BUILD_HOST
 BUILD_ARCH
@@ -26364,7 +26363,7 @@ echo
 howManyOSTs()
 {
   local j=0
-  local dir=FILESYSTEM
+  local dir=
   local IFS='
 '
   local df=$(lfs df $dir)
@@ -26404,6 +26403,24 @@ for dir in $AX_lustreDir; do
   AX_LUSTRE_FS="$dir:$ost:$AX_LUSTRE_FS"
 done
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for lustre file systems" >&5
+$as_echo_n "checking for lustre file systems... " >&6; }
+if ${my_cv_lustre_fs+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  if test -n $AX_LUSTRE_FS ; then
+     my_cv_lustre_fs=$AX_LUSTRE_FS
+  fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $my_cv_lustre_fs" >&5
+$as_echo "$my_cv_lustre_fs" >&6; }
+
+
+cat >>confdefs.h <<_ACEOF
+#define AX_LUSTRE_FS "$my_cv_lustre_fs"
+_ACEOF
 
 
 OLDIFS=$IFS

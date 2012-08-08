@@ -46,14 +46,14 @@ for dir in $AX_lustreDir; do
   AX_LUSTRE_FS="$dir:$ost:$AX_LUSTRE_FS"
 done
 
-AC_CACHE_CHECK([for lustre file systems],[my_lustre_fs],
+AC_CACHE_CHECK([for lustre file systems], [my_cv_lustre_fs],
 [
   if test -n $AX_LUSTRE_FS ; then
-     my_lustre_fs=$AX_LUSTRE_FS
-     AC_DEFINE([AX_LUSTRE_FS],$my_lustre_fs,[A colon string of file system names and OSTs])
+     my_cv_lustre_fs=$AX_LUSTRE_FS
   fi
 ])
 
+AC_DEFINE_UNQUOTED([AX_LUSTRE_FS],"$my_cv_lustre_fs",[A colon string of file system names and OSTs])
 
 OLDIFS=$IFS
 IFS=$OLDIFS
