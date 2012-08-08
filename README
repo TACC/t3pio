@@ -19,4 +19,39 @@ The parallel I/O performance depends on three parameters:
     3) Stripe size
 
 This library focuses on writing of files. When an application creates a file, it is
-the only time that one can control the number of stripes
+the only time that one can control the number of stripes.  This library extracts data
+from the lustre file system to set all three parameters to improve performance.
+
+
+
+
+The use of the library is straight-forward. In Fortran, it looks like this:
+
+   subroutine hdf5_writer(....)
+   use hdf5
+   use t3pio
+   integer globalSize          ! Estimate of GlobalSize of file in (MB)
+   integer info                ! MPI Info object
+   integer comm                ! MPI Communicator
+   integer(hid_t) :: plist_id  ! Property list identifier
+   ...
+
+   comm = MPI_COMM_WORLD
+
+   ! Initialize info object.
+   call MPI_Info_create(info, ierr)
+
+   ! use library to fill info with nwriters, stripe
+   call t3pio_set_info(comm, info, "./", ierr,   &         ! <--- T3PIO library call
+                       GLOBAL_SIZE=globalSize)}
+   call H5open_f(ierr)
+   call H5Pcreate_f(H5P_FILE_ACCESS_F,plist_id},ierr)
+   call H5Pset_fapl_mpio_f(plist_id, comm, info, ierr)
+   call H5Fcreate_f(fileName, H5F_ACC_TRUNC_F, file_id, ierr,
+                    access_prp = plist_id})
+
+
+Essentially, you make the normal calls to create an HDF5 file.  The only addition is
+to call "t3pio_set_info" with the communicator, an info object, the directory where the file
+is to be written.  Optionally, you can specify an estimate of the global size of the file.
+

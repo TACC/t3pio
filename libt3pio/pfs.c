@@ -1,6 +1,7 @@
 #include "config.h"
 #include "mpi.h"
 #include <assert.h>
+#include <limits.h>
 #include <time.h>
 #include <ctype.h>
 #include <fcntl.h>
@@ -34,13 +35,13 @@ void t3pio_init(T3Pio_t* t3)
   t3->fn         = NULL;
 }
 
-int t3pio_usingLustreFS()
+int t3pio_usingLustreFS(const char * dir)
 {
   static int onLustre = 0;
 #ifdef HAVE_LUSTRE
   #define RW_USER (S_IRUSR | S_IWUSR)  /* creation mode for open() */
   struct lov_user_md lum = {0};
-  int fdDir = open(".", O_RDONLY);
+  int fdDir = open(dir, O_RDONLY);
   if (fdDir != -1 && ioctl(fdDir, LL_IOC_LOV_GETSTRIPE, (void *) &lum) != -1)
     {
       close(fdDir);
@@ -120,16 +121,13 @@ int t3pio_numComputerNodes(MPI_Comm comm, int nProc)
 #define MAXLINE 2048
 int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 {
-  static int stripes = 0;
   int        ierr;
-
-  if (stripes != 0)
-    return stripes;
-
-  stripes = 4;
+  int        stripes = 4;
+  
 #ifdef HAVE_LUSTRE
-  if (myProc == 0 && t3pio_usingLustreFS())
+  if (myProc == 0 && t3pio_usingLustreFS(dir))
     {
+
       char line[MAXLINE];
       int stripe_size        = 0;
       int stripe_offset      = -1;
