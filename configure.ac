@@ -38,6 +38,8 @@ fi
 AC_SUBST(PHDF5_DIR)
 AM_CONDITIONAL(PHDF5_ENABLED, test -n "$PHDF5_DIR")
 
+AX_HOW_MANY_OSTs
+
 AC_OUTPUT([Makefile
            libt3pio/Makefile
            include/Makefile
@@ -47,6 +49,5 @@ AC_OUTPUT([Makefile
 AX_SUMMARIZE_ENV
 AX_SUMMARIZE_CONFIG
 
-AX_HOW_MANY_OSTs()
 
 rm -f conftest*

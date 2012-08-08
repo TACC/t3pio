@@ -23101,6 +23101,74 @@ else
 fi
 
 
+
+howManyOSTs()
+{
+  local j=0
+  local dir=
+  local IFS='
+'
+  local df=$(lfs df $dir)
+
+  for line in $df; do
+    case "$line" in
+      *[OST*)
+        j=$((j+1));;
+    esac
+  done
+  echo $j
+}
+
+AX_lustre_df=$(df)
+
+
+AX_lustreDir=""
+
+j=0
+for i in $AX_lustre_df; do
+  j=$((j+1))
+
+  case "$i" in
+    *o2ib*)
+      dir=$(expr $i : '.*:\(.*\)')
+      AX_lustreDir="$dir:$AX_lustreDir"
+      ;;
+  esac
+done
+
+
+IFS=":"
+
+AX_LUSTRE_FS=""
+for dir in $AX_lustreDir; do
+  ost=`howManyOSTs $dir`
+  AX_LUSTRE_FS="$dir:$ost:$AX_LUSTRE_FS"
+done
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for lustre file systems" >&5
+$as_echo_n "checking for lustre file systems... " >&6; }
+if ${my_cv_lustre_fs+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  if test -n $AX_LUSTRE_FS ; then
+     my_cv_lustre_fs=$AX_LUSTRE_FS
+  fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $my_cv_lustre_fs" >&5
+$as_echo "$my_cv_lustre_fs" >&6; }
+
+
+cat >>confdefs.h <<_ACEOF
+#define AX_LUSTRE_FS "$my_cv_lustre_fs"
+_ACEOF
+
+
+OLDIFS=$IFS
+IFS=$OLDIFS
+
+
 ac_config_files="$ac_config_files Makefile libt3pio/Makefile include/Makefile cubeTestHDF5/Makefile unstructTestHDF5/Makefile"
 
 cat >confcache <<\_ACEOF
@@ -26358,73 +26426,6 @@ echo Configure complete, now type \'make\' and then \'make install\'.
 echo
 
 
-
-
-howManyOSTs()
-{
-  local j=0
-  local dir=
-  local IFS='
-'
-  local df=$(lfs df $dir)
-
-  for line in $df; do
-    case "$line" in
-      *[OST*)
-        j=$((j+1));;
-    esac
-  done
-  echo $j
-}
-
-AX_lustre_df=$(df)
-
-
-AX_lustreDir=""
-
-j=0
-for i in $AX_lustre_df; do
-  j=$((j+1))
-
-  case "$i" in
-    *o2ib*)
-      dir=$(expr $i : '.*:\(.*\)')
-      AX_lustreDir="$dir:$AX_lustreDir"
-      ;;
-  esac
-done
-
-
-IFS=":"
-
-AX_LUSTRE_FS=""
-for dir in $AX_lustreDir; do
-  ost=`howManyOSTs $dir`
-  AX_LUSTRE_FS="$dir:$ost:$AX_LUSTRE_FS"
-done
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for lustre file systems" >&5
-$as_echo_n "checking for lustre file systems... " >&6; }
-if ${my_cv_lustre_fs+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  if test -n $AX_LUSTRE_FS ; then
-     my_cv_lustre_fs=$AX_LUSTRE_FS
-  fi
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $my_cv_lustre_fs" >&5
-$as_echo "$my_cv_lustre_fs" >&6; }
-
-
-cat >>confdefs.h <<_ACEOF
-#define AX_LUSTRE_FS "$my_cv_lustre_fs"
-_ACEOF
-
-
-OLDIFS=$IFS
-IFS=$OLDIFS
 
 
 rm -f conftest*
