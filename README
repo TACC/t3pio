@@ -1,0 +1,22 @@
+
+
+
+        T3PIO Library: TACC's Terrific Tool for Parallel I/O
+        ----------------------------------------------------
+                      Robert McLay
+                 mclay@tacc.utexas.edu
+
+
+This software (T3PIO) is a parallel library to improve the parallel performance of
+MPI I/O. Since Parallel HDF5 uses MPI I/O, this library will improve the performance
+of it as well.  This library interacts with the Lustre filesystem to match the
+application to the filesystem.
+
+The parallel I/O performance depends on three parameters:
+
+    1) Number of writers
+    2) Number of stripes
+    3) Stripe size
+
+This library focuses on writing of files. When an application creates a file, it is
+the only time that one can control the number of stripes
