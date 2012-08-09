@@ -117,9 +117,7 @@ int t3pio_numComputerNodes(MPI_Comm comm, int nProc)
   return numNodes;
 }
 
-
-#define MAXLINE 2048
-int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
+int t3pio_asklustre(MPI_Comm comm, int myProc, const char* dir)
 {
   int        ierr;
   int        stripes = 4;
@@ -172,6 +170,60 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 #endif
   return stripes;
 }
+
+
+#define MAXLINE 2048
+int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
+{
+  const char *p, *p0;
+  int  ierr;
+  int  stripes = 4;
+  char abspath[PATH_MAX];
+  
+#ifdef HAVE_LUSTRE
+#ifdef AX_LUSTRE_FS
+  /* Find realpath of dir */
+  if ( dir == NULL)
+    return stripes;
+
+  if ( dir[0] == '/' )
+    realpath(dir,abspath);
+  else
+    {
+      size_t len, dlen;
+      char path[PATH_MAX];
+      getcwd(path,PATH_MAX);
+      len = strlen(path);
+      memcpy(&path[len],"/"); len++;
+
+      dlen = strlen(dir);
+      memcpy(&path[len],dir,dlen); len += dlen;
+      path[len] = '\0';
+      realpath(path,abspath);
+    }
+
+  
+  p0 = AX_LUSTRE_FS;
+
+  while((p = strchr(p0,':')) != NULL)
+    {
+      size_t len = p - p0;
+      if (strncmp(abspath,p0,len) == 0)
+        {
+          sscanf(p+1,"%d",&stripes);
+          
+          break;
+        }
+
+      p0 = strchr(p+1,':')+1;
+    }
+#else
+  stripes = t3pio_asklustre(comm, myProc, dir);
+
+#endif
+  return stripes;
+}
+
 
 
 
