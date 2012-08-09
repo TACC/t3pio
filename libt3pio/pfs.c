@@ -61,6 +61,14 @@ static int t3pio_compare (const void * a, const void * b)
 
 
 
+int t3pio_maxStripesPossible(int stripes)
+{
+  const int lustreMax = 160;
+
+  return stripes > lustreMax ? lustreMax : stripes;
+}
+
+
 int t3pio_numComputerNodes(MPI_Comm comm, int nProc)
 {
   static int numNodes = 0;
@@ -217,6 +225,9 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 
       p0 = strchr(p+1,':')+1;
     }
+
+  stripes = t3pio_maxStripesPossible(stripes);
+
 #else
   stripes = t3pio_asklustre(comm, myProc, dir);
 
