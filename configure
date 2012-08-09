@@ -23102,10 +23102,12 @@ fi
 
 
 
+OLDIFS=$IFS
+AX_OST_NUMBER=0
 howManyOSTs()
 {
   local j=0
-  local dir=
+  local dir=${1}
   local IFS='
 '
   local df=$(lfs df $dir)
@@ -23116,7 +23118,7 @@ howManyOSTs()
         j=$((j+1));;
     esac
   done
-  echo $j
+  AX_OST_NUMBER=$j
 }
 
 AX_lustre_df=$(df)
@@ -23141,9 +23143,11 @@ IFS=":"
 
 AX_LUSTRE_FS=""
 for dir in $AX_lustreDir; do
-  ost=`howManyOSTs $dir`
-  AX_LUSTRE_FS="$dir:$ost:$AX_LUSTRE_FS"
+  howManyOSTs $dir
+  AX_LUSTRE_FS="$dir:$AX_OST_NUMBER:$AX_LUSTRE_FS"
 done
+
+IFS=$OLDIFS
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for lustre file systems" >&5
 $as_echo_n "checking for lustre file systems... " >&6; }
@@ -23165,8 +23169,6 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
-OLDIFS=$IFS
-IFS=$OLDIFS
 
 
 ac_config_files="$ac_config_files Makefile libt3pio/Makefile include/Makefile cubeTestHDF5/Makefile unstructTestHDF5/Makefile"

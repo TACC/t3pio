@@ -8,7 +8,7 @@ AX_OST_NUMBER=0
 howManyOSTs()
 {
   local j=0
-  local dir=[$1]
+  local dir=[${1}]
   local IFS='
 '
   local df=$(lfs df $dir)
