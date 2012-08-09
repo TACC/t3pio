@@ -3,10 +3,12 @@
 
 AC_DEFUN([AX_HOW_MANY_OSTs],
 [
+OLDIFS=$IFS
+AX_OST_NUMBER=0
 howManyOSTs()
 {
   local j=0
-  local dir=$1
+  local dir=[$1]
   local IFS='
 '
   local df=$(lfs df $dir)
@@ -17,7 +19,7 @@ howManyOSTs()
         j=$((j+1));;
     esac
   done
-  echo $j
+  AX_OST_NUMBER=$j
 }
 
 AX_lustre_df=$(df)
@@ -42,9 +44,11 @@ IFS=":"
 
 AX_LUSTRE_FS=""
 for dir in $AX_lustreDir; do
-  ost=`howManyOSTs $dir`
-  AX_LUSTRE_FS="$dir:$ost:$AX_LUSTRE_FS"
+  howManyOSTs $dir
+  AX_LUSTRE_FS="$dir:$AX_OST_NUMBER:$AX_LUSTRE_FS"
 done
+
+IFS=$OLDIFS
 
 AC_CACHE_CHECK([for lustre file systems], [my_cv_lustre_fs],
 [
@@ -55,6 +59,4 @@ AC_CACHE_CHECK([for lustre file systems], [my_cv_lustre_fs],
 
 AC_DEFINE_UNQUOTED([AX_LUSTRE_FS],"$my_cv_lustre_fs",[A colon string of file system names and OSTs])
 
-OLDIFS=$IFS
-IFS=$OLDIFS
 ])
