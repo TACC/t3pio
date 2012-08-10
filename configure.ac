@@ -44,7 +44,7 @@ if test x$with_node_memory != xno; then
    NODE_MEMORY=1
    MEMSIZE=$with_node_memory
 fi
-AC_DEFINE(MEMSIZE, $MEMSIZE, [nodal memory size in MB])
+AC_DEFINE_UNQUOTED(MEMSIZE, $MEMSIZE, [nodal memory size in MB])
 
 AM_CONDITIONAL(PHDF5_ENABLED, test -n "$PHDF5_DIR")
 

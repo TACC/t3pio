@@ -23107,7 +23107,9 @@ if test x$with_node_memory != xno; then
    MEMSIZE=$with_node_memory
 fi
 
-$as_echo "#define MEMSIZE \$MEMSIZE" >>confdefs.h
+cat >>confdefs.h <<_ACEOF
+#define MEMSIZE $MEMSIZE
+_ACEOF
 
 
  if test -n "$PHDF5_DIR"; then
@@ -26428,6 +26430,8 @@ echo Build host.................... : $BUILD_HOST
 echo Configure date................ : $BUILD_DATE
 echo Build architecture............ : $BUILD_ARCH
 echo Program Version............... : $BUILD_VERSION
+echo Lustre Filesystems............ : $AX_LUSTRE_FS
+echo Nodal Memory Size (MB) ....... : $MEMSIZE
 
 echo
 echo Optional Features:
