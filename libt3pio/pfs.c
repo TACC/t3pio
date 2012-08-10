@@ -239,12 +239,15 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 
 int t3pio_nodeMemory(MPI_Comm comm, int myProc)
 {
-  int   memSz = 2048;
   char  line[MAXLINE];
-  FILE* fp;
+  int   memSz;
 
+#ifdef MEMSIZE
+  memSz = MEMSIZE;
+#else
   if (myProc == 0)
     {
+      FILE* fp;
       if ( (fp = popen("free -m","r")) == NULL)
         {
           fprintf(stderr,"Unable to popen \"free -m\"\n");
@@ -262,6 +265,7 @@ int t3pio_nodeMemory(MPI_Comm comm, int myProc)
       fclose(fp);
     }
   int ierr = MPI_Bcast(&memSz, 1, MPI_INTEGER, 0, comm);
+#endif
   return memSz;
 }
 
