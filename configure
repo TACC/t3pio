@@ -780,7 +780,7 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 with_phdf5
-with_nodeMem
+with_node_memory
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1435,7 +1435,7 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
- --with-phdf5      use Parallel HDF5 with test programs
+ --with-phdf5            use Parallel HDF5 with test programs
  --with-node-memory      Set nodal memory in MB
 
 Some influential environment variables:
@@ -23094,20 +23094,21 @@ if test x$with_phdf5 != xno; then
 fi
 
 
-# Check whether --with-nodeMem was given.
-if test "${with_nodeMem+set}" = set; then :
-  withval=$with_nodeMem; with_node_mem=$withval
+# Check whether --with-node-memory was given.
+if test "${with_node_memory+set}" = set; then :
+  withval=$with_node_memory; with_node_memory=$withval
 else
-  with_node_mem=no
+  with_node_memory=no
 fi
 
 NODE_MEMORY=0
-if test x$with_node_mem != xno; then
+if test x$with_node_memory != xno; then
    NODE_MEMORY=1
-   MEMSIZE=$with_node_mem
+   MEMSIZE=$with_node_memory
 fi
 
 $as_echo "#define MEMSIZE \$MEMSIZE" >>confdefs.h
+
 
  if test -n "$PHDF5_DIR"; then
   PHDF5_ENABLED_TRUE=

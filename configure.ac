@@ -29,20 +29,23 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS(lustre/liblustreapi.h)
 AC_CHECK_LIB(lustreapi,llapi_file_create)
 
-AC_ARG_WITH(phdf5, [ --with-phdf5      use Parallel HDF5 with test programs], with_phdf5=$withval, with_phdf5=no)
+AC_ARG_WITH(phdf5, [ --with-phdf5            use Parallel HDF5 with test programs],
+            with_phdf5=$withval, with_phdf5=no)
 USE_PHDF5=0
 if test x$with_phdf5 != xno; then
    USE_PHDF5=1
    PHDF5_DIR=$with_phdf5
 fi
 
-AC_ARG_WITH(nodeMem, [ --with-node-memory      Set nodal memory in MB], with_node_mem=$withval, with_node_mem=no)
+AC_ARG_WITH(node-memory, [ --with-node-memory      Set nodal memory in MB],
+with_node_memory=$withval, with_node_memory=no)
 NODE_MEMORY=0
-if test x$with_node_mem != xno; then
+if test x$with_node_memory != xno; then
    NODE_MEMORY=1
-   MEMSIZE=$with_node_mem
+   MEMSIZE=$with_node_memory
 fi
 AC_DEFINE(MEMSIZE, $MEMSIZE, [nodal memory size in MB])
+
 AM_CONDITIONAL(PHDF5_ENABLED, test -n "$PHDF5_DIR")
 
 AX_HOW_MANY_OSTs
