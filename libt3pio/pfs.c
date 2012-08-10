@@ -219,7 +219,6 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
       if (strncmp(abspath,p0,len) == 0)
         {
           sscanf(p+1,"%d",&stripes);
-          
           break;
         }
 
