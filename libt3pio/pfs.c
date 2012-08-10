@@ -64,8 +64,7 @@ static int t3pio_compare (const void * a, const void * b)
 int t3pio_maxStripesPossible(int stripes)
 {
   const int lustreMax = 160;
-
-  return stripes > lustreMax ? lustreMax : stripes;
+  return stripes < lustreMax ? stripes : lustreMax;
 }
 
 
@@ -185,7 +184,8 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 {
   const char *p, *p0;
   int  ierr;
-  int  stripes = 4;
+  int  matchLen = 0;
+  int  stripes  = 4;
   char abspath[PATH_MAX];
   
 #ifdef HAVE_LUSTRE
@@ -216,20 +216,20 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
   while((p = strchr(p0,':')) != NULL)
     {
       size_t len = p - p0;
-      if (strncmp(abspath,p0,len) == 0)
+      if (strncmp(abspath,p0,len) == 0   &&
+          abspath[len]            == '/' &&
+          len          > matchLen)
         {
+          matchLen = len;
           sscanf(p+1,"%d",&stripes);
           break;
         }
-
       p0 = strchr(p+1,':')+1;
     }
 
   stripes = t3pio_maxStripesPossible(stripes);
-
 #else
   stripes = t3pio_asklustre(comm, myProc, dir);
-
 #endif
   return stripes;
 }

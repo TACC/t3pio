@@ -72,6 +72,9 @@
    */
 #undef LT_OBJDIR
 
+/* nodal memory size in MB */
+#undef MEMSIZE
+
 /* Name of package */
 #undef PACKAGE
 

@@ -35,7 +35,14 @@ if test x$with_phdf5 != xno; then
    USE_PHDF5=1
    PHDF5_DIR=$with_phdf5
 fi
-AC_SUBST(PHDF5_DIR)
+
+AC_ARG_WITH(nodeMem, [ --with-node-memory      Set nodal memory in MB], with_node_mem=$withval, with_node_mem=no)
+NODE_MEMORY=0
+if test x$with_node_mem != xno; then
+   NODE_MEMORY=1
+   MEMSIZE=$with_node_mem
+fi
+AC_DEFINE(MEMSIZE, $MEMSIZE, [nodal memory size in MB])
 AM_CONDITIONAL(PHDF5_ENABLED, test -n "$PHDF5_DIR")
 
 AX_HOW_MANY_OSTs
