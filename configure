@@ -645,6 +645,7 @@ LTLIBOBJS
 LIBOBJS
 PHDF5_ENABLED_FALSE
 PHDF5_ENABLED_TRUE
+PHDF5_DIR
 CXXCPP
 am__fastdepCXX_FALSE
 am__fastdepCXX_TRUE
@@ -23092,6 +23093,7 @@ if test x$with_phdf5 != xno; then
    USE_PHDF5=1
    PHDF5_DIR=$with_phdf5
 fi
+
 
 
 # Check whether --with-node-memory was given.

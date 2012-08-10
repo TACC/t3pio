@@ -36,6 +36,7 @@ if test x$with_phdf5 != xno; then
    USE_PHDF5=1
    PHDF5_DIR=$with_phdf5
 fi
+AC_SUBST(PHDF5_DIR)
 
 AC_ARG_WITH(node-memory, [ --with-node-memory      Set nodal memory in MB],
 with_node_memory=$withval, with_node_memory=no)
