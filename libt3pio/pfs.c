@@ -202,7 +202,7 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
       char path[PATH_MAX];
       getcwd(path,PATH_MAX);
       len = strlen(path);
-      memcpy(&path[len],"/"); len++;
+      memcpy(&path[len],"/",1); len++;
 
       dlen = strlen(dir);
       memcpy(&path[len],dir,dlen); len += dlen;
@@ -230,13 +230,14 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
   stripes = t3pio_maxStripesPossible(stripes);
 #else
   stripes = t3pio_asklustre(comm, myProc, dir);
-#endif
+#endif  /* AX_LUSTRE_FS */
+#endif  /* HAVE_LUSTRE */
   return stripes;
 }
 
 
 
-
+#define MAXLINE 4096
 int t3pio_nodeMemory(MPI_Comm comm, int myProc)
 {
   char  line[MAXLINE];
@@ -277,7 +278,16 @@ int t3pio_readStripes(MPI_Comm comm, int myProc, const char * fn)
   int stripes = 4;
   int ierr;
 #ifdef HAVE_LUSTRE
-  if (myProc == 0 && t3pio_usingLustreFS())
+  char dir[PATH_MAX];
+  char *p;
+  strcpy(dir,fn);
+  p = strrchr(dir,'/');
+  if (p == NULL)
+    strcpy(dir,"./");
+  else
+    *p = '\0';
+  
+  if (myProc == 0 && t3pio_usingLustreFS(dir))
     {
       FILE* fp;
       char  line[MAXLINE];
