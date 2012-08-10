@@ -46,7 +46,7 @@ if test x$with_node_memory != xno; then
 fi
 AC_DEFINE_UNQUOTED(MEMSIZE, $MEMSIZE, [nodal memory size in MB])
 
-AM_CONDITIONAL(PHDF5_ENABLED, test -n "$PHDF5_DIR")
+AM_CONDITIONAL(PHDF5_ENABLED, test x$USE_PHDF5 = x1)
 
 AX_HOW_MANY_OSTs
 

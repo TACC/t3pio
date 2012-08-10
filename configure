@@ -23112,7 +23112,7 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
- if test -n "$PHDF5_DIR"; then
+ if test x$USE_PHDF5 = x1; then
   PHDF5_ENABLED_TRUE=
   PHDF5_ENABLED_FALSE='#'
 else
