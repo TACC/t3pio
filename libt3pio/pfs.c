@@ -20,6 +20,7 @@
 #   include "lustre/liblustreapi.h"
 #   include "lustre/lustre_user.h"
 #endif
+#define MAXLINE 4096
 
 void t3pio_init(T3Pio_t* t3)
 {
@@ -179,7 +180,6 @@ int t3pio_asklustre(MPI_Comm comm, int myProc, const char* dir)
 }
 
 
-#define MAXLINE 2048
 int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 {
   const char *p, *p0;
@@ -237,7 +237,6 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 
 
 
-#define MAXLINE 4096
 int t3pio_nodeMemory(MPI_Comm comm, int myProc)
 {
   char  line[MAXLINE];
