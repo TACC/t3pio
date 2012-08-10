@@ -32,7 +32,7 @@ echo Configure date................ : $BUILD_DATE
 echo Build architecture............ : $BUILD_ARCH
 echo Program Version............... : $BUILD_VERSION
 echo Lustre Filesystems............ : $AX_LUSTRE_FS
-echo Nodal Memory Size (MB) ....... : $MEMSIZE
+echo Nodal Memory Size in MB....... : $MEMSIZE
 
 echo
 echo Optional Features:
