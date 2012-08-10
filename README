@@ -22,10 +22,10 @@ This library focuses on writing of files. When an application creates a file, it
 the only time that one can control the number of stripes.  This library extracts data
 from the lustre file system to set all three parameters to improve performance.
 
+The use of the library is straight-forward.  Only one extra call to the T3PIO library
+is necessary to improve your performance.
 
-
-
-The use of the library is straight-forward. In Fortran, it looks like this:
+In Fortran, it looks like this:
 
    subroutine hdf5_writer(....)
    use hdf5
@@ -43,15 +43,40 @@ The use of the library is straight-forward. In Fortran, it looks like this:
 
    ! use library to fill info with nwriters, stripe
    call t3pio_set_info(comm, info, "./", ierr,   &         ! <--- T3PIO library call
-                       GLOBAL_SIZE=globalSize)}
+                       GLOBAL_SIZE=globalSize)
    call H5open_f(ierr)
-   call H5Pcreate_f(H5P_FILE_ACCESS_F,plist_id},ierr)
+   call H5Pcreate_f(H5P_FILE_ACCESS_F,plist_id,ierr)
    call H5Pset_fapl_mpio_f(plist_id, comm, info, ierr)
    call H5Fcreate_f(fileName, H5F_ACC_TRUNC_F, file_id, ierr,
-                    access_prp = plist_id})
+                    access_prp = plist_id)
 
 
-Essentially, you make the normal calls to create an HDF5 file.  The only addition is
-to call "t3pio_set_info" with the communicator, an info object, the directory where the file
-is to be written.  Optionally, you can specify an estimate of the global size of the file.
+Essentially, you make the normal calls to create an HDF5 file.  The
+only addition is to call "t3pio_set_info" with the communicator, an
+info object, the directory where the file is to be written.
+Optionally, you can specify an estimate of the global size of the
+file.  If you do so then stripe size will increase to improve
+performance.
+
+In C/C++ it is very similar:
+
+   #include "t3pio.h"
+   #include "hdf5.h"
+   void hdf5_writer(....)
+   {
+     MPI_Info info      = MPI_INFO_NULL; 
+     hid_t    plist_id;
+     ...
+
+     MPI_Info_create(&info);
+     ierr = t3pio_set_info(comm, info, "./",          /* T3PIO call */   
+                     T3PIO_GLOBAL_SIZE, globalSize);
+     plist_id = H5Pcreate(H5P_FILE_ACCESS);
+     ierr     = H5Pset_fapl_mpio(plist_id, comm, info);
+     file_id  = H5Fcreate(fileName, H5F_ACC_TRUNC,
+                          H5P_DEFAULT, plist_id);
+     ...
+   }     
+
+
 
