@@ -1,5 +1,6 @@
 ! -*- f90 -*-
 #include "assert.hf"
+#include "top.hf"
 program main
    use mpi
    use parallel
@@ -25,20 +26,28 @@ program main
       call exit()
    end if
 
+   HERE
    call partitionProc(nDim)
+   HERE
 
    ! partition grid to local locations.
    call partitionGrid(global, local)
+   HERE
 
    ! parallel write out file.
    if (HDF5Flag) then
+      HERE
       call h5_writer(local,global)
       if (H5chunk) wrtStyle = "h5chunk"
       if (H5slab)  wrtStyle = "h5slab"
+      HERE
    else
+      HERE
       call parallel_writer(local, global)
+      HERE
       wrtStyle = "romio"
    endif
+   HERE
 
    if (p % myProc == 0) then
       fileSz = totalSz/(1024.0*1024.0*1024.0)

@@ -1,0 +1,8 @@
+! -*- f90 -*-
+#ifndef TOP_HF
+#define TOP_HF
+
+#define HERE if (p % myProc == 0) write(*,*) __FILE__, ":", __LINE__
+
+
+#endif
