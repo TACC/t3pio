@@ -80,3 +80,95 @@ In C/C++ it is very similar:
 
 
 
+Installing T3PIO:
+-----------------
+
+
+To configure the package do:
+
+FC=mpif90 F77=mpif77 CC=mpicc CXX=mpicxx ./configure [options]
+
+Where options are:
+
+   --prefix=/path/to/install/dir
+
+              Path to where you wish the library and test programs to be installed
+
+
+   --with-phdf5=/path/to/parallel/hdf5/dir
+
+              The library does not require Parallel HDF5 but the test programs do.  Please
+              set the directory to the parent directory to hdf5 is installed.  This package expects
+              that the "include" and "lib" to be directly below the directory specified above.
+
+   --with-node-memory=size_in_MB
+
+              This is optional and avoids having the library run "free -m" to determine this quantity.
+              The size in MB and should be the size of memory on the compute nodes.
+
+
+After configure do:
+
+  $ make; make install
+
+This will install the library and the two test programs: cubeTestHDF5, unstructTestHDF5
+
+
+
+
+Test Programs:  cubeTestHDF5   
+----------------------------
+
+
+    To run the structured grid test code do the following to get help:
+
+  $ cubeTestHDF5 -h
+
+  
+    
+ cubeTestHDF5 version 1.0
+
+ Usage: cubeTestHDF5 [options]
+ options:
+   -v            : version
+   -H            : This message and quit
+   --help         : This message and quit
+   --dim num     : number of dimension (2, or 3)
+   -g num        : number of points in each direction globally
+   -l num        : number of points in each direction locally
+   -f num        : number of stripes per writer (4 default)
+   --stripes num : Allow no more than num stripes 
+                   (file system limit by default)
+   --h5chunk     : use HDF5 with chunks
+   --h5slab      : use HDF5 with slab
+   --romio       : use MPI I/O
+   --numvar num  : number of variables 1 to 9
+  
+  Defaults are:
+     Dim is 2
+     l   is 5
+     f   is 4
+     Use HDF5 hyperslab
+     numvar is 4
+
+
+Test Program: unstructTestHDF5
+------------------------------
+
+
+    To run the unstructured grid test code do the following to get help:
+
+  $ unstructTestHDF5 -h
+
+      Usage:
+      ./unstructTestHDF5 [options]
+
+      Options:
+       -h, -?        : Print Usage
+       -v            : Print Version
+       -C            : use h5 chunk
+       -S            : use h5 slab (default)
+       -l num        : local size is num (default=10)
+       -f factor     : number of stripes per writer (default=2)
+       -s num        : maximum number of stripes
+

@@ -108,7 +108,7 @@ end subroutine parse
 
       if (p % myproc > 0) return
 
-      print *, "Usage: mpiio [options]"
+      print *, "Usage: cubeTestHDF5 [options]"
       print *, "options:"
       print *, "  -v            : version"
       print *, "  -H            : This message and quit"
