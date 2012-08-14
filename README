@@ -20,7 +20,8 @@ The parallel I/O performance depends on three parameters:
 
 This library focuses on writing of files. When an application creates a file, it is
 the only time that one can control the number of stripes.  This library extracts data
-from the lustre file system to set all three parameters to improve performance.
+from the lustre file system and your parallel program to set all three parameters to
+improve performance. 
 
 The use of the library is straight-forward.  Only one extra call to the T3PIO library
 is necessary to improve your performance.
@@ -126,7 +127,6 @@ This will install the library and the two test programs: cubeTestHDF5, unstructT
 Test Programs:  cubeTestHDF5   
 ----------------------------
 
-
     To run the structured grid test code do the following to get help:
 
   $ cubeTestHDF5 -H
@@ -161,7 +161,6 @@ Test Programs:  cubeTestHDF5
 
 Test Program: unstructTestHDF5
 ------------------------------
-
 
     To run the unstructured grid test code do the following to get help:
 
