@@ -44,8 +44,9 @@ NODE_MEMORY=0
 if test x$with_node_memory != xno; then
    NODE_MEMORY=1
    MEMSIZE=$with_node_memory
+   AC_DEFINE_UNQUOTED(MEMSIZE, $MEMSIZE, [nodal memory size in MB])
 fi
-AC_DEFINE_UNQUOTED(MEMSIZE, $MEMSIZE, [nodal memory size in MB])
+
 
 AM_CONDITIONAL(PHDF5_ENABLED, test x$USE_PHDF5 = x1)
 
