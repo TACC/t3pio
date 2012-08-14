@@ -15,6 +15,8 @@ module cmdline
    logical :: H5chunk       ! if true then use HDF5 w/ chunks
    logical :: H5slab        ! if true then use HDF5 w/ slabs
    logical :: ROMIO         ! if true then use MPI I/O
+   logical :: LuaOutput     ! if true then write output in a Lua
+                            ! table format.
 
 
 
@@ -27,16 +29,17 @@ contains
 
    count = iargc()
 
-   Numvar      = 4
+   Numvar      = 1
    Stripes     = 0
    nDim        = 2
-   Factor      = 4
+   Factor      = 2
    LocalSz     = 5
    GblSz       = 0
    VersionFlag = .false.
    HelpFlag    = .false.
    ROMIO       = .true.
    HDF5Flag    = .false.
+   LuaOutput   = .false.
 
 #ifdef USE_HDF5
    ROMIO       = .false.
@@ -67,6 +70,8 @@ contains
          i = i + 1
          call getarg(i,arg)
          read(arg,*) nDim
+      elseif (arg == "--lua") then
+         LuaOutput = .true.
       elseif (arg == "--numvar") then
          i = i + 1
          call getarg(i,arg)
@@ -112,24 +117,28 @@ end subroutine parse
       print *, "options:"
       print *, "  -v            : version"
       print *, "  -H            : This message and quit"
-      print *, "  --help         : This message and quit"
+      print *, "  --help        : This message and quit"
       print *, "  --dim num     : number of dimension (2, or 3)"
       print *, "  -g num        : number of points in each direction globally"
+      print *, "                  (no default)"
       print *, "  -l num        : number of points in each direction locally"
-      print *, "  -f num        : number of stripes per writer (4 default)"
+      print *, "                  (default = 5)"
+      print *, "  -f num        : number of stripes per writer"
+      print *, "                  (default = 2)"
       print *, "  --stripes num : Allow no more than num stripes "
       print *, "                  (file system limit by default)"
       print *, "  --h5chunk     : use HDF5 with chunks"
       print *, "  --h5slab      : use HDF5 with slab"
+      print *, "                  (default)"
       print *, "  --romio       : use MPI I/O"
       print *, "  --numvar num  : number of variables 1 to 9"
       print *, " "
       print *, " Defaults are:"
       print *, "    Dim is 2"
       print *, "    l   is 5"
-      print *, "    f   is 4"
+      print *, "    f   is 2"
       print *, "    Use HDF5 hyperslab"
-      print *, "    numvar is 4"
+      print *, "    numvar is 1"
       print *, " "
 
    end subroutine usage

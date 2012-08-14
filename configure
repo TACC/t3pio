@@ -23107,11 +23107,12 @@ NODE_MEMORY=0
 if test x$with_node_memory != xno; then
    NODE_MEMORY=1
    MEMSIZE=$with_node_memory
-fi
 
 cat >>confdefs.h <<_ACEOF
 #define MEMSIZE $MEMSIZE
 _ACEOF
+
+fi
 
 
  if test x$USE_PHDF5 = x1; then
