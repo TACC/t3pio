@@ -142,6 +142,35 @@ Test Programs:  cubeTestHDF5
    --help        : This message and quit
    --dim num     : number of dimension (2, or 3)
    -g num        : number of points in each direction globally
+                   (no default)
+   -l num        : number of points in each direction locally
+                   (default = 5)
+   -f num        : number of stripes per writer
+                   (default = 2)
+   --stripes num : Allow no more than num stripes 
+                   (file system limit by default)
+   --h5chunk     : use HDF5 with chunks
+   --h5slab      : use HDF5 with slab
+                   (default)
+   --romio       : use MPI I/O
+   --numvar num  : number of variables 1 to 9
+                   (default = 1)
+  
+  Defaults are:
+     Dim is 2
+     l   is 5
+     f   is 2
+     Use HDF5 hyperslab
+     numvar is 1
+
+
+ Usage: cubeTestHDF5 [options]
+ options:
+   -v            : version
+   -H            : This message and quit
+   --help        : This message and quit
+   --dim num     : number of dimension (2, or 3)
+   -g num        : number of points in each direction globally
    -l num        : number of points in each direction locally
    -f num        : number of stripes per writer (4 default)
    --stripes num : Allow no more than num stripes 
