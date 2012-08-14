@@ -69,7 +69,7 @@ In C/C++ it is very similar:
      ...
 
      MPI_Info_create(&info);
-     ierr = t3pio_set_info(comm, info, "./",          /* T3PIO call */   
+     ierr = t3pio_set_info(comm, info, "./",          /* <-- T3PIO call */   
                      T3PIO_GLOBAL_SIZE, globalSize);
      plist_id = H5Pcreate(H5P_FILE_ACCESS);
      ierr     = H5Pset_fapl_mpio(plist_id, comm, info);
@@ -82,6 +82,13 @@ In C/C++ it is very similar:
 
 Installing T3PIO:
 -----------------
+
+The library can downloaded from github
+
+git clone git://github.com/TACC/t3pio.git
+
+
+
 
 
 To configure the package do:
@@ -122,7 +129,7 @@ Test Programs:  cubeTestHDF5
 
     To run the structured grid test code do the following to get help:
 
-  $ cubeTestHDF5 -h
+  $ cubeTestHDF5 -H
 
   
     
@@ -132,7 +139,7 @@ Test Programs:  cubeTestHDF5
  options:
    -v            : version
    -H            : This message and quit
-   --help         : This message and quit
+   --help        : This message and quit
    --dim num     : number of dimension (2, or 3)
    -g num        : number of points in each direction globally
    -l num        : number of points in each direction locally
