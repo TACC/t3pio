@@ -109,7 +109,7 @@ Where options are:
               set the directory to the parent directory to hdf5 is installed.  This package expects
               that the "include" and "lib" to be directly below the directory specified above.
 
-   --with-node-memory=size_in_MB
+   --with-node-memory=N  (where N is in MB)
 
               This is optional and avoids having the library run "free -m" to determine this quantity.
               The size in MB and should be the size of memory on the compute nodes.
