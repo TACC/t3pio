@@ -20,7 +20,8 @@ The parallel I/O performance depends on three parameters:
 
 This library focuses on writing of files. When an application creates a file, it is
 the only time that one can control the number of stripes.  This library extracts data
-from the lustre file system to set all three parameters to improve performance.
+from the lustre file system and your parallel program to set all three parameters to
+improve performance. 
 
 The use of the library is straight-forward.  Only one extra call to the T3PIO library
 is necessary to improve your performance.
@@ -108,7 +109,7 @@ Where options are:
               set the directory to the parent directory to hdf5 is installed.  This package expects
               that the "include" and "lib" to be directly below the directory specified above.
 
-   --with-node-memory=size_in_MB
+   --with-node-memory=N  (where N is in MB)
 
               This is optional and avoids having the library run "free -m" to determine this quantity.
               The size in MB and should be the size of memory on the compute nodes.
@@ -126,7 +127,6 @@ This will install the library and the two test programs: cubeTestHDF5, unstructT
 Test Program (1):  cubeTestHDF5   
 ----------------------------
 
-
     To run the structured grid test code do the following to get help:
 
   $ cubeTestHDF5 -H
@@ -134,6 +134,35 @@ Test Program (1):  cubeTestHDF5
   
     
  cubeTestHDF5 version 1.0
+
+ Usage: cubeTestHDF5 [options]
+ options:
+   -v            : version
+   -H            : This message and quit
+   --help        : This message and quit
+   --dim num     : number of dimension (2, or 3)
+   -g num        : number of points in each direction globally
+                   (no default)
+   -l num        : number of points in each direction locally
+                   (default = 5)
+   -f num        : number of stripes per writer
+                   (default = 2)
+   --stripes num : Allow no more than num stripes 
+                   (file system limit by default)
+   --h5chunk     : use HDF5 with chunks
+   --h5slab      : use HDF5 with slab
+                   (default)
+   --romio       : use MPI I/O
+   --numvar num  : number of variables 1 to 9
+                   (default = 1)
+  
+  Defaults are:
+     Dim is 2
+     l   is 5
+     f   is 2
+     Use HDF5 hyperslab
+     numvar is 1
+
 
  Usage: cubeTestHDF5 [options]
  options:
@@ -161,7 +190,6 @@ Test Program (1):  cubeTestHDF5
 
 Test Program (2) : unstructTestHDF5
 ------------------------------
-
 
     To run the unstructured grid test code do the following to get help:
 

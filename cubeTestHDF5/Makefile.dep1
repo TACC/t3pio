@@ -3,6 +3,7 @@
 # WARN: koomie ignoring #include for assert.hf (master.F90)
 # WARN: koomie ignoring #include for top.hf (master.F90)
 # INFO: koomie found module mpi to ignore inside master.F90 
+# INFO: koomie found module mpi to ignore inside master.F90 
 # WARN: koomie ignoring #include for assert.hf (parallel.F90)
 # INFO: koomie found module mpi to ignore inside parallel.F90 
 # WARN: koomie ignoring #include for assert.hf (writer.F90)

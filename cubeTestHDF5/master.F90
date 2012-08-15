@@ -8,7 +8,6 @@ program main
    use cmdline
    use writer
    implicit none
-   real(8)       :: fileSz
    integer       :: i, j, k, ii, jj, ierr
    character(7)  :: wrtStyle
 
@@ -50,14 +49,50 @@ program main
    HERE
 
    if (p % myProc == 0) then
-      fileSz = totalSz/(1024.0*1024.0*1024.0)
-      print 1000, p % nProcs, local % num(1), Numvar, trim(wrtStyle), Factor, nIOUnits,  &
-           nStripes, stripeSize/(1024*1024), fileSz, t, rate
+      call outputResults(wrtStyle, local)
    end if
 
    call MPI_Finalize(ierr);
 
-1000 format("%% { nprocs = ",i6, ", lSz = ",i4,", numvar = ",i2,', wrtStyle = "',a,'", factor = ',i3,   &
-          ", iounits = ",i5, ", nstripes = ", i5, ", stripeSz = ", i10, ", fileSz = ", 1pg15.7, ", time = ", 1pg15.7,       &
-          ", rate = ", 1pg15.7,"},")
 end program main
+
+subroutine outputResults(wrtStyle, local)
+
+   use mpi
+   use parallel
+   use grid
+   use cmdline
+   use writer
+   implicit none
+
+   real(8)      :: fileSz
+   type(grid_t) :: local
+   character(*) :: wrtStyle
+   
+   if (LuaOutput) then
+      print 1000, p % nProcs, local % num(1), Numvar, trim(wrtStyle), Factor, nIOUnits,  &
+           nStripes, stripeSize/(1024*1024), fileSz, t, rate
+   else
+      print 1010, p % nProcs, local % num(1), Numvar, trim(wrtStyle), Factor, nIOUnits,  &
+           nStripes, stripeSize/(1024*1024), fileSz, t, rate
+   end if
+
+1000 format("%% { nprocs = ",i6, ", lSz = ",i4,", numvar = ",i2,', wrtStyle = "',a,  &
+        '", factor = ',i3, ", iounits = ",i5, ", nstripes = ", i5,                 &
+        ", stripeSz = ", i10, ", fileSz = ", 1pg15.7, ", time = ", 1pg15.7,        &
+        ", rate = ", 1pg15.7,"},")
+
+1010 format(" Nprocs: ",        i6,/,      &
+        " lSz: ",           i4,/,      &
+        " Numvar: ",        i2,/,      &
+        " wrtStyle: ",       a,/,      &
+        " factor: ",        i3,/,      &
+        " iounits: ",       i5,/,      &
+        " nstripes: ",      i5,/,      &
+        " stripeSz (MB): ", i10,/,     &
+             " fileSz: ",        1pg15.7,/, &
+             " time: ",          1pg15.7,/, &
+             " rate (MB/s): ",   1pg15.7)
+
+end subroutine outputResults
+
