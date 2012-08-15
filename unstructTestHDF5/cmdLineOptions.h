@@ -18,6 +18,7 @@ class CmdLineOptions
   int          localSz;
   int          factor;
   int          stripes;
+  bool         luaStyleOutput;
   bool         h5chunk;
   bool         h5slab;
   std::string  h5style;

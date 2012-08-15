@@ -1,4 +1,4 @@
-
+Date: 8/15/2012
 
 
         T3PIO Library: TACC's Terrific Tool for Parallel I/O
@@ -54,7 +54,7 @@ In Fortran, it looks like this:
 
 Essentially, you make the normal calls to create an HDF5 file.  The
 only addition is to call "t3pio_set_info" with the communicator, an
-info object, the directory where the file is to be written.
+info object, and the directory where the file is to be written.
 Optionally, you can specify an estimate of the global size of the
 file.  If you do so then stripe size will increase to improve
 performance.
@@ -86,7 +86,7 @@ Installing T3PIO:
 
 The library can downloaded from github
 
-git clone git://github.com/TACC/t3pio.git
+   $ git clone git://github.com/TACC/t3pio.git
 
 
 
@@ -94,7 +94,7 @@ git clone git://github.com/TACC/t3pio.git
 
 To configure the package do:
 
-FC=mpif90 F77=mpif77 CC=mpicc CXX=mpicxx ./configure [options]
+   $ FC=mpif90 F77=mpif77 CC=mpicc CXX=mpicxx ./configure [options]
 
 Where options are:
 
@@ -105,14 +105,14 @@ Where options are:
 
    --with-phdf5=/path/to/parallel/hdf5/dir
 
-              The library does not require Parallel HDF5 but the test programs do.  Please
+              The library does not require Parallel HDF5. However, the test programs do.  Please
               set the directory to the parent directory to hdf5 is installed.  This package expects
               that the "include" and "lib" to be directly below the directory specified above.
 
    --with-node-memory=N  (where N is in MB)
 
               This is optional and avoids having the library run "free -m" to determine this quantity.
-              The size in MB and should be the size of memory on the compute nodes.
+              The size in MB. It should be the size of memory on the compute nodes.
 
 
 After configure do:
@@ -156,37 +156,6 @@ Test Program (1):  cubeTestHDF5
    --numvar num  : number of variables 1 to 9
                    (default = 1)
   
-  Defaults are:
-     Dim is 2
-     l   is 5
-     f   is 2
-     Use HDF5 hyperslab
-     numvar is 1
-
-
- Usage: cubeTestHDF5 [options]
- options:
-   -v            : version
-   -H            : This message and quit
-   --help        : This message and quit
-   --dim num     : number of dimension (2, or 3)
-   -g num        : number of points in each direction globally
-   -l num        : number of points in each direction locally
-   -f num        : number of stripes per writer (4 default)
-   --stripes num : Allow no more than num stripes 
-                   (file system limit by default)
-   --h5chunk     : use HDF5 with chunks
-   --h5slab      : use HDF5 with slab
-   --romio       : use MPI I/O
-   --numvar num  : number of variables 1 to 9
-  
-  Defaults are:
-     Dim is 2
-     l   is 5
-     f   is 4
-     Use HDF5 hyperslab
-     numvar is 4
-
 
 Test Program (2) : unstructTestHDF5
 ------------------------------
