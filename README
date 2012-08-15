@@ -123,7 +123,7 @@ This will install the library and the two test programs: cubeTestHDF5, unstructT
 
 
 
-Test Programs:  cubeTestHDF5   
+Test Program (1):  cubeTestHDF5   
 ----------------------------
 
 
@@ -159,7 +159,7 @@ Test Programs:  cubeTestHDF5
      numvar is 4
 
 
-Test Program: unstructTestHDF5
+Test Program (2) : unstructTestHDF5
 ------------------------------
 
 
