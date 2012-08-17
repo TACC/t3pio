@@ -24,9 +24,16 @@ from the lustre file system and your parallel program to set all three parameter
 improve performance. 
 
 The use of the library is straight-forward.  Only one extra call to the T3PIO library
-is necessary to improve your performance.
+is necessary to improve your performance.  
 
-In Fortran, it looks like this:
+
+
+
+
+Using T3PIO with HDF5:
+----------------------
+
+In Fortran, it looks like this (a complete example can be found in cubeTestHDF5/writer.F90 (lines 52-140):
 
    subroutine hdf5_writer(....)
    use hdf5
@@ -59,7 +66,7 @@ Optionally, you can specify an estimate of the global size of the
 file.  If you do so then stripe size will increase to improve
 performance.
 
-In C/C++ it is very similar:
+In C/C++ it is very similar (a complete example can be found in unstructTestHDF5/h5writer.C (lines 71-95)
 
    #include "t3pio.h"
    #include "hdf5.h"
@@ -78,6 +85,15 @@ In C/C++ it is very similar:
                           H5P_DEFAULT, plist_id);
      ...
    }     
+
+
+Using T3PIO with MPI I/O:
+-------------------------
+
+Using T3PIO with MPI I/O is essentially the same as with HDF5.  In Fortran 90 is would look like
+(see writer.F90 lines 300-317)
+
+
 
 
 
