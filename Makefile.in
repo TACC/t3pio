@@ -277,6 +277,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = include libt3pio cubeTestHDF5 unstructTestHDF5
 ACLOCAL_AMFLAGS = -I m4
+VERSION_SRC = .version
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
