@@ -76,14 +76,16 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
           
   else
     {
-      t3.numStripes = t3pio_maxStripes(comm, myProc, dir);
+      int maxPossible = t3pio_maxStripes(comm, myProc, dir);
+      t3.numStripes   = maxPossible;
       if (t3.numNodes * t3.factor < t3.numStripes)
         t3.numStripes = t3.numNodes*t3.factor;
 
       if (t3.maxStripes > 0)
         {
-          t3.numIO = t3.maxStripes / t3.factor;
-          if (t3.numIO > 2*t3.numNodes) t3.numIO = 2*t3.numNodes;
+          t3.maxStripes = min(maxPossible, t3.maxStripes);
+          t3.numIO      = t3.maxStripes*t3.factor;
+          if (t3.numIO > 4*t3.numNodes) t3.numIO = 4*t3.numNodes;
           t3.numStripes = t3.numIO*t3.factor;
         }
     }
