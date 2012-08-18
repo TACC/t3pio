@@ -23151,12 +23151,14 @@ AX_lustreDir=""
 
 parseNextLine=0
 j=0
+IFS='
+'
 for i in $AX_lustre_df; do
   j=$((j+1))
 
   if test x$parseNextLine = x1 ; then
     parseNextLine=0
-    dir=$(expr $i : '.* \t\(/.*\)')
+    dir=$(expr $i : '.* \(/.*\)$')
     AX_lustreDir="$dir:$AX_lustreDir"
   fi
 
