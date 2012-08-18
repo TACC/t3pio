@@ -17,6 +17,7 @@ public:
   int    nStripes()   { return m_nStripes;}
   int    nIOUnits()   { return m_nIOUnits;}
   int    factor()     { return m_factor;}
+  int    numvar()     { return m_numvar;}
   int    stripeSz()   { return m_stripeSz;}
   int    stripeSzMB() { return m_stripeSz/(1024*1024);}
 
@@ -28,6 +29,7 @@ private:
   int    m_nIOUnits;
   int    m_factor;
   int    m_stripeSz;
+  int    m_numvar;
 };
 
 #endif // H5WRITER_H

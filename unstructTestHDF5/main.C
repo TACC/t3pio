@@ -8,6 +8,9 @@
 Parallel P;
 
 
+void outputResults(CmdLineOptions& cmd, H5& h5);
+
+
 int main(int argc, char* argv[])
 {
 
@@ -26,15 +29,43 @@ int main(int argc, char* argv[])
   h5.writer(cmd);
 
   if (P.myProc == 0)
+    outputResults(cmd, h5);
+
+  P.fini();
+
+  return 0;
+}
+
+void outputResults(CmdLineOptions& cmd, H5& h5)
+{
+  double fileSz = h5.totalSz()/(1024.0 * 1024.0 * 1024.0);
+
+  if (cmd.luaStyleOutput)
     {
-      double fileSz = h5.totalSz()/(1024.0 * 1024.0 * 1024.0);
       printf("%%%% { nprocs = %d, lSz = %d, wrtStyle = \"%s\", factor = %d, iounits = %d, "
              " nstripes = %d, stripeSzMB = %d,  fileSzGB = %15.7g, time = %15.7g, rate = %15.7g }\n",
              P.nProcs, cmd.localSz, cmd.h5style.c_str(), h5.factor(), h5.nIOUnits(), h5.nStripes(),
              h5.stripeSzMB(), fileSz, h5.time(), h5.rate());
     }
+  else
+    {
+      printf("\nunstructTestHDF5:\n"
+             "-------------------\n\n"
+             " Nprocs:           %9d\n"  
+             " lSz:              %9d\n"
+             " Numvar:           %9d\n"
+             " factor:           %9d\n"
+             " iounits:          %9d\n"
+             " nstripes:         %9d\n"
+             " stripeSz (MB):    %9d\n"
+             " fileSz (GB):      %9.3f\n"
+             " time (sec):       %9.3f\n"
+             " rate (MB/s):      %9.3f\n"
+             " wrtStyle:         %9s\n",
+             P.nProcs, cmd.localSz, h5.numvar(), h5.factor(), h5.nIOUnits(),
+             h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(), h5.rate(),
+             cmd.h5style.c_str());
 
-  P.fini();
+    }
 
-  return 0;
 }

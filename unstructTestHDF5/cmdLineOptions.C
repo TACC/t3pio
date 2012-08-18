@@ -37,16 +37,17 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   int  opt;
   bool version, help, illegal;
 
-  version      = false;
-  help         = false;
-  localSz      = 10;
-  h5chunk      = false;
-  h5slab       = false;
-  factor       = 2;
-  stripes      = -1;
-  h5style      = "h5slab";
+  version        = false;
+  help           = false;
+  localSz        = 10;
+  h5chunk        = false;
+  h5slab         = false;
+  factor         = 2;
+  stripes        = -1;
+  h5style        = "h5slab";
+  luaStyleOutput = false;
 
-  while ( (opt = getopt(argc, argv, "s:hCSf:l:?v")) != -1)
+  while ( (opt = getopt(argc, argv, "s:hCSLf:l:?v")) != -1)
     {
       switch (opt)
         {
@@ -59,6 +60,9 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           break;
         case 'C':
           h5chunk = true;
+          break;
+        case 'L':
+          luaStyleOutput = true;
           break;
         case 'f':
           factor  = strtol(optarg, (char **) NULL, 10);

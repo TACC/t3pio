@@ -46,6 +46,7 @@ void H5::writer(CmdLineOptions& cmd)
 
   int nVar = sizeof(varT)/sizeof(Var_t);
 
+  m_numvar    = nVar;
   num         = cmd.localSz;
   lSz         = num;
   is          = P.myProc*num;

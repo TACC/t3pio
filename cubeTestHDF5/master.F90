@@ -25,28 +25,20 @@ program main
       call exit()
    end if
 
-   HERE
    call partitionProc(nDim)
-   HERE
 
    ! partition grid to local locations.
    call partitionGrid(global, local)
-   HERE
 
    ! parallel write out file.
    if (HDF5Flag) then
-      HERE
       call h5_writer(local,global)
       if (H5chunk) wrtStyle = "h5chunk"
       if (H5slab)  wrtStyle = "h5slab"
-      HERE
    else
-      HERE
       call parallel_writer(local, global)
-      HERE
       wrtStyle = "romio"
    endif
-   HERE
 
    if (p % myProc == 0) then
       call outputResults(wrtStyle, local)
@@ -73,8 +65,8 @@ subroutine outputResults(wrtStyle, local)
       print 1000, p % nProcs, local % num(1), Numvar, trim(wrtStyle), Factor, nIOUnits,  &
            nStripes, stripeSize/(1024*1024), fileSz, t, rate
    else
-      print 1010, p % nProcs, local % num(1), Numvar, trim(wrtStyle), Factor, nIOUnits,  &
-           nStripes, stripeSize/(1024*1024), fileSz, t, rate
+      print 1010, p % nProcs, local % num(1), Numvar, Factor, nIOUnits,  &
+           nStripes, stripeSize/(1024*1024), fileSz, t, rate, adjustr(trim(wrtStyle))
    end if
 
 1000 format("%% { nprocs = ",i6, ", lSz = ",i4,", numvar = ",i2,', wrtStyle = "',a,  &
@@ -82,17 +74,19 @@ subroutine outputResults(wrtStyle, local)
         ", stripeSz = ", i10, ", fileSz = ", 1pg15.7, ", time = ", 1pg15.7,        &
         ", rate = ", 1pg15.7,"},")
 
-1010 format(" Nprocs: ",        i6,/,      &
-        " lSz: ",           i4,/,      &
-        " Numvar: ",        i2,/,      &
-        " wrtStyle: ",       a,/,      &
-        " factor: ",        i3,/,      &
-        " iounits: ",       i5,/,      &
-        " nstripes: ",      i5,/,      &
-        " stripeSz (MB): ", i10,/,     &
-             " fileSz: ",        1pg15.7,/, &
-             " time: ",          1pg15.7,/, &
-             " rate (MB/s): ",   1pg15.7)
+1010 format(/,"cubeTestHDF5 Results: ",/  &
+              "--------------------- "//  &
+              " Nprocs:        ", i7,/,   &
+              " lSz:           ", i7,/,   &
+              " Numvar:        ", i7,/,   &
+              " factor:        ", i7,/,   &
+              " iounits:       ", i7,/,   &
+              " nstripes:      ", i7,/,   &
+              " stripeSz (MB): ", i7,/,   &
+              " fileSz (GB):   ", f9.3,/, &
+              " time:          ", f9.3,/, &
+              " rate (MB/s):   ", f9.3,/, &
+              " wrtStyle:      ", a9)
 
 end subroutine outputResults
 

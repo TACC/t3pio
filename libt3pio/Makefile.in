@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 am__make_dryrun = \
   { \
@@ -94,7 +95,7 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(moduledir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libt3pio_la_LIBADD =
 am_libt3pio_la_OBJECTS = libt3pio_la-t3pio.lo libt3pio_la-pfs.lo \
@@ -127,6 +128,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+DATA = $(module_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -267,6 +269,9 @@ top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libt3pio.la
 libt3pio_la_SOURCES = t3pio.c pfs.c f2c_internal.c f_t3pio.f90
 libt3pio_la_CPPFLAGS = -I$(top_srcdir)/include
+moduledir = @prefix@/include
+module_DATA = t3pio.mod
+CLEANFILES = *.mod Makefile.dep1 Makefile.dep2 Makefile.dep3 Makefile.dep
 all: all-am
 
 .SUFFIXES:
@@ -404,6 +409,27 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-moduleDATA: $(module_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(module_DATA)'; test -n "$(moduledir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(moduledir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(moduledir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(moduledir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(moduledir)" || exit $$?; \
+	done
+
+uninstall-moduleDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(module_DATA)'; test -n "$(moduledir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(moduledir)'; $(am__uninstall_files_from_dir)
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -503,9 +529,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(moduledir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -530,6 +556,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -561,7 +588,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-moduleDATA
 
 install-dvi: install-dvi-am
 
@@ -607,7 +634,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES
+uninstall-am: uninstall-libLTLIBRARIES uninstall-moduleDATA
 
 .MAKE: install-am install-strip
 
@@ -618,12 +645,13 @@ uninstall-am: uninstall-libLTLIBRARIES
 	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-libLTLIBRARIES
+	install-libLTLIBRARIES install-man install-moduleDATA \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags uninstall uninstall-am \
+	uninstall-libLTLIBRARIES uninstall-moduleDATA
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

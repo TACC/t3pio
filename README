@@ -1,4 +1,4 @@
-
+Date: 8/15/2012
 
 
         T3PIO Library: TACC's Terrific Tool for Parallel I/O
@@ -24,9 +24,17 @@ from the lustre file system and your parallel program to set all three parameter
 improve performance. 
 
 The use of the library is straight-forward.  Only one extra call to the T3PIO library
-is necessary to improve your performance.
+is necessary to improve your performance.  
 
-In Fortran, it looks like this:
+
+
+
+
+Using T3PIO with HDF5:
+----------------------
+
+In Fortran, it looks like this (a complete example can be found in
+cubeTestHDF5/writer.F90 (lines 52-140):
 
    subroutine hdf5_writer(....)
    use hdf5
@@ -54,12 +62,13 @@ In Fortran, it looks like this:
 
 Essentially, you make the normal calls to create an HDF5 file.  The
 only addition is to call "t3pio_set_info" with the communicator, an
-info object, the directory where the file is to be written.
+info object, and the directory where the file is to be written.
 Optionally, you can specify an estimate of the global size of the
 file.  If you do so then stripe size will increase to improve
 performance.
 
-In C/C++ it is very similar:
+In C/C++ it is very similar (a complete example can be found in
+unstructTestHDF5/h5writer.C (lines 71-95))
 
    #include "t3pio.h"
    #include "hdf5.h"
@@ -79,6 +88,34 @@ In C/C++ it is very similar:
      ...
    }     
 
+
+Using T3PIO with MPI I/O:
+-------------------------
+
+Using T3PIO with MPI I/O is essentially the same as with HDF5.  In Fortran 90
+it would look like (see writer.F90 lines 300-317):
+
+
+
+   subroutine hdf5_writer(....)
+   use t3pio
+   integer info                ! MPI Info object
+   integer comm                ! MPI Communicator
+   integer iTotalSz            ! File size in MB.
+   integer filehandle          ! MPI file handle
+
+   call MPI_Info_create(info,ierr)
+
+   iTotalSz = totalSz / (1024*1024)
+   call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,   &
+                       global_size = iTotalSz)
+
+   call MPI_File_open(p % comm, fn, MPI_MODE_CREATE+MPI_MODE_RDWR, &
+                      info, filehandle, ierr)
+   ...
+
+
+Obviously, the use of the T3PIO library is the same when using MPI I/O or HDF5.
 
 
 Installing T3PIO:
@@ -105,14 +142,14 @@ Where you need to specify the four mpi compilers and where the options are:
 
    --with-phdf5=/path/to/parallel/hdf5/dir
 
-              The library does not require Parallel HDF5 but the test programs do.  Please
+              The library does not require Parallel HDF5. However, the test programs do.  Please
               set the directory to the parent directory to hdf5 is installed.  This package expects
               that the "include" and "lib" to be directly below the directory specified above.
 
    --with-node-memory=N  (where N is in MB)
 
               This is optional and avoids having the library run "free -m" to determine this quantity.
-              The size in MB and should be the size of memory on the compute nodes.
+              The size in MB. It should be the size of memory on the compute nodes.
 
 
 After configure do:
@@ -124,7 +161,7 @@ This will build and install the library and the two test programs: cubeTestHDF5,
 
 
 
-Test Programs:  cubeTestHDF5   
+Test Program (1):  cubeTestHDF5   
 ----------------------------
 
     To run the structured grid test code do the following to get help:
@@ -156,39 +193,8 @@ Test Programs:  cubeTestHDF5
    --numvar num  : number of variables 1 to 9
                    (default = 1)
   
-  Defaults are:
-     Dim is 2
-     l   is 5
-     f   is 2
-     Use HDF5 hyperslab
-     numvar is 1
 
-
- Usage: cubeTestHDF5 [options]
- options:
-   -v            : version
-   -H            : This message and quit
-   --help        : This message and quit
-   --dim num     : number of dimension (2, or 3)
-   -g num        : number of points in each direction globally
-   -l num        : number of points in each direction locally
-   -f num        : number of stripes per writer (4 default)
-   --stripes num : Allow no more than num stripes 
-                   (file system limit by default)
-   --h5chunk     : use HDF5 with chunks
-   --h5slab      : use HDF5 with slab
-   --romio       : use MPI I/O
-   --numvar num  : number of variables 1 to 9
-  
-  Defaults are:
-     Dim is 2
-     l   is 5
-     f   is 4
-     Use HDF5 hyperslab
-     numvar is 4
-
-
-Test Program: unstructTestHDF5
+Test Program (2) : unstructTestHDF5
 ------------------------------
 
     To run the unstructured grid test code do the following to get help:
