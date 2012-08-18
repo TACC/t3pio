@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <unistd.h>
 #include "cmdLineOptions.h"
 #include "parallel.h"
 #include "h5test.h"

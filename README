@@ -86,7 +86,7 @@ Installing T3PIO:
 
 The library can downloaded from github
 
-git clone git://github.com/TACC/t3pio.git
+   $ git clone git://github.com/TACC/t3pio.git
 
 
 
@@ -94,9 +94,9 @@ git clone git://github.com/TACC/t3pio.git
 
 To configure the package do:
 
-FC=mpif90 F77=mpif77 CC=mpicc CXX=mpicxx ./configure [options]
+   $ FC=mpif90 F77=mpif77 CC=mpicc CXX=mpicxx ./configure [options]
 
-Where options are:
+Where you need to specify the four mpi compilers and where the options are:
 
    --prefix=/path/to/install/dir
 
@@ -119,7 +119,7 @@ After configure do:
 
   $ make; make install
 
-This will install the library and the two test programs: cubeTestHDF5, unstructTestHDF5
+This will build and install the library and the two test programs: cubeTestHDF5, unstructTestHDF5
 
 
 
