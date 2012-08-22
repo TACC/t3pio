@@ -34,16 +34,11 @@ IFS='
 for i in $AX_lustre_df; do
   j=$((j+1))
 
-  if test x$parseNextLine = x1 ; then
-    parseNextLine=0
-    dir=$(expr $i : '.* \(/.*\)$')
-    AX_lustreDir="$dir:$AX_lustreDir"    
-  fi
-
   case "$i" in
-    *o2ib*)
-      parseNextLine=1
-      ;;
+    *type *lustre)
+       dir=$(expr $i : '.* on \(/[^ ][^ ]*\) '
+       AX_lustreDir="$dir:$AX_lustreDir"
+       ;;
   esac
 done
 
