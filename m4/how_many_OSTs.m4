@@ -36,7 +36,7 @@ for i in $AX_lustre_df; do
 
   case "$i" in
     "*type *lustre" )
-       dir=$(expr $i : '.* on \(/[^ ][^ ]*\) '
+       dir=$(expr $i : '.* on \(/@<:@^ @:>@@<:@^ @:>@*\) '
        AX_lustreDir="$dir:$AX_lustreDir"
        ;;
   esac
