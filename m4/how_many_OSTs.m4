@@ -34,7 +34,7 @@ for i in $AX_lustre_mount; do
   j=$((j+1))
 
   case "$i" in
-    *type\ *lustre )
+    *type\ *lustre* )
        dir=$(expr "$i" : '.* on \(/@<:@^ @:>@@<:@^ @:>@*\) ')
        AX_lustreDir="$dir:$AX_lustreDir"
        ;;
