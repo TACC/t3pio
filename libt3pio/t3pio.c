@@ -80,7 +80,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   else
     {
       int maxWritersPer = min(t3.numCoresPer, t3.maxCoresPer/2)
-      int maxPossible  = t3pio_maxStripes(comm, myProc, dir);
+      int maxPossible   = t3pio_maxStripes(comm, myProc, dir);
 
       /* No more than 2/3 of the max stripes possible */
       t3.numStripes    = maxPossible*2/3;  
