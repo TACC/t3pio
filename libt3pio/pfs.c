@@ -69,7 +69,7 @@ int t3pio_maxStripesPossible(int stripes)
 }
 
 
-int t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCoresPer, int* numCoresMax)
+void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCoresPer, int* numCoresMax)
 {
   int ierr, iproc, icore;
   struct utsname u;
