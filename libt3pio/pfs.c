@@ -152,9 +152,9 @@ int t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCore
         }
     }
   ierr = MPI_Bcast(&nCoreMax, 1, MPI_INTEGER, 0, comm);
-#endif
+#endif  /* __linux__ */
   *numCoresMax = nCoresMax;
-#endif
+#endif /* NUMCORES */
 }
 
 int t3pio_asklustre(MPI_Comm comm, int myProc, const char* dir)

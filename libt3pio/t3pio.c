@@ -51,15 +51,15 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     }
   va_end(ap);
 
-  /* Set factor to 2 unless the user specified something different*/
+  /* Set factor to 1 unless the user specified something different*/
   if (t3.factor < 0 || t3.factor > 4)
-    t3.factor = 2;
+    t3.factor = 1;
 
   MPI_Comm_rank(comm, &myProc);
   MPI_Comm_size(comm, &nProcs);
   
   t3.nodeMem    = t3pio_nodeMemory(comm, myProc);
-  t3.numNodes   = t3pio_numComputerNodes(comm, nProcs, &t3.numNodes, &t3.numCoresPer, &t3.numCoresMax);
+  t3.numNodes   = t3pio_numComputerNodes(comm, nProcs, &t3.numNodes, &t3.numCoresPer, &t3.maxCoresPer);
   t3.stripeSz   = 1024 * 1024;
 
   
@@ -79,22 +79,19 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
           
   else
     {
-      int maxPossible = t3pio_maxStripes(comm, myProc, dir);
-      t3.numStripes   = maxPossible;
-      
-      
+      int maxWritersPer = min(t3.numCoresPer, t3.maxCoresPer/2)
+      int maxPossible  = t3pio_maxStripes(comm, myProc, dir);
 
-      
-      if (t3.numNodes * t3.factor < t3.numStripes)
-        t3.numStripes = t3.numNodes*t3.factor;
+      /* No more than 2/3 of the max stripes possible */
+      t3.numStripes    = maxPossible*2/3;  
 
+      /* No more than maxWriters per node*/
+      t3.numStripes    = min(t3.numStripes, t3.factor*t3.numNodes*maxWritersPer);
+      
       if (t3.maxStripes > 0)
         {
-          t3.maxStripes = min(maxPossible, t3.maxStripes);
-          t3.numIO      = t3.maxStripes*t3.factor;
-          if (t3.numIO > 4*t3.numNodes) t3.numIO = 4*t3.numNodes;
-          t3.numStripes = min(maxPossible, t3.numIO*t3.factor);
-          t3.numIO      = t3.numStripes/t3.factor;
+          t3.maxStripes = min(maxPossible,    t3.maxStripes);
+          t3.numStripes = min(t3.maxStripes,  t3.factor*t3.numNodes*t3.numCoresPer)
         }
     }
 
