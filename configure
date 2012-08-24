@@ -783,6 +783,7 @@ enable_libtool_lock
 with_phdf5
 with_node_memory
 with_numcores
+with_lustre
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1440,6 +1441,7 @@ Optional Packages:
  --with-phdf5            use Parallel HDF5 with test programs
  --with-node-memory      Set nodal memory in MB
  --with-numcores      The number of cores per node
+ --with-lustre      lustre filesystem string: /scratch:90:/work:30:
 
 Some influential environment variables:
   F77         Fortran 77 compiler command
@@ -23134,15 +23136,21 @@ _ACEOF
 fi
 
 
- if test x$USE_PHDF5 = x1; then
-  PHDF5_ENABLED_TRUE=
-  PHDF5_ENABLED_FALSE='#'
+# Check whether --with-lustre was given.
+if test "${with_lustre+set}" = set; then :
+  withval=$with_lustre; with_lustre=$withval
 else
-  PHDF5_ENABLED_TRUE='#'
-  PHDF5_ENABLED_FALSE=
+  with_lustre=no
 fi
 
+if test x$with_lustre != xno; then
+   AX_LUSTRE_FS=$with_lustre
 
+cat >>confdefs.h <<_ACEOF
+#define AX_LUSTRE_FS $with_lustre
+_ACEOF
+
+else
 
 OLDIFS=$IFS
 AX_OST_NUMBER=0
@@ -23212,6 +23220,18 @@ cat >>confdefs.h <<_ACEOF
 #define AX_LUSTRE_FS "$my_cv_lustre_fs"
 _ACEOF
 
+
+
+fi
+
+
+ if test x$USE_PHDF5 = x1; then
+  PHDF5_ENABLED_TRUE=
+  PHDF5_ENABLED_FALSE='#'
+else
+  PHDF5_ENABLED_TRUE='#'
+  PHDF5_ENABLED_FALSE=
+fi
 
 
 
