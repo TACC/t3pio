@@ -75,6 +75,9 @@
 /* nodal memory size in MB */
 #undef MEMSIZE
 
+/* The number of cores per node */
+#undef NUMCORES
+
 /* Name of package */
 #undef PACKAGE
 

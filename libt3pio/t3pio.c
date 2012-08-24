@@ -19,6 +19,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   int     nProcs, myProc;
   char    buf[128];
   int     remoteFile = 0;
+  int     nWriterPerNode;
 
   T3PIO_results_t *results = NULL;
 
@@ -58,8 +59,10 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   MPI_Comm_size(comm, &nProcs);
   
   t3.nodeMem    = t3pio_nodeMemory(comm, myProc);
-  t3.numNodes   = t3pio_numComputerNodes(comm, nProcs);
+  t3.numNodes   = t3pio_numComputerNodes(comm, nProcs, &t3.numNodes, &t3.numCoresPer);
   t3.stripeSz   = 1024 * 1024;
+
+  
 
   if (t3.fn && t3.fn[0])
     {
@@ -78,6 +81,8 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     {
       int maxPossible = t3pio_maxStripes(comm, myProc, dir);
       t3.numStripes   = maxPossible;
+      
+      
       if (t3.numNodes * t3.factor < t3.numStripes)
         t3.numStripes = t3.numNodes*t3.factor;
 

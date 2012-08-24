@@ -782,6 +782,7 @@ with_sysroot
 enable_libtool_lock
 with_phdf5
 with_node_memory
+with_numcores
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1438,6 +1439,7 @@ Optional Packages:
                         (or the compiler's sysroot if not specified).
  --with-phdf5            use Parallel HDF5 with test programs
  --with-node-memory      Set nodal memory in MB
+ --with-numcores      The number of cores per node
 
 Some influential environment variables:
   F77         Fortran 77 compiler command
@@ -23115,6 +23117,23 @@ _ACEOF
 fi
 
 
+# Check whether --with-numcores was given.
+if test "${with_numcores+set}" = set; then :
+  withval=$with_numcores; with_numcores=$withval
+else
+  with_numcores=no
+fi
+
+if test x$with_numcores != xno; then
+   MEMSIZE=$with_numcores
+
+cat >>confdefs.h <<_ACEOF
+#define NUMCORES $with_numcores
+_ACEOF
+
+fi
+
+
  if test x$USE_PHDF5 = x1; then
   PHDF5_ENABLED_TRUE=
   PHDF5_ENABLED_FALSE='#'
@@ -26437,6 +26456,7 @@ echo Build architecture............ : $BUILD_ARCH
 echo Program Version............... : $BUILD_VERSION
 echo Lustre Filesystems............ : $AX_LUSTRE_FS
 echo Nodal Memory Size in MB....... : $MEMSIZE
+echo Number of cores per node...... : $NUMCORES
 
 echo
 echo Optional Features:

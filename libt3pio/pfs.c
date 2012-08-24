@@ -69,21 +69,16 @@ int t3pio_maxStripesPossible(int stripes)
 }
 
 
-int t3pio_numComputerNodes(MPI_Comm comm, int nProc)
+int t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCoresPer, int* numCoresMax)
 {
-  static int numNodes = 0;
   int ierr, iproc, icore;
   struct utsname u;
   char * hostNm;
   char * hostNmBuf;
   char ** hostNmA;
   char * p;
-  int nlenL, nlen;
-
-
-  if (numNodes != 0)
-    return numNodes;
-
+  int nlenL, nlen, nCores;
+  int nNodes, nCoresMax, myProc;
 
   uname(&u);
   nlenL = strlen(u.nodename);
@@ -108,21 +103,57 @@ int t3pio_numComputerNodes(MPI_Comm comm, int nProc)
   
 
   qsort (hostNmA, nProc, sizeof (const char *), t3pio_compare);
-  numNodes = 1;
-  p        = hostNmA[0];
+  nNodes    = 1;
+  p         = hostNmA[0];
+  nCores    = 1;
+  nCoresMax = 0;
+
 
   for (iproc = 1; iproc < nProc; ++iproc)
     {
-      if (strcmp(hostNmA[iproc], p) != 0)
+      if (strcmp(hostNmA[iproc], p) == 0)
+        nCores++;
+      else
         {
-          numNodes++;
+          if (nCores > nCoresMax)
+            nCoresMax = nCores;
+          nNodes++;
           p = hostNmA[iproc];
+          nCores = 0;
         }
     }
   free(hostNm);
   free(hostNmBuf);
   free(hostNmA);
-  return numNodes;
+  *numCoresPer = nCoresMax;
+  *numNodes    = nNodes;
+
+#ifdef NUMCORES
+  *numCoresMax = NUMCORES;
+#else
+#ifdef __linux__
+  MPI_Comm_rank(comm, &myProc);
+  if (myProc == 0)
+    {
+      char buffer[MAXLINE];
+      FILE* fp = fopen("/proc/cpuinfo","r");
+      char* eof;
+      
+      while( (eof = fgets(&buffer[0], MAXLINE, fp)) != 0)
+        {
+          if (strncasecmp(&buffer[0],"processor", 9) == 0)
+            {
+              char* p = strchr(&buffer[0], ':');
+              if (p == NULL)
+                continue;
+              ++p;
+              nCoresMax = (int) strtol(p, (char**) NULL, 10);
+            }
+        }
+    }
+  ierr = MPI_Bcast(&nCoreMax, 1, MPI_INTEGER, 0, comm);
+  *numCoresMax = nCoresMax;
+#endif
 }
 
 int t3pio_asklustre(MPI_Comm comm, int myProc, const char* dir)

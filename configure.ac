@@ -47,6 +47,13 @@ if test x$with_node_memory != xno; then
    AC_DEFINE_UNQUOTED(MEMSIZE, $MEMSIZE, [nodal memory size in MB])
 fi
 
+AC_ARG_WITH(numcores, [ --with-numcores      The number of cores per node],
+with_numcores=$withval, with_numcores=no)
+if test x$with_numcores != xno; then
+   MEMSIZE=$with_numcores
+   AC_DEFINE_UNQUOTED(NUMCORES, $with_numcores, [The number of cores per node])
+fi
+
 
 AM_CONDITIONAL(PHDF5_ENABLED, test x$USE_PHDF5 = x1)
 

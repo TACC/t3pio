@@ -33,6 +33,7 @@ echo Build architecture............ : $BUILD_ARCH
 echo Program Version............... : $BUILD_VERSION
 echo Lustre Filesystems............ : $AX_LUSTRE_FS
 echo Nodal Memory Size in MB....... : $MEMSIZE
+echo Number of cores per node...... : $NUMCORES
 
 echo
 echo Optional Features:
