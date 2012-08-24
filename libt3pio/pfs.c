@@ -152,6 +152,7 @@ int t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCore
         }
     }
   ierr = MPI_Bcast(&nCoreMax, 1, MPI_INTEGER, 0, comm);
+#endif
   *numCoresMax = nCoresMax;
 #endif
 }

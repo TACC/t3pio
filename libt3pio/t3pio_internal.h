@@ -9,6 +9,7 @@ typedef struct
   int factor;
   int numNodes;
   int numCoresPer;
+  int numCoresMax;
   int numIO;
   int numStripes;
   int nodeMem;
