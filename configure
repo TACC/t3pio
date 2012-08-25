@@ -23127,7 +23127,7 @@ else
 fi
 
 if test x$with_numcores != xno; then
-   MEMSIZE=$with_numcores
+   NUMCORES=$with_numcores
 
 cat >>confdefs.h <<_ACEOF
 #define NUMCORES $with_numcores

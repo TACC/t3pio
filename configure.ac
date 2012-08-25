@@ -50,7 +50,7 @@ fi
 AC_ARG_WITH(numcores, [ --with-numcores      The number of cores per node],
 with_numcores=$withval, with_numcores=no)
 if test x$with_numcores != xno; then
-   MEMSIZE=$with_numcores
+   NUMCORES=$with_numcores
    AC_DEFINE_UNQUOTED(NUMCORES, $with_numcores, [The number of cores per node])
 fi
 
