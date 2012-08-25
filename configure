@@ -23127,7 +23127,7 @@ else
 fi
 
 if test x$with_numcores != xno; then
-   MEMSIZE=$with_numcores
+   NUMCORES=$with_numcores
 
 cat >>confdefs.h <<_ACEOF
 #define NUMCORES $with_numcores
@@ -23147,7 +23147,7 @@ if test x$with_lustre != xno; then
    AX_LUSTRE_FS=$with_lustre
 
 cat >>confdefs.h <<_ACEOF
-#define AX_LUSTRE_FS $with_lustre
+#define AX_LUSTRE_FS "$with_lustre"
 _ACEOF
 
 else

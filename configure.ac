@@ -50,7 +50,7 @@ fi
 AC_ARG_WITH(numcores, [ --with-numcores      The number of cores per node],
 with_numcores=$withval, with_numcores=no)
 if test x$with_numcores != xno; then
-   MEMSIZE=$with_numcores
+   NUMCORES=$with_numcores
    AC_DEFINE_UNQUOTED(NUMCORES, $with_numcores, [The number of cores per node])
 fi
 
@@ -58,7 +58,7 @@ AC_ARG_WITH(lustre, [ --with-lustre      lustre filesystem string: /scratch:90:/
 with_lustre=$withval, with_lustre=no)
 if test x$with_lustre != xno; then
    AX_LUSTRE_FS=$with_lustre
-   AC_DEFINE_UNQUOTED(AX_LUSTRE_FS, $with_lustre, [the lustre file string])
+   AC_DEFINE_UNQUOTED([AX_LUSTRE_FS], "$with_lustre", [A colon string of file system names and OSTs])
 else
   AX_HOW_MANY_OSTs
 fi
