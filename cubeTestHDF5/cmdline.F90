@@ -32,7 +32,7 @@ contains
    Numvar      = 1
    Stripes     = 0
    nDim        = 2
-   Factor      = 2
+   Factor      = 1
    LocalSz     = 5
    GblSz       = 0
    VersionFlag = .false.

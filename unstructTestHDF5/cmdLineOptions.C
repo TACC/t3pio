@@ -42,7 +42,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   localSz        = 10;
   h5chunk        = false;
   h5slab         = false;
-  factor         = 2;
+  factor         = 1;
   stripes        = -1;
   h5style        = "h5slab";
   luaStyleOutput = false;
