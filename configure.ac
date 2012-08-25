@@ -54,10 +54,18 @@ if test x$with_numcores != xno; then
    AC_DEFINE_UNQUOTED(NUMCORES, $with_numcores, [The number of cores per node])
 fi
 
+AC_ARG_WITH(lustre, [ --with-lustre      lustre filesystem string: /scratch:90:/work:30:],
+with_lustre=$withval, with_lustre=no)
+if test x$with_lustre != xno; then
+   AX_LUSTRE_FS=$with_lustre
+   AC_DEFINE_UNQUOTED(AX_LUSTRE_FS, $with_lustre, [the lustre file string])
+else
+  AX_HOW_MANY_OSTs
+fi
+
 
 AM_CONDITIONAL(PHDF5_ENABLED, test x$USE_PHDF5 = x1)
 
-AX_HOW_MANY_OSTs
 
 AC_OUTPUT([Makefile
            libt3pio/Makefile
