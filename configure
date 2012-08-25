@@ -23147,7 +23147,7 @@ if test x$with_lustre != xno; then
    AX_LUSTRE_FS=$with_lustre
 
 cat >>confdefs.h <<_ACEOF
-#define AX_LUSTRE_FS $with_lustre
+#define AX_LUSTRE_FS "$with_lustre"
 _ACEOF
 
 else
