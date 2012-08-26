@@ -61,6 +61,7 @@ subroutine outputResults(wrtStyle, local)
    type(grid_t) :: local
    character(*) :: wrtStyle
    
+   fileSz = totalSz /(1024*1024*1024)
    if (LuaOutput) then
       print 1000, p % nProcs, local % num(1), Numvar, trim(wrtStyle), Factor, nIOUnits,  &
            nStripes, stripeSize/(1024*1024), fileSz, t, rate
