@@ -11,15 +11,16 @@ public:
   ~H5() {}
   void writer(CmdLineOptions& cmd);
   void add_attribute(hid_t id, const char* descript, const char* value);
-  double rate()       { return m_rate;}
-  double time()       { return m_t;}
-  double totalSz()    { return m_totalSz;}
-  int    nStripes()   { return m_nStripes;}
-  int    nIOUnits()   { return m_nIOUnits;}
-  int    factor()     { return m_factor;}
-  int    numvar()     { return m_numvar;}
-  int    stripeSz()   { return m_stripeSz;}
-  int    stripeSzMB() { return m_stripeSz/(1024*1024);}
+  double rate()        { return m_rate;}
+  double time()        { return m_t;}
+  double totalSz()     { return m_totalSz;}
+  int    nStripes()    { return m_nStripes;}
+  int    nIOUnits()    { return m_nIOUnits;}
+  int    factor()      { return m_factor;}
+  int    numvar()      { return m_numvar;}
+  int    stripeSz()    { return m_stripeSz;}
+  int    nWritersPer() { return m_nWritersPer; }
+  int    stripeSzMB()  { return m_stripeSz/(1024*1024);}
 
 private:
   double m_t;
@@ -30,6 +31,7 @@ private:
   int    m_factor;
   int    m_stripeSz;
   int    m_numvar;
+  int    m_nWritersPer;
 };
 
 #endif // H5WRITER_H

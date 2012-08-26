@@ -21,6 +21,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   char    buf[128];
   int     remoteFile    = 0;
   int     maxWritersPer = INT_MAX;
+  int*    pNodes;
 
   T3PIO_results_t *results = NULL;
 
@@ -41,6 +42,9 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
           break;
         case T3PIO_FACTOR:
           t3.factor = va_arg(ap,int);
+          break;
+        case T3PIO_NUM_NODES:
+          pNodes = va_arg(ap, int*);
           break;
         case T3PIO_MAX_WRITER_PER_NODE:
           maxWritersPer= va_arg(ap,int);
@@ -69,7 +73,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   t3pio_numComputerNodes(comm, nProcs, &t3.numNodes, &t3.numCoresPer, &t3.maxCoresPer);
   t3.nodeMem    = t3pio_nodeMemory(comm, myProc);
   t3.stripeSz   = 1024 * 1024;
-
+  *pNodes       = t3.numNodes;
   
 
   if (t3.fn && t3.fn[0])
@@ -149,7 +153,8 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
           else if (strcmp("striping_factor", key) == 0) sscanf(value, "%d", &(*results).numStripes);
           else if (strcmp("striping_unit",   key) == 0) sscanf(value, "%d", &(*results).stripeSize);
         }
-      results->factor = results->numStripes/results->numIO;
+      results->factor      = results->numStripes/results->numIO;
+      results->nWritersPer = max(results->numIO/t3.numNodes, 1);
     }
 
   return ierr;

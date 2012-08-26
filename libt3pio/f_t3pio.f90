@@ -7,6 +7,7 @@ module t3pio
       integer :: numStripes  ! The number of stripes
       integer :: factor      ! numStripes/numIO
       integer :: stripeSize  ! stripe size in bytes
+      integer :: nWritersPer ! number of writers per node.
    end type T3PIO_Results_t
 
 
@@ -26,6 +27,7 @@ contains
       character(PATHMAX)              :: usrFile
       character(256)                  :: key, value
       integer                         :: len, valuelen, myProc, maxWritersPer
+      integer                         :: nNodes
       logical                         :: flag
       integer                         :: gblSz, maxStripes, f
       type(T3PIO_Results_t), optional :: results
@@ -50,7 +52,7 @@ contains
       len     = len_trim(usrFile)+1
       usrFile = usrFile(1:len-1) // CHAR(0)
 
-      ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, f, usrFile, maxWritersPer)
+      ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, f, usrFile, maxWritersPer, nNodes)
       
       if (present(results)) then
          call MPI_Info_get_nkeys(info, nkeys, ierr)
@@ -69,7 +71,8 @@ contains
             end if
          end do
 
-         results % factor = results % numStripes / results % numIO
+         results % factor      = results % numStripes / results % numIO
+         results % nWritersPer = max(results % numIO /nNodes,1)
       end if
 
    end subroutine t3pio_set_info
