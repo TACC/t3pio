@@ -793,8 +793,7 @@ gittag:
 	  else                                                                         \
 	    $(RM)                                                      $(VERSION_SRC); \
 	    echo $(TAG)                                             >  $(VERSION_SRC); \
-	    perl -p -i -e                                                              \
-               's/AC_INIT(\[t3pio\],\[.*\],[mclay@tacc\.utexas\.edu])/AC_INIT(\[t3pio\],\[$(TAG)\],[mclay@tacc\.utexas\.edu])' configure.ac; \
+	    perl -p -i -e 's/AC_INIT(\[t3pio\],\[.*\],[mclay@tacc\.utexas\.edu])/AC_INIT(\[t3pio\],\[$(TAG)\],[mclay@tacc\.utexas\.edu])/' configure.ac; \
             autoreconf;                                                                \
             #git commit -m "moving to TAG_VERSION $(TAG)"               $(VERSION_SRC); \
             #git tag -a $(TAG) -m 'Setting TAG_VERSION to $(TAG)'                     ; \
