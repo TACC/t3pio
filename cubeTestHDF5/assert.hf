@@ -1,7 +1,7 @@
 #ifndef ASSERT_HF
 #define ASSERT_HF
 
-#if (defined(__GFORTRAN__) || defined(__G95__) || defined (__PGI) )
+#if (defined(__GFORTRAN__) || defined(__G95__) || defined (__PGI) || defined (__CRAYFTN) )
 #   define MKSTR(x) "x"
 #else
 #   define MKSTR(x) #x
