@@ -4,7 +4,7 @@ dnl ######################################################################
 dnl Process this file with autoconf to produce a configure script.
 dnl This is for MGF
 AC_PREREQ([2.69])
-AC_INIT([t3pio],[1.0],[mclay@tacc.utexas.edu])
+AC_INIT([t3pio],[1.1.3],[mclay@tacc.utexas.edu])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADER(config.h)
@@ -50,14 +50,22 @@ fi
 AC_ARG_WITH(numcores, [ --with-numcores      The number of cores per node],
 with_numcores=$withval, with_numcores=no)
 if test x$with_numcores != xno; then
-   MEMSIZE=$with_numcores
+   NUMCORES=$with_numcores
    AC_DEFINE_UNQUOTED(NUMCORES, $with_numcores, [The number of cores per node])
+fi
+
+AC_ARG_WITH(lustre, [ --with-lustre      lustre filesystem string: /scratch:90:/work:30:],
+with_lustre=$withval, with_lustre=no)
+if test x$with_lustre != xno; then
+   AX_LUSTRE_FS=$with_lustre
+   AC_DEFINE_UNQUOTED([AX_LUSTRE_FS], "$with_lustre", [A colon string of file system names and OSTs])
+else
+  AX_HOW_MANY_OSTs
 fi
 
 
 AM_CONDITIONAL(PHDF5_ENABLED, test x$USE_PHDF5 = x1)
 
-AX_HOW_MANY_OSTs
 
 AC_OUTPUT([Makefile
            libt3pio/Makefile

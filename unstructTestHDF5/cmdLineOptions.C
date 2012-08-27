@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "cmdLineOptions.h"
@@ -26,6 +27,7 @@ void printUsage(const char* execName)
               << " -l num        : local size is num (default=10)\n"
               << " -f factor     : number of stripes per writer (default=2)\n"
               << " -s num        : maximum number of stripes\n"
+              << " -w num        : maximum number of writers per node\n"
               << std::endl;
 }
 
@@ -37,17 +39,18 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   int  opt;
   bool version, help, illegal;
 
+  maxWritersPer  = INT_MAX;
   version        = false;
   help           = false;
   localSz        = 10;
   h5chunk        = false;
   h5slab         = false;
-  factor         = 2;
+  factor         = 1;
   stripes        = -1;
   h5style        = "h5slab";
   luaStyleOutput = false;
 
-  while ( (opt = getopt(argc, argv, "s:hCSLf:l:?v")) != -1)
+  while ( (opt = getopt(argc, argv, "s:hCSLf:w:l:?v")) != -1)
     {
       switch (opt)
         {
@@ -72,6 +75,9 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           break;
         case 'l':
           localSz = strtol(optarg, (char **) NULL, 10);
+          break;
+        case 'w':
+          maxWritersPer = strtol(optarg, (char **) NULL, 10);
           break;
         case 'S':
           h5slab = true;

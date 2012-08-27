@@ -5,7 +5,7 @@ SUBDIRS = .
 all-local: Makefile.dep1 
 
 
-AM_FCFLAGS = -I $(top_srcdir)/libt3pio 
+AM_FCFLAGS = -I ../libt3pio 
 AM_CFLAGS  = 
 AM_LIBTOOLFLAGS = 
 
@@ -18,8 +18,8 @@ c_sources                  := measure.c
 
 cubeTestHDF5_SOURCES       := $(fc_sources) $(c_sources)
 cubeTestHDF5_FFLAGS        := -I$(top_srcdir)/include
-cubeTestHDF5_DEPENDENCIES  := $(top_srcdir)/libt3pio/libt3pio.la
-cubeTestHDF5_LDADD         := -L$(top_srcdir)/libt3pio -lt3pio
+cubeTestHDF5_DEPENDENCIES  := ../libt3pio/libt3pio.la
+cubeTestHDF5_LDADD         := -L../libt3pio -lt3pio
 cubeTestHDF5_LDFLAGS       := -Wl,-rpath,$(PHDF5_DIR)/lib 
 
 standalonedir               = @prefix@/bin

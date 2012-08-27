@@ -74,16 +74,18 @@ void H5::writer(CmdLineOptions& cmd)
 
   T3PIO_results_t results;
   int ierr = t3pio_set_info(P.comm, info, "./",
-                            T3PIO_GLOBAL_SIZE, m_totalSz,
-                            T3PIO_MAX_STRIPES, cmd.stripes,
-                            T3PIO_FACTOR,      cmd.factor,
-                            T3PIO_RESULTS,     &results);
+                            T3PIO_GLOBAL_SIZE,         m_totalSz,
+                            T3PIO_MAX_STRIPES,         cmd.stripes,
+                            T3PIO_MAX_WRITER_PER_NODE, cmd.maxWritersPer,
+                            T3PIO_FACTOR,              cmd.factor,
+                            T3PIO_RESULTS,             &results);
   
 
-  m_factor   = results.factor;
-  m_nStripes = results.numStripes;
-  m_nIOUnits = results.numIO;
-  m_stripeSz = results.stripeSize;
+  m_factor      = results.factor;
+  m_nStripes    = results.numStripes;
+  m_nIOUnits    = results.numIO;
+  m_stripeSz    = results.stripeSize;
+  m_nWritersPer = results.nWritersPer;
 
   plist_id = H5Pcreate(H5P_FILE_ACCESS);
   H5Pset_fapl_mpio(plist_id, P.comm, info);

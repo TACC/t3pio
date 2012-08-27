@@ -13,7 +13,7 @@ module writer
    use t3pio
    implicit none 
    real(8)          :: t1, t2
-   integer          :: nIOUnits, nStripes, stripeSize
+   integer          :: nIOUnits, nStripes, stripeSize, nWritersPer
    character(80)    :: fn
    character(256)   :: buffer
    integer          :: lSz
@@ -101,15 +101,17 @@ contains
       ASSERT(ierr == 0, "MPI_Info_create")
 
 
-      call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,   &
-                          global_size = iTotalSz,             &
-                          factor      = Factor,               &
-                          max_stripes = Stripes,              &
-                          results     = results )
-      nIOUnits   = results % numIO
-      nStripes   = results % numStripes
-      stripeSize = results % stripeSize
-      Factor     = results % factor
+      call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
+                          global_size          = iTotalSz,      &
+                          factor               = Factor,        &
+                          max_stripes          = Stripes,       &
+                          max_writers_per_node = MaxWritersPer, &
+                          results              = results )
+      nIOUnits    = results % numIO
+      nStripes    = results % numStripes
+      stripeSize  = results % stripeSize
+      Factor      = results % factor
+      nWritersPer = results % nWritersPer
 
       !
       ! (1) Initialize FORTRAN predefined datatypes
@@ -301,16 +303,18 @@ contains
       ASSERT(ierr == 0, "MPI_Info_create")
 
       iTotalSz = totalSz / (1024*1024)
-      call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,   &
-                          global_size = iTotalSz,             &
-                          factor      = Factor,               &
-                          max_stripes = Stripes,              &
-                          results     = results )
+      call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
+                          global_size          = iTotalSz,      &
+                          max_writers_per_node = MaxWritersPer, &
+                          factor               = Factor,        &
+                          max_stripes          = Stripes,       &
+                          results              = results )
 
-      nIOUnits   = results % numIO
-      nStripes   = results % numStripes
-      stripeSize = results % stripeSize
-      Factor     = results % factor
+      nIOUnits    = results % numIO
+      nStripes    = results % numStripes
+      stripeSize  = results % stripeSize
+      Factor      = results % factor
+      nWritersPer = results % nWritersPer
 
       call MPI_File_open(p % comm, fn, MPI_MODE_CREATE+MPI_MODE_RDWR, info, filehandle, ierr)
       ASSERT(ierr == 0, "MPI_File_open")
