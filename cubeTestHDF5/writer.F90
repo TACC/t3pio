@@ -4,7 +4,6 @@
 #define FILE_NAME "myfile"
 module writer
    use grid
-   use mpi
    use parallel
    use cmdline
 #ifdef USE_HDF5
@@ -12,6 +11,7 @@ module writer
 #endif
    use t3pio
    implicit none 
+   include 'mpif.h'
    real(8)          :: t1, t2
    integer          :: nIOUnits, nStripes, stripeSize, nWritersPer
    character(80)    :: fn

@@ -2,12 +2,12 @@
 #include "assert.hf"
 #include "top.hf"
 program main
-   use mpi
    use parallel
    use grid
    use cmdline
    use writer
    implicit none
+   include 'mpif.h'
    integer       :: i, j, k, ii, jj, ierr
    character(7)  :: wrtStyle
 
@@ -50,7 +50,6 @@ end program main
 
 subroutine outputResults(wrtStyle, local)
 
-   use mpi
    use parallel
    use grid
    use cmdline
