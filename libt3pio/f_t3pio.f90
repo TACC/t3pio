@@ -1,7 +1,5 @@
 module t3pio
 
-   use mpi
-
    type T3PIO_Results_t
       integer :: numIO       ! The number of readers/writers
       integer :: numStripes  ! The number of stripes
@@ -15,6 +13,8 @@ contains
    subroutine t3pio_set_info(comm, info, dirIn, ierr,       &
       global_size, max_stripes, factor, file, results)
 
+      implicit none
+      include 'mpif.h'
       integer, parameter              :: PATHMAX = 2048
       integer                         :: comm, info, ierr
       character(*)                    :: dirIn
