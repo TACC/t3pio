@@ -9,6 +9,7 @@ module cmdline
    integer :: LocalSz       ! local size
    integer :: GblSz         ! Global size
    integer :: Numvar        ! number of variables
+   integer :: MaxWritersPer ! the max number of writers per node.
    logical :: VersionFlag   ! if true then report version and quit.
    logical :: HelpFlag      ! if true then print usage and quit
    logical :: HDF5Flag      ! if true then use HDF5 instead of MPI I/O
@@ -29,23 +30,25 @@ contains
 
    count = iargc()
 
-   Numvar      = 1
-   Stripes     = 0
-   nDim        = 2
-   Factor      = 1
-   LocalSz     = 5
-   GblSz       = 0
-   VersionFlag = .false.
-   HelpFlag    = .false.
-   ROMIO       = .true.
-   HDF5Flag    = .false.
-   LuaOutput   = .false.
+   
+   MaxWritersPer = huge(MaxWritersPer)
+   Numvar        = 1
+   Stripes       = 0
+   nDim          = 2
+   Factor        = 1
+   LocalSz       = 5
+   GblSz         = 0
+   VersionFlag   = .false.
+   HelpFlag      = .false.
+   ROMIO         = .true.
+   HDF5Flag      = .false.
+   LuaOutput     = .false.
 
 #ifdef USE_HDF5
-   ROMIO       = .false.
-   H5chunk     = .false.
-   H5slab      = .true.
-   HDF5Flag    = .true.
+   ROMIO         = .false.
+   H5chunk       = .false.
+   H5slab        = .true.
+   HDF5Flag      = .true.
 #endif
 
    i = 0
@@ -72,6 +75,10 @@ contains
          read(arg,*) nDim
       elseif (arg == "--lua") then
          LuaOutput = .true.
+      elseif (arg == "--mwriters") then
+         i = i + 1
+         call getarg(i,arg)
+         read(arg,*) MaxWritersPer
       elseif (arg == "--numvar") then
          i = i + 1
          call getarg(i,arg)
@@ -115,23 +122,24 @@ end subroutine parse
 
       print *, "Usage: cubeTestHDF5 [options]"
       print *, "options:"
-      print *, "  -v            : version"
-      print *, "  -H            : This message and quit"
-      print *, "  --help        : This message and quit"
-      print *, "  --dim num     : number of dimension (2, or 3)"
-      print *, "  -g num        : number of points in each direction globally"
-      print *, "                  (no default)"
-      print *, "  -l num        : number of points in each direction locally"
-      print *, "                  (default = 5)"
-      print *, "  -f num        : number of stripes per writer"
-      print *, "                  (default = 2)"
-      print *, "  --stripes num : Allow no more than num stripes "
-      print *, "                  (file system limit by default)"
-      print *, "  --h5chunk     : use HDF5 with chunks"
-      print *, "  --h5slab      : use HDF5 with slab"
-      print *, "                  (default)"
-      print *, "  --romio       : use MPI I/O"
-      print *, "  --numvar num  : number of variables 1 to 9"
+      print *, "  -v             : version"
+      print *, "  -H             : This message and quit"
+      print *, "  --help         : This message and quit"
+      print *, "  --dim num      : number of dimension (2, or 3)"
+      print *, "  -g num         : number of points in each direction globally"
+      print *, "                   (no default)"
+      print *, "  -l num         : number of points in each direction locally"
+      print *, "                   (default = 5)"
+      print *, "  -f num         : number of stripes per writer"
+      print *, "                   (default = 2)"
+      print *, "  --stripes num  : Allow no more than num stripes "
+      print *, "                   (file system limit by default)"
+      print *, "  --h5chunk      : use HDF5 with chunks"
+      print *, "  --h5slab       : use HDF5 with slab"
+      print *, "                   (default)"
+      print *, "  --romio        : use MPI I/O"
+      print *, "  --numvar num   : number of variables 1 to 9"
+      print *, "  --mwriters num : the number of writers per node"
       print *, " "
       print *, " Defaults are:"
       print *, "    Dim is 2"

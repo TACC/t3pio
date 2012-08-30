@@ -42,10 +42,10 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
 
   if (cmd.luaStyleOutput)
     {
-      printf("%%%% { nprocs = %d, lSz = %d, wrtStyle = \"%s\", factor = %d, iounits = %d, "
+      printf("%%%% { nprocs = %d, lSz = %d, wrtStyle = \"%s\", factor = %d, iounits = %d, nWritersPer = %d, "
              " nstripes = %d, stripeSzMB = %d,  fileSzGB = %15.7g, time = %15.7g, rate = %15.7g }\n",
-             P.nProcs, cmd.localSz, cmd.h5style.c_str(), h5.factor(), h5.nIOUnits(), h5.nStripes(),
-             h5.stripeSzMB(), fileSz, h5.time(), h5.rate());
+             P.nProcs, cmd.localSz, cmd.h5style.c_str(), h5.factor(), h5.nIOUnits(), h5.nWritersPer(),
+             h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(), h5.rate());
     }
   else
     {
@@ -56,6 +56,7 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
              " Numvar:           %9d\n"
              " factor:           %9d\n"
              " iounits:          %9d\n"
+             " nWritersPer:      %9d\n"
              " nstripes:         %9d\n"
              " stripeSz (MB):    %9d\n"
              " fileSz (GB):      %9.3f\n"
@@ -63,8 +64,8 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
              " rate (MB/s):      %9.3f\n"
              " wrtStyle:         %9s\n",
              P.nProcs, cmd.localSz, h5.numvar(), h5.factor(), h5.nIOUnits(),
-             h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(), h5.rate(),
-             cmd.h5style.c_str());
+             h5.nWritersPer(), h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(),
+             h5.rate(), cmd.h5style.c_str());
 
     }
 

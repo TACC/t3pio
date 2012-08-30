@@ -64,14 +64,14 @@ subroutine outputResults(wrtStyle, local)
    fileSz = totalSz /(1024*1024*1024)
    if (LuaOutput) then
       print 1000, p % nProcs, local % num(1), Numvar, trim(wrtStyle), Factor, nIOUnits,  &
-           nStripes, stripeSize/(1024*1024), fileSz, t, rate
+           nWritersPer, nStripes, stripeSize/(1024*1024), fileSz, t, rate
    else
-      print 1010, p % nProcs, local % num(1), Numvar, Factor, nIOUnits,  &
+      print 1010, p % nProcs, local % num(1), Numvar, Factor, nIOUnits,  nWritersPer, &
            nStripes, stripeSize/(1024*1024), fileSz, t, rate, adjustr(trim(wrtStyle))
    end if
 
 1000 format("%% { nprocs = ",i6, ", lSz = ",i4,", numvar = ",i2,', wrtStyle = "',a,  &
-        '", factor = ',i3, ", iounits = ",i5, ", nstripes = ", i5,                 &
+        '", factor = ',i3, ", nWritersPer = ",i5, ", iounits = ",i5, ", nstripes = ", i5,                 &
         ", stripeSz = ", i10, ", fileSz = ", 1pg15.7, ", time = ", 1pg15.7,        &
         ", rate = ", 1pg15.7,"},")
 
@@ -82,6 +82,7 @@ subroutine outputResults(wrtStyle, local)
               " Numvar:        ", i7,/,   &
               " factor:        ", i7,/,   &
               " iounits:       ", i7,/,   &
+              " nWritersPer:   ", i7,/,   &
               " nstripes:      ", i7,/,   &
               " stripeSz (MB): ", i7,/,   &
               " fileSz (GB):   ", f9.3,/, &
