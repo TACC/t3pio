@@ -27,9 +27,10 @@ contains
       character(PATHMAX)              :: usrFile
       character(256)                  :: key, value
       integer                         :: len, valuelen, myProc, maxWritersPer
-      integer                         :: nNodes
+      integer                         :: nNodes, nkeys
       logical                         :: flag
       integer                         :: gblSz, maxStripes, f
+      integer                         :: t3piointernal
       type(T3PIO_Results_t), optional :: results
 
 
