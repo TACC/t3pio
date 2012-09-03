@@ -42,7 +42,8 @@ cubeTestHDF5/writer.F90 (lines 52-140):
    integer globalSize          ! Estimate of GlobalSize of file in (MB)
    integer info                ! MPI Info object
    integer comm                ! MPI Communicator
-   integer(hid_t) :: plist_id  ! Property list identifier
+   integer(hid_t)  :: plist_id ! Property list identifier
+   character*(256) :: dir      ! directory of output file
    ...
 
    comm = MPI_COMM_WORLD
@@ -51,7 +52,8 @@ cubeTestHDF5/writer.F90 (lines 52-140):
    call MPI_Info_create(info, ierr)
 
    ! use library to fill info with nwriters, stripe
-   call t3pio_set_info(comm, info, "./", ierr,   &         ! <--- T3PIO library call
+   dir = "./"
+   call t3pio_set_info(comm, info, dir, ierr,   &         ! <--- T3PIO library call
                        GLOBAL_SIZE=globalSize)
    call H5open_f(ierr)
    call H5Pcreate_f(H5P_FILE_ACCESS_F,plist_id,ierr)
@@ -75,11 +77,13 @@ unstructTestHDF5/h5writer.C (lines 71-95))
    void hdf5_writer(....)
    {
      MPI_Info info      = MPI_INFO_NULL; 
-     hid_t    plist_id;
+     const char *dir;
+     hid_t      plist_id;
      ...
 
      MPI_Info_create(&info);
-     ierr = t3pio_set_info(comm, info, "./",          /* <-- T3PIO call */   
+     dir  = "./";
+     ierr = t3pio_set_info(comm, info, dir,          /* <-- T3PIO call */   
                      T3PIO_GLOBAL_SIZE, globalSize);
      plist_id = H5Pcreate(H5P_FILE_ACCESS);
      ierr     = H5Pset_fapl_mpio(plist_id, comm, info);
@@ -103,11 +107,13 @@ it would look like (see writer.F90 lines 300-317):
    integer comm                ! MPI Communicator
    integer iTotalSz            ! File size in MB.
    integer filehandle          ! MPI file handle
+   character*(256) :: dir      ! directory of output file
 
    call MPI_Info_create(info,ierr)
 
    iTotalSz = totalSz / (1024*1024)
-   call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,   &
+   dir      = "./"
+   call t3pio_set_info(MPI_COMM_WORLD, info, dir, ierr,   &
                        global_size = iTotalSz)
 
    call MPI_File_open(p % comm, fn, MPI_MODE_CREATE+MPI_MODE_RDWR, &
