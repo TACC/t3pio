@@ -1,7 +1,5 @@
 module t3pio
 
-   use mpi
-
    type T3PIO_Results_t
       integer :: numIO       ! The number of readers/writers
       integer :: numStripes  ! The number of stripes
@@ -17,6 +15,8 @@ contains
         global_size, max_stripes, factor, file, results,    &
         max_writers_per_node)
 
+      implicit none
+      include 'mpif.h'
       integer, parameter              :: PATHMAX = 2048
       integer                         :: comm, info, ierr
       character(*)                    :: dirIn
@@ -27,9 +27,10 @@ contains
       character(PATHMAX)              :: usrFile
       character(256)                  :: key, value
       integer                         :: len, valuelen, myProc, maxWritersPer
-      integer                         :: nNodes
+      integer                         :: nNodes, nkeys, i
       logical                         :: flag
       integer                         :: gblSz, maxStripes, f
+      integer                         :: t3piointernal
       type(T3PIO_Results_t), optional :: results
 
 

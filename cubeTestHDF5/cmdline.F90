@@ -20,7 +20,6 @@ module cmdline
                             ! table format.
 
 
-
 contains
 
    subroutine parse()

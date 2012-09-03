@@ -16,8 +16,8 @@ module parallel
 contains
 
    subroutine msg_init(comm)
-      use mpi
       implicit none
+      include 'mpif.h'
       integer :: ierr, comm
 
       call MPI_init(ierr)
