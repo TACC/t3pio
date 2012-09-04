@@ -307,6 +307,7 @@ standalonedir = @prefix@/bin
 #IGNORED_MODULES = --ignore mpi --ignore hdf5 --ignore t3pio
 IGNORED_MODULES = -i mpi -i hdf5 -i t3pio
 PARSE_OPTIONS = -I $(top_srcdir)/include $(IGNORED_MODULES)
+CLEANFILES = *.mod Makefile.dep1
 all: all-recursive
 
 .SUFFIXES:
@@ -643,6 +644,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -752,8 +754,9 @@ Makefile.dep1: $(fc_sources)
 -include Makefile.dep1
 
 .F90.o:
-	echo I am going to compile: $<
-	$(PPFCCOMPILE) -c -o $@ $<
+	export MODULE=$(*F)             ;\
+	$(PPFCCOMPILE) -c -o $@ $<      ;\
+	if [ -f $${MODULE^^}.mod ]; then mv $${MODULE^^}.mod $$MODULE.mod; fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

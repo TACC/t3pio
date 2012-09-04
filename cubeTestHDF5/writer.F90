@@ -6,12 +6,12 @@ module writer
    use grid
    use parallel
    use cmdline
+   use mpi
 #ifdef USE_HDF5
    use hdf5
 #endif
    use t3pio
    implicit none 
-   include 'mpif.h'
    real(8)          :: t1, t2
    integer          :: nIOUnits, nStripes, stripeSize, nWritersPer
    character(80)    :: fn

@@ -6,8 +6,8 @@ program main
    use grid
    use cmdline
    use writer
+   use mpi
    implicit none
-   include 'mpif.h'
    integer       :: i, j, k, ii, jj, ierr
    character(7)  :: wrtStyle
 

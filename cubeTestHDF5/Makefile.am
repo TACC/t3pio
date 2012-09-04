@@ -44,3 +44,8 @@ Makefile.dep1: $(fc_sources)
 -include Makefile.dep1
 
 CLEANFILES = *.mod Makefile.dep1
+
+.F90.o:
+	export MODULE=$(*F)             ;\
+	$(PPFCCOMPILE) -c -o $@ $<      ;\
+	if [ -f $${MODULE^^}.mod ]; then mv $${MODULE^^}.mod $$MODULE.mod; fi

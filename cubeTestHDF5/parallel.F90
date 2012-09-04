@@ -1,6 +1,7 @@
 ! -*- f90 -*-
 #include "assert.hf"
 module parallel
+   use mpi
    implicit none
 
    type Parallel_t
@@ -17,7 +18,6 @@ contains
 
    subroutine msg_init(comm)
       implicit none
-      include 'mpif.h'
       integer :: ierr, comm
 
       call MPI_init(ierr)
