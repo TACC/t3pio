@@ -50,4 +50,4 @@ CLEANFILES = *.mod Makefile.dep1
 	module=$(*F)                                            ;\
 	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper;]' )  ;\
 	$(PPFCCOMPILE) -c -o $@ $<                              ;\
-	if [ -f $$MODULE.mod ]; then mv $$MODULE.mod $$module.mod; fi
+	if [ -f $$MODULE.mod ]; then cp $$MODULE.mod $$module.mod; fi

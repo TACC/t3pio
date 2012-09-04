@@ -655,7 +655,7 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-moduleDATA
 	module=$(*F)                                            ;\
 	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper:]' )  ;\
 	$(LTFCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<               ;\
-	if [ -f $$MODULE.mod ]; then mv $$MODULE.mod $$module.mod; fi
+	if [ -f $$MODULE.mod ]; then cp $$MODULE.mod $$module.mod; fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
