@@ -13,7 +13,7 @@ standalonedir               = @prefix@/bin
 standalone_PROGRAMS         = unstructTestHDF5
 
 if PHDF5_ENABLED
-   CXXFLAGS              += -DUSE_HDF5  -I$(PHDF5_DIR)/include
+   CXXFLAGS                 += -DUSE_HDF5  -I$(PHDF5_DIR)/include
    unstructTestHDF5_LDADD   += -L$(PHDF5_DIR)/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5  -lz 
    unstructTestHDF5_LDFLAGS  = -Wl,-rpath,$(PHDF5_DIR)/lib -Wl,-rpath,@prefix@/lib
 endif
