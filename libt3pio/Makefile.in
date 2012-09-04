@@ -98,8 +98,8 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(moduledir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libt3pio_la_LIBADD =
-am_libt3pio_la_OBJECTS = libt3pio_la-t3pio.lo libt3pio_la-pfs.lo \
-	libt3pio_la-f2c_internal.lo f_t3pio.lo
+am_libt3pio_la_OBJECTS = libt3pio_la-set_info.lo libt3pio_la-pfs.lo \
+	libt3pio_la-f2c_internal.lo t3pio.lo
 libt3pio_la_OBJECTS = $(am_libt3pio_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
@@ -267,7 +267,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libt3pio.la
-libt3pio_la_SOURCES = t3pio.c pfs.c f2c_internal.c f_t3pio.f90
+libt3pio_la_SOURCES = set_info.c pfs.c f2c_internal.c t3pio.f90
 libt3pio_la_CPPFLAGS = -I$(top_srcdir)/include
 moduledir = @prefix@/include
 module_DATA = t3pio.mod
@@ -351,7 +351,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libt3pio_la-f2c_internal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libt3pio_la-pfs.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libt3pio_la-t3pio.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libt3pio_la-set_info.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -374,12 +374,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
-libt3pio_la-t3pio.lo: t3pio.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libt3pio_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libt3pio_la-t3pio.lo -MD -MP -MF $(DEPDIR)/libt3pio_la-t3pio.Tpo -c -o libt3pio_la-t3pio.lo `test -f 't3pio.c' || echo '$(srcdir)/'`t3pio.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libt3pio_la-t3pio.Tpo $(DEPDIR)/libt3pio_la-t3pio.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='t3pio.c' object='libt3pio_la-t3pio.lo' libtool=yes @AMDEPBACKSLASH@
+libt3pio_la-set_info.lo: set_info.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libt3pio_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libt3pio_la-set_info.lo -MD -MP -MF $(DEPDIR)/libt3pio_la-set_info.Tpo -c -o libt3pio_la-set_info.lo `test -f 'set_info.c' || echo '$(srcdir)/'`set_info.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libt3pio_la-set_info.Tpo $(DEPDIR)/libt3pio_la-set_info.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='set_info.c' object='libt3pio_la-set_info.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libt3pio_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libt3pio_la-t3pio.lo `test -f 't3pio.c' || echo '$(srcdir)/'`t3pio.c
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libt3pio_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libt3pio_la-set_info.lo `test -f 'set_info.c' || echo '$(srcdir)/'`set_info.c
 
 libt3pio_la-pfs.lo: pfs.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libt3pio_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libt3pio_la-pfs.lo -MD -MP -MF $(DEPDIR)/libt3pio_la-pfs.Tpo -c -o libt3pio_la-pfs.lo `test -f 'pfs.c' || echo '$(srcdir)/'`pfs.c
