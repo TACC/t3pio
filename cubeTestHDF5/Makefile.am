@@ -43,3 +43,4 @@ Makefile.dep1: $(fc_sources)
 
 -include Makefile.dep1
 
+CLEANFILES = *.mod Makefile.dep1

@@ -399,9 +399,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/measure.Po@am__quote@
 
-.F90.o:
-	$(PPFCCOMPILE) -c -o $@ $<
-
 .F90.obj:
 	$(PPFCCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
@@ -753,6 +750,10 @@ Makefile.dep1: $(fc_sources)
 	$(top_srcdir)/utils/sfmakedepend.pl $(PARSE_OPTIONS) $^ > $@
 
 -include Makefile.dep1
+
+.F90.o:
+	echo I am going to compile: $<
+	$(PPFCCOMPILE) -c -o $@ $<
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
