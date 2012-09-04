@@ -47,6 +47,7 @@ Makefile.dep1: $(fc_sources)
 CLEANFILES = *.mod Makefile.dep1
 
 .F90.o:
-	export MODULE=$(*F)             ;\
-	$(PPFCCOMPILE) -c -o $@ $<      ;\
-	if [ -f $${MODULE^^}.mod ]; then mv $${MODULE^^}.mod $$MODULE.mod; fi
+	module=$(*F)                                        ;\
+	MODULE=$$(tr '[:lower:]' '[:upper;]' $(module))     ;\
+	$(PPFCCOMPILE) -c -o $@ $<                          ;\
+	if [ -f $$MODULE.mod ]; then mv $$MODULE.mod $$module.mod; fi
