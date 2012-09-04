@@ -395,11 +395,11 @@ libt3pio_la-f2c_internal.lo: f2c_internal.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libt3pio_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libt3pio_la-f2c_internal.lo `test -f 'f2c_internal.c' || echo '$(srcdir)/'`f2c_internal.c
 
+.f90.o:
+	$(FCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<
+
 .f90.obj:
 	$(FCCOMPILE) -c -o $@ $(FCFLAGS_f90) `$(CYGPATH_W) '$<'`
-
-.f90.lo:
-	$(LTFCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -651,10 +651,10 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-moduleDATA
 	uninstall-libLTLIBRARIES uninstall-moduleDATA
 
 
-.f90.o:
+.f90.lo:
 	module=$(*F)                                            ;\
 	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper;]' )  ;\
-	$(PPFCCOMPILE) -c -o $@ $<                              ;\
+	$(LTFCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<
 	if [ -f $$MODULE.mod ]; then mv $$MODULE.mod $$module.mod; fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
