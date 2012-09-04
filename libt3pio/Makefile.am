@@ -9,6 +9,6 @@ CLEANFILES = *.mod Makefile.dep1 Makefile.dep2 Makefile.dep3 Makefile.dep
 
 .f90.lo:
 	module=$(*F)                                            ;\
-	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper;]' )  ;\
+	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper:]' )  ;\
 	$(LTFCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<               ;\
 	if [ -f $$MODULE.mod ]; then mv $$MODULE.mod $$module.mod; fi

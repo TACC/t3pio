@@ -653,7 +653,7 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-moduleDATA
 
 .f90.lo:
 	module=$(*F)                                            ;\
-	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper;]' )  ;\
+	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper:]' )  ;\
 	$(LTFCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<               ;\
 	if [ -f $$MODULE.mod ]; then mv $$MODULE.mod $$module.mod; fi
 
