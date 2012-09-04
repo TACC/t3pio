@@ -1,4 +1,5 @@
 AUTOMAKE_OPTIONS = foreign
+SHELL := bash
 
 SUBDIRS = .
 
