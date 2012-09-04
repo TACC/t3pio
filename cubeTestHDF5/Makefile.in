@@ -754,9 +754,9 @@ Makefile.dep1: $(fc_sources)
 -include Makefile.dep1
 
 .F90.o:
-	module=$(*F)                                        ;\
-	MODULE=$$(tr '[:lower:]' '[:upper;]' $(module))     ;\
-	$(PPFCCOMPILE) -c -o $@ $<                          ;\
+	module=$(*F)                                            ;\
+	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper;]' )  ;\
+	$(PPFCCOMPILE) -c -o $@ $<                              ;\
 	if [ -f $$MODULE.mod ]; then mv $$MODULE.mod $$module.mod; fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
