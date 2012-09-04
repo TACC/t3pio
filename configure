@@ -2576,7 +2576,7 @@ ac_configure="$SHELL $ac_aux_dir/configure"  # Please don't use this var.
 
 
 
- if test x$enabled_shared != xno ; then
+ if test x$enable_shared != xno ; then
   SHARED_LIBRARIES_TRUE=
   SHARED_LIBRARIES_FALSE='#'
 else

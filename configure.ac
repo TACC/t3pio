@@ -10,7 +10,7 @@ AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADER(config.h)
 AC_CONFIG_AUX_DIR([build-aux])
 
-AM_CONDITIONAL(SHARED_LIBRARIES, test x$enabled_shared != xno )
+AM_CONDITIONAL(SHARED_LIBRARIES, test x$enable_shared != xno )
 
 AM_INIT_AUTOMAKE
 AC_PROG_F77
