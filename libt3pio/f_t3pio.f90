@@ -15,8 +15,9 @@ contains
         global_size, max_stripes, factor, file, results,    &
         max_writers_per_node)
 
+      use mpi
       implicit none
-      include 'mpif.h'
+
       integer, parameter              :: PATHMAX = 2048
       integer                         :: comm, info, ierr
       character(*)                    :: dirIn
