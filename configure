@@ -731,6 +731,8 @@ am__isrc
 INSTALL_DATA
 INSTALL_SCRIPT
 INSTALL_PROGRAM
+SHARED_LIBRARIES_FALSE
+SHARED_LIBRARIES_TRUE
 target_alias
 host_alias
 build_alias
@@ -2572,6 +2574,15 @@ ac_config_guess="$SHELL $ac_aux_dir/config.guess"  # Please don't use this var.
 ac_config_sub="$SHELL $ac_aux_dir/config.sub"  # Please don't use this var.
 ac_configure="$SHELL $ac_aux_dir/configure"  # Please don't use this var.
 
+
+
+ if test x$enabled_shared != xno ; then
+  SHARED_LIBRARIES_TRUE=
+  SHARED_LIBRARIES_FALSE='#'
+else
+  SHARED_LIBRARIES_TRUE='#'
+  SHARED_LIBRARIES_FALSE=
+fi
 
 
 am__api_version='1.12'
@@ -23346,6 +23357,10 @@ LIBOBJS=$ac_libobjs
 LTLIBOBJS=$ac_ltlibobjs
 
 
+if test -z "${SHARED_LIBRARIES_TRUE}" && test -z "${SHARED_LIBRARIES_FALSE}"; then
+  as_fn_error $? "conditional \"SHARED_LIBRARIES\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking that generated files are newer than configure" >&5
 $as_echo_n "checking that generated files are newer than configure... " >&6; }
    if test -n "$am_sleep_pid"; then
