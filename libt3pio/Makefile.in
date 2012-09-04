@@ -275,7 +275,7 @@ CLEANFILES = *.mod Makefile.dep1 Makefile.dep2 Makefile.dep3 Makefile.dep
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .F90 .c .f90 .lo .o .obj
+.SUFFIXES: .c .f90 .lo .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -394,9 +394,6 @@ libt3pio_la-f2c_internal.lo: f2c_internal.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='f2c_internal.c' object='libt3pio_la-f2c_internal.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libt3pio_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libt3pio_la-f2c_internal.lo `test -f 'f2c_internal.c' || echo '$(srcdir)/'`f2c_internal.c
-
-.f90.o:
-	$(FCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<
 
 .f90.obj:
 	$(FCCOMPILE) -c -o $@ $(FCFLAGS_f90) `$(CYGPATH_W) '$<'`
@@ -654,7 +651,7 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-moduleDATA
 	uninstall-libLTLIBRARIES uninstall-moduleDATA
 
 
-.F90.o:
+.f90.o:
 	module=$(*F)                                            ;\
 	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper;]' )  ;\
 	$(PPFCCOMPILE) -c -o $@ $<                              ;\
