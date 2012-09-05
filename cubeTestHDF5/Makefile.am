@@ -48,6 +48,6 @@ CLEANFILES = *.mod Makefile.dep1
 
 .F90.o:
 	module=$(*F)                                            ;\
-	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper;]' )  ;\
+	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper:]' )  ;\
 	$(PPFCCOMPILE) -c -o $@ $<                              ;\
 	if [ -f $$MODULE.mod ]; then cp $$MODULE.mod $$module.mod; fi
