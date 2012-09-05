@@ -4,7 +4,7 @@ dnl ######################################################################
 dnl Process this file with autoconf to produce a configure script.
 dnl This is for MGF
 AC_PREREQ([2.69])
-AC_INIT([t3pio],[1.1.3],[mclay@tacc.utexas.edu])
+AC_INIT([t3pio],[1.2],[mclay@tacc.utexas.edu])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADER(config.h)
