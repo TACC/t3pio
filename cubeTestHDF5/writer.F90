@@ -106,6 +106,7 @@ contains
                           factor               = Factor,        &
                           max_stripes          = Stripes,       &
                           max_writers_per_node = MaxWritersPer, &
+                          max_writers          = MaxWriters,    &
                           results              = results )
       nIOUnits    = results % numIO
       nStripes    = results % numStripes
@@ -306,6 +307,7 @@ contains
       call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
                           global_size          = iTotalSz,      &
                           max_writers_per_node = MaxWritersPer, &
+                          max_writers          = MaxWriters,    &
                           factor               = Factor,        &
                           max_stripes          = Stripes,       &
                           results              = results )

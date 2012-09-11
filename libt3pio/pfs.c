@@ -32,6 +32,7 @@ void t3pio_init(T3Pio_t* t3)
   t3->numStripes = -1;
   t3->nodeMem    = -1;
   t3->stripeSz   = -1;
+  t3->maxWriters = -1;
   t3->dir        = NULL;
   t3->fn         = NULL;
 }

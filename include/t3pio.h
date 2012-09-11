@@ -14,6 +14,7 @@ extern "C" {
 #define T3PIO_RESULTS             1005   
 #define T3PIO_MAX_WRITER_PER_NODE 1006
 #define T3PIO_NUM_NODES           1007
+#define T3PIO_MAX_WRITERS         1008
 
 typedef struct
 {
@@ -22,6 +23,7 @@ typedef struct
   int factor;        /* numStripes/numIO */
   int stripeSize;    /* stripe size in bytes*/
   int nWritersPer;   /* number of writers per node */
+  int maxWriters;    /* total number of writers */
 } T3PIO_results_t;
 
 int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char *dir, ...);

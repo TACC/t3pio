@@ -43,6 +43,9 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
         case T3PIO_FACTOR:
           t3.factor = va_arg(ap,int);
           break;
+        case T3PIO_MAX_WRITERS:
+          t3.maxWriters = va_arg(ap,int);
+          break;
         case T3PIO_NUM_NODES:
           pNodes = va_arg(ap, int*);
           break;
@@ -109,6 +112,13 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     }
 
   t3.numIO = t3.numStripes / t3.factor;
+
+  if (t3.maxWriters > 0)
+    {
+      t3.numIO  = min(nProcs, t3.maxWriters);
+      t3.factor = t3.numStripes / t3.numIO;
+    }
+
 
   if (t3.globalSz > 0 && !remoteFile)
     {

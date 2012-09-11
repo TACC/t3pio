@@ -6,6 +6,7 @@ module t3pio
       integer :: factor      ! numStripes/numIO
       integer :: stripeSize  ! stripe size in bytes
       integer :: nWritersPer ! number of writers per node.
+      integer :: nWriters    ! Total number of writers.
    end type T3PIO_Results_t
 
 
@@ -13,7 +14,7 @@ module t3pio
 contains
    subroutine t3pio_set_info(comm, info, dirIn, ierr,       &
         global_size, max_stripes, factor, file, results,    &
-        max_writers_per_node)
+        max_writers_per_node, max_writers)
 
       use mpi
       implicit none
@@ -23,18 +24,19 @@ contains
       character(*)                    :: dirIn
       integer,          optional      :: global_size, max_stripes, factor
       character(*),     optional      :: file
-      integer,          optional      :: max_writers_per_node
+      integer,          optional      :: max_writers_per_node, max_writers
       character(PATHMAX)              :: dir
       character(PATHMAX)              :: usrFile
       character(256)                  :: key, value
       integer                         :: len, valuelen, myProc, maxWritersPer
-      integer                         :: nNodes, nkeys, i
+      integer                         :: nNodes, nkeys, i, nWriters
       logical                         :: flag
       integer                         :: gblSz, maxStripes, f
       integer                         :: t3piointernal
       type(T3PIO_Results_t), optional :: results
 
 
+      nWriters      = huge(nWriters)
       maxWritersPer = huge(maxWritersPer)
       gblSz         = -1
       maxStripes    = -1
@@ -42,6 +44,7 @@ contains
       usrFile       = ""
 
 
+      if (present(max_writers))          nWriters      = max_writers
       if (present(max_writers_per_node)) maxWritersPer = max_writers_per_node
       if (present(global_size))          gblSz         = global_size
       if (present(max_stripes))          maxStripes    = max_stripes
@@ -54,7 +57,8 @@ contains
       len     = len_trim(usrFile)+1
       usrFile = usrFile(1:len-1) // CHAR(0)
 
-      ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, f, usrFile, maxWritersPer, nNodes)
+      ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, f, usrFile, maxWritersPer,  &
+                           nWriters, nNodes)
       
       if (present(results)) then
          call MPI_Info_get_nkeys(info, nkeys, ierr)
