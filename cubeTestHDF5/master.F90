@@ -62,8 +62,8 @@ subroutine outputResults(wrtStyle, local)
    
    fileSz = totalSz /(1024*1024*1024)
    if (LuaOutput) then
-      print 1000, p % nProcs, local % num(1), Numvar, trim(wrtStyle), Factor, nIOUnits,  &
-           nWritersPer, nStripes, stripeSize/(1024*1024), fileSz, t, rate
+      print 1000, p % nProcs, local % num(1), Numvar, trim(wrtStyle), Factor, nWritersPer,  &
+           nIOUnits, nStripes, stripeSize/(1024*1024), fileSz, t, rate
    else
       print 1010, p % nProcs, local % num(1), Numvar, Factor, nIOUnits,  nWritersPer, &
            nStripes, stripeSize/(1024*1024), fileSz, t, rate, adjustr(trim(wrtStyle))
