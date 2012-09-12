@@ -32,6 +32,9 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
 
   while ( (argType = va_arg(ap, int)) != 0)
     {
+      if (argType <= T3PIO_START_RANGE || argType >= T3PIO_END_RANGE )
+        break;
+
       switch(argType)
         {
         case T3PIO_GLOBAL_SIZE:
@@ -94,7 +97,8 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
           
   else
     {
-      int nWritersPer = min(t3.numCoresPer, t3.maxCoresPer/2);
+      int half        = max(t3.maxCoresPer/2, 1);
+      int nWritersPer = min(t3.numCoresPer, half);
       maxWritersPer   = min(nWritersPer, maxWritersPer)
       int maxPossible = t3pio_maxStripes(comm, myProc, dir);
 

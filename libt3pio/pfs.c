@@ -123,6 +123,8 @@ void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCor
           nCores = 0;
         }
     }
+  if (nCoresMax == 0)
+    nCoresMax = nCores;
   free(hostNm);
   free(hostNmBuf);
   free(hostNmA);
@@ -148,7 +150,7 @@ void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCor
               if (p == NULL)
                 continue;
               ++p;
-              nCoresMax = (int) strtol(p, (char**) NULL, 10);
+              nCoresMax = (int) strtol(p, (char**) NULL, 10) + 1;
             }
         }
     }
