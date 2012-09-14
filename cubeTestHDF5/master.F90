@@ -71,10 +71,10 @@ subroutine outputResults(wrtStyle, local, global)
            adjustr(trim(wrtStyle))
    end if
 
-1000 format("%% { nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5,", numvar = ",i2,', wrtStyle = "',a,  &
-        ", nWritersPer = ",i5, ", iounits = ",i5, ", nstripes = ", i5,                 &
-        ", stripeSz = ", i10, ", fileSz = ", 1pg15.7, ", time = ", 1pg15.7,        &
-        ", rate = ", 1pg15.7,"},")
+1000 format("%% { nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5,", numvar = ",i2,         &
+          ', wrtStyle = "',a, '", nWritersPer = ',i5, ", iounits = ",i5,                &
+          ", nstripes = ", i5, ", stripeSz = ", i10, ", fileSz = ", 1pg15.7,            &
+          ", time = ", 1pg15.7, ", rate = ", 1pg15.7,"},")
 
 1010 format(/,"cubeTestHDF5 Results: ",/  &
               "--------------------- "//  &
