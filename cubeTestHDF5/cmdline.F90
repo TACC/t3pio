@@ -61,7 +61,7 @@ contains
       if (arg == "-f" .or. arg == "--factor") then
          i = i + 1
          call getarg(i,arg)
-         read(arg,*) factor
+         read(arg,*) Factor
       elseif (arg == "-g" .or. arg == "--global") then
          i = i + 1
          call getarg(i,arg)
