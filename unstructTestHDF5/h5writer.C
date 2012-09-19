@@ -70,8 +70,8 @@ void H5::writer(CmdLineOptions& cmd)
 
   // Delete old file
   if (P.myProc == 0)
-    MPI_File_delete(fn,MPI_INFO_NULL);
-  MPI_Barrier();
+    MPI_File_delete((char * )fn,MPI_INFO_NULL);
+  MPI_Barrier(P.comm);
 
 
   // Build MPI info;
@@ -99,7 +99,7 @@ void H5::writer(CmdLineOptions& cmd)
 
   
   // Create file collectively
-  file_id = H5Fcreate(, H5F_ACC_TRUNC, H5P_DEFAULT, plist_id);
+  file_id = H5Fcreate(fn, H5F_ACC_TRUNC, H5P_DEFAULT, plist_id);
   H5Pclose(plist_id);
 
   // Create Group
