@@ -39,6 +39,7 @@ void H5::writer(CmdLineOptions& cmd)
   hid_t   plist_id;      //Property List id
   hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1];
   hsize_t is, num;
+  const char * fn = "myfile.h5";
 
   // compute size info
 
@@ -67,6 +68,12 @@ void H5::writer(CmdLineOptions& cmd)
 
   double t1, t2;
 
+  // Delete old file
+  if (P.myProc == 0)
+    MPI_File_delete(fn,MPI_INFO_NULL);
+  MPI_Barrier();
+
+
   // Build MPI info;
   MPI_Info info = MPI_INFO_NULL;
   MPI_Info_create(&info);
@@ -92,7 +99,7 @@ void H5::writer(CmdLineOptions& cmd)
 
   
   // Create file collectively
-  file_id = H5Fcreate("myfile.h5", H5F_ACC_TRUNC, H5P_DEFAULT, plist_id);
+  file_id = H5Fcreate(, H5F_ACC_TRUNC, H5P_DEFAULT, plist_id);
   H5Pclose(plist_id);
 
   // Create Group

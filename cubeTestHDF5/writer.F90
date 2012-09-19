@@ -96,6 +96,10 @@ contains
       info = MPI_INFO_NULL
 
       fn = FILE_NAME // ".h5"
+      if ( p % myProc == 0) then
+         call MPI_File_delete(fn,MPI_INFO_NULL,ierr)
+      end if
+      call MPI_Barrier(p % comm,ierr)
 
       call MPI_Info_create(info, ierr)
       ASSERT(ierr == 0, "MPI_Info_create")
@@ -270,7 +274,7 @@ contains
       fn = FILE_NAME // ".mpiio"
 
       if ( p % myProc == 0) then
-         call MPI_File_delete(fn,MPI_INFO_NULL,ierr)
+         call MPI_File_delete(fn, MPI_INFO_NULL, ierr)
       end if
       call MPI_Barrier(p % comm,ierr)
 
