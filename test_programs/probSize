@@ -11,6 +11,9 @@ nProcs             = nil
 
 function partitionMesh(partition, nProcs)
 
+   local dbg      = Dbg:dbg()
+   dbg.start("partitionMesh()")
+   dbg.print("nProcs: ", nProcs, "\n")
    local fixed    = {}
    local variable = {}
    local nvar     = 0
@@ -45,13 +48,23 @@ function partitionMesh(partition, nProcs)
       results[3] = { idx = variable[2], value = pb}
    else
       local npz = math.floor(math.pow(nProcs, 1.0/3.0)) + 1
+
       while (npz * math.floor(nProcs/npz) ~= nProcs) do
+         dbg.print("npz: ",npz,"\n")
          npz = npz - 1
+         if (npz < 0) then
+            print ("failed to chose npz\n")
+            os.exit(-1)
+         end
       end
       local nprocXY = nProcs/npz
       local npy     = math.floor(math.sqrt(nprocXY)) + 1
       while (npy * math.floor(nprocXY/npy) ~= nprocXY) do
          npy = npy - 1
+         if (npy < 0) then
+            print ("failed to chose npy\n")
+            os.exit(-1)
+         end
       end
       local npx = nprocXY / npy
       results[1] = { idx = 1, value = npx}
@@ -67,6 +80,7 @@ function partitionMesh(partition, nProcs)
       partition[idx] = value
    end
 
+   dbg.fini()
    return partition
 
 end
@@ -77,36 +91,55 @@ end
 
 function main()
 
-   local nProcs = arg[1]
-   local fileSz = arg[2]
-   local nVar   = arg[3] or 1
+   local dbg = Dbg:dbg()
+
+   if (arg[1] == "-d") then
+      dbg:activateDebug(1)
+      table.remove(arg,1)
+   end
+   
+
+   local nProcs = tonumber(arg[1])
+   local fileSz = tonumber(arg[2])
+   local nVar   = tonumber(arg[3] or 1)
 
    local partition = partitionMesh({-1,-1,-1}, nProcs)
 
-   fileSz = fileSz*1.0e9
+   fileSz = fileSz*(1024* 1024* 1024)
 
    local gblSz = math.ceil(math.pow( fileSz / ( 8 * nVar), 1.0/3.0))
+   local n
+   local rem
+   local is
+   local gridL = {}
+   local gridG = {}
+   local totalSz = 1
+
 
    for i = 1,3 do
-      local n   = math.floor(gblSz / partition[i])
-      local rem = math.mod(gblSz,  partition[i])
-      if (
+      n   = math.floor(gblSz / partition[i])
+      rem = math.mod(gblSz,  partition[i])
+      is  = 1
+      if (rem > 0) then
+         n = n + 1
+      end
+      gridL[i] = n
+      gridG[i] = gblSz
+      totalSz  = totalSz * gridG[i]
+   end
 
+   totalSz = 8* totalSz * nVar/ (1024* 1024* 1024)
 
    local results = {}
 
    print("\nPartition: ",partition[1],partition[2],partition[3])
-   print("nProcs:   ",nProcs, "\nProduct: ", partition[1]*partition[2]*partition[3],"\n")
+   print("nProcs:      ",nProcs, "\tProduct: ", partition[1]*partition[2]*partition[3],"\n")
+   print("local grid:  ",gridL[1], gridL[2], gridL[3])
+   print("global grid: ",gridG[1], gridG[2], gridG[3])
 
-   results[1] = { "Vars", "G-Elms", "G-Nodes", "G-DOFs", "L-Elms", "L-Nodes", "L-DOFs", "Face DOF", "Face Bytes"}
-   results[2] = { "----", "------", "-------", "------", "------", "-------", "------", "--------", "----------"}
+   print ("total Sz in (GB): ", totalSz)
 
-   for i = 1, #probT do
-      results[#results+1] = computeSize(probT[i],partition, mesh)
-   end
 
-   local bt = BeautifulTbl:new{tbl=results}
-   io.stdout:write(bt:build_tbl())
 end
 
 main()
