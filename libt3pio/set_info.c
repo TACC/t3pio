@@ -109,7 +109,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       t3.numStripes    = min(t3.numStripes, t3.factor*t3.numNodes*maxWritersPer);
       
       if (t3.maxStripes > 0)
-        t3.maxStripes = min(maxPossible,    t3.maxStripes);
+        t3.numStripes = min(maxPossible,    t3.maxStripes);
     }
 
   t3.numIO = t3.numStripes / t3.factor;
