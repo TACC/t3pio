@@ -16,7 +16,7 @@ module writer
    integer          :: nIOUnits, nStripes, stripeSize, nWritersPer
    character(80)    :: fn
    character(256)   :: buffer
-   integer          :: lSz
+   integer(8)       :: lSz
    real(8)          :: rate    = 0.0d0
    real(8)          :: totalSz = 0.0d0
    real(8)          :: t       = 0.0d0
@@ -67,7 +67,8 @@ contains
 
       character(40)    :: date, time
       integer          :: info         ! mpi info
-      integer          :: i, ierr, m, iseed, iTotalSz
+      integer          :: i, ierr, m, iseed
+      integer          :: iTotalSz
       real(8)          :: walltime
       real(8), allocatable :: u(:)
 
