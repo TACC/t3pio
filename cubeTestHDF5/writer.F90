@@ -119,6 +119,15 @@ contains
       Factor      = results % factor
       nWritersPer = results % nWritersPer
 
+      if (p % myProc == 0) then
+         print *, "nIOUnits:    ", nIOUnits
+         print *, "nStripes:    ", nStripes
+         print *, "stripeSize:  ", stripeSize
+         print *, "nWritersPer: ", nWritersPer
+      end if
+         
+
+
       !
       ! (1) Initialize FORTRAN predefined datatypes
 
