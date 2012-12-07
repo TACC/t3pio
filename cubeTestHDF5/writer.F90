@@ -69,7 +69,7 @@ contains
       integer          :: info         ! mpi info
       integer          :: i, ierr, m, iseed
       integer          :: iTotalSz
-      real(8)          :: walltime
+      real(8)          :: walltime, blkSz
       real(8), allocatable :: u(:)
 
 
@@ -146,6 +146,11 @@ contains
       ASSERT(ierr == 0, "H5Gopen_f")
 
       call add_solution_description(group_id)
+
+      if (p % myProc == 0) then
+         blkSz = lSz * 8.0 / (1024.0 * 1024.0 * 1024.0)
+         print *, "allocating: ", lSz, " entries or ", blkSz , " (GB)"
+      end if
 
       allocate(u(lSz))
       t = 0.0D0
