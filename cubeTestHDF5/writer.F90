@@ -68,7 +68,7 @@ contains
       character(40)    :: date, time
       integer          :: info         ! mpi info
       integer          :: i, ierr, m, iseed
-      integer          :: iTotalSz
+      integer          :: iTotalSz, istat
       real(8)          :: walltime, blkSz
       real(8), allocatable :: u(:)
 
@@ -152,7 +152,13 @@ contains
          print *, "allocating: ", lSz, " entries or ", blkSz , " (GB)"
       end if
 
-      allocate(u(lSz))
+      allocate(u(lSz), stat = istat)
+
+      if (istat /= 0) then
+         print *, "unable to allocate soln vector u, istat: ",istat
+      end if
+
+
       t = 0.0D0
 
       do i = 1, Numvar
