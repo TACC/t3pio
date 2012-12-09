@@ -3,9 +3,9 @@ module grid
    integer, parameter :: MAXDIM = 3
 
    type grid_t
-      integer :: nd
-      integer :: is(MAXDIM), ie(MAXDIM)
-      integer :: num(MAXDIM)
+      integer    :: nd
+      integer(8) :: is(MAXDIM), ie(MAXDIM)
+      integer(8) :: num(MAXDIM)
    end type grid_t
 
 contains

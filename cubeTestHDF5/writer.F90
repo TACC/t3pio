@@ -263,6 +263,11 @@ contains
          t1 = walltime()
       HERE;
 
+      print *, "sz:",  sz
+      print *, "gsz:", gsz
+
+
+
          call H5Dwrite_f(dset_id, H5T_NATIVE_DOUBLE, u, gsz, ierr, &
               file_space_id = filespace, mem_space_id = memspace, xfer_prp = plist_id)
          ASSERT(ierr == 0, "H5Dwrite_f")
