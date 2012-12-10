@@ -80,6 +80,8 @@ contains
       newSeed = iseed
       call random_seed(put=newSeed)
 
+      print *, "HSIZE_t: ", HSIZE_t
+
       lSz = 1
       totalSz = 8.0
       do i = 1, local % nd
