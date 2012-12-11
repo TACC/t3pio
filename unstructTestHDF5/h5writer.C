@@ -21,6 +21,11 @@ Var_t varT[] =
     {"u", "X Velocity in m/s"},
     {"v", "Y Velocity in m/s"},
     {"w", "Z Velocity in m/s"}
+    {"a", "A Velocity in m/s"}
+    {"b", "B Velocity in m/s"}
+    {"c", "C Velocity in m/s"}
+    {"d", "D Velocity in m/s"}
+    {"e", "E Velocity in m/s"}
   };
 
 H5::H5()
@@ -45,9 +50,7 @@ void H5::writer(CmdLineOptions& cmd)
 
   double lSz     = 1.0;
 
-  int nVar = sizeof(varT)/sizeof(Var_t);
-
-  m_numvar    = nVar;
+  int nVar    = cmd.nvar;
   num         = cmd.localSz;
   lSz         = num;
   is          = P.myProc*num;

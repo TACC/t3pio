@@ -24,6 +24,7 @@ void printUsage(const char* execName)
               << " -v            : Print Version\n"
               << " -C            : use h5 chunk\n"
               << " -S            : use h5 slab (default)\n"
+              << " -n nvar       : nvar  (default=4)\n"
               << " -l num        : local size is num (default=10)\n"
               << " -g num        : global size is num\n"
               << " -f factor     : number of stripes per writer (default=2)\n"
@@ -54,7 +55,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   h5style        = "h5slab";
   luaStyleOutput = false;
 
-  while ( (opt = getopt(argc, argv, "s:hCSLf:p:w:l:g:?v")) != -1)
+  while ( (opt = getopt(argc, argv, "s:hCSLf:p:w:l:g:n:?v")) != -1)
     {
       switch (opt)
         {
@@ -82,6 +83,9 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           break;
         case 'l':
           localSz = strtoll(optarg, (char **) NULL, 10);
+          break;
+        case 'n':
+          nvar =    strtol(optarg, (char **) NULL, 10);
           break;
         case 'p':
           maxWritersPer = strtol(optarg, (char **) NULL, 10);

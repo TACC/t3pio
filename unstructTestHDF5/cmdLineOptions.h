@@ -17,6 +17,7 @@ class CmdLineOptions
  public:
   long long   globalSz;
   long long   localSz;
+  int         nvar;
   int         factor;
   int         stripes;
   int         maxWritersPer;
