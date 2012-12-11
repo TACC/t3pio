@@ -20,12 +20,12 @@ Var_t varT[] =
     {"p", "Pressure in N/m^2"},
     {"u", "X Velocity in m/s"},
     {"v", "Y Velocity in m/s"},
-    {"w", "Z Velocity in m/s"}
-    {"a", "A Velocity in m/s"}
-    {"b", "B Velocity in m/s"}
-    {"c", "C Velocity in m/s"}
-    {"d", "D Velocity in m/s"}
-    {"e", "E Velocity in m/s"}
+    {"w", "Z Velocity in m/s"},
+    {"a", "A Velocity in m/s"},
+    {"b", "B Velocity in m/s"},
+    {"c", "C Velocity in m/s"},
+    {"d", "D Velocity in m/s"},
+    {"e", "E Velocity in m/s"},
   };
 
 H5::H5()
