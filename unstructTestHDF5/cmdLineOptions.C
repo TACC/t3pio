@@ -25,6 +25,7 @@ void printUsage(const char* execName)
               << " -C            : use h5 chunk\n"
               << " -S            : use h5 slab (default)\n"
               << " -l num        : local size is num (default=10)\n"
+              << " -g num        : global size is num\n"
               << " -f factor     : number of stripes per writer (default=2)\n"
               << " -s num        : maximum number of stripes\n"
               << " -p num        : maximum number of writers per node\n"
@@ -44,7 +45,8 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   maxWriters     = INT_MAX;
   version        = false;
   help           = false;
-  localSz        = 10;
+  localSz        = -1;
+  globalSz       = -1;
   h5chunk        = false;
   h5slab         = false;
   factor         = 1;
@@ -52,7 +54,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   h5style        = "h5slab";
   luaStyleOutput = false;
 
-  while ( (opt = getopt(argc, argv, "s:hCSLf:p:w:l:?v")) != -1)
+  while ( (opt = getopt(argc, argv, "s:hCSLf:p:w:l:g:?v")) != -1)
     {
       switch (opt)
         {
@@ -75,8 +77,11 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
         case 's':
           stripes = strtol(optarg, (char **) NULL, 10);
           break;
+        case 'g':
+          globalSz = strtoll(optarg, (char **) NULL, 10);
+          break;
         case 'l':
-          localSz = strtol(optarg, (char **) NULL, 10);
+          localSz = strtoll(optarg, (char **) NULL, 10);
           break;
         case 'p':
           maxWritersPer = strtol(optarg, (char **) NULL, 10);
@@ -112,6 +117,20 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
 
   if ( h5chunk )
     h5style = "h5chunk";
+
+  if (localSz < 0)
+    {
+      if (globalSz < 0)
+        localSz = 10;
+      else
+        {
+          int rem = globalSz % P.nProcs;
+          localSz = globalSz/P.nProcs + (P.myProc < rem);
+        }
+    }
+
+  if (globalSz < 0)
+    globalSz = localSz * P.nProcs;
 
   m_state = iGOOD;
 }

@@ -15,15 +15,16 @@ class CmdLineOptions
   char cleanup(const char* s);
 
  public:
-  int          localSz;
-  int          factor;
-  int          stripes;
-  int          maxWritersPer;
-  int          maxWriters;
-  bool         luaStyleOutput;
-  bool         h5chunk;
-  bool         h5slab;
-  std::string  h5style;
+  long long   globalSz;
+  long long   localSz;
+  int         factor;
+  int         stripes;
+  int         maxWritersPer;
+  int         maxWriters;
+  bool        luaStyleOutput;
+  bool        h5chunk;
+  bool        h5slab;
+  std::string h5style;
  private:
   state_t      m_state;
 };

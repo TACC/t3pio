@@ -55,8 +55,8 @@ void H5::writer(CmdLineOptions& cmd)
   h5stride[0] = 1;
   starts[0]   = is;
   sz[0]       = num;
-  gsz[0]      = P.nProcs*num;
-  m_totalSz   = P.nProcs*num*nVar*sizeof(double);
+  gsz[0]      = cmd.globalSz;
+  m_totalSz   = cmd.globalSz*nVar*sizeof(double);
   
   // Initialize data buffer
   double xk = num*P.myProc;
