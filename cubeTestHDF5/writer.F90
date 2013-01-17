@@ -129,8 +129,6 @@ contains
       end if
          
 
-      HERE;
-
       !
       ! (1) Initialize FORTRAN predefined datatypes
 
@@ -140,7 +138,6 @@ contains
       !
       ! (2) Setup file access property list w/ parallel I/O access.
 
-      HERE;
       call H5Pcreate_f(H5P_FILE_ACCESS_F,plist_id,ierr)
       ASSERT(ierr == 0, "H5Pcreate_f")
       call H5Pset_fapl_mpio_f(plist_id, p % comm, info, ierr);
@@ -148,34 +145,28 @@ contains
 
       !
       ! (3.0) Create the file collectively
-      HERE;
       call H5Fcreate_f(fn, H5F_ACC_TRUNC_F, file_id, ierr, access_prp = plist_id)
       ASSERT(ierr == 0, "H5fcreate_f")
       call H5Pclose_f(plist_id, ierr)
       ASSERT(ierr == 0, "H5Pclose_f")
 
 
-      HERE;
       ! (3.1) Create group
       call H5Gcreate_f(file_id,"Solution", group_id, ierr)
       ASSERT(ierr == 0, "H5Gopen_f")
 
-      HERE;
       call add_solution_description(group_id)
 
-      HERE;
       if (p % myProc == 0) then
          blkSz = lSz * 8.0 / (1024.0 * 1024.0 * 1024.0)
          print *, "allocating: ", lSz, " entries or ", blkSz , " (GB)"
       end if
 
-      HERE;
       allocate(u(lSz), stat = istat)
 
       if (istat /= 0) then
          print *, "unable to allocate soln vector u, istat: ",istat
       end if
-      HERE;
 
 
       t = 0.0D0
@@ -183,7 +174,6 @@ contains
       do i = 1, Numvar
 
          call init3d(local, u)
-         HERE;
          !
          ! (4) Create the data space for the dataset: filespace, memspace
          call H5Screate_simple_f(ndim, gsz, filespace, ierr)
@@ -191,7 +181,6 @@ contains
          !
          ! Each process defines dataset in memory and writes it to the hyperslab
          ! in the file.
-         HERE;
          call H5Screate_simple_f(ndim, sz, memspace, ierr)
          ASSERT(ierr == 0, "H5Screate_simple_f")
 
@@ -199,26 +188,21 @@ contains
             !
             ! (5) Create chunked dataset.
 
-      HERE;
             call H5Pcreate_f(H5P_DATASET_CREATE_F, plist_id, ierr)
             ASSERT(ierr == 0, "H5Pcreate_f")
-      HERE;
             call H5Pset_chunk_f(plist_id, ndim, sz, ierr)
             ASSERT(ierr == 0, "H5Pset_chunk_f")
-      HERE;
+
             call H5Dcreate_f(group_id, varT(i) % name, H5T_NATIVE_DOUBLE, filespace, &
                  dset_id, ierr, plist_id)
             ASSERT(ierr == 0, "H5Dcreate_f")
-      HERE;
             call H5Sclose_f(filespace, ierr)
             ASSERT(ierr == 0, "H5Sclose_f")
 
             !
-      HERE;
             ! (6) Select hyperslab in the file.
             call H5Dget_space_f(dset_id, filespace, ierr)
             ASSERT(ierr == 0, "H5Dget_space_f")
-      HERE;
             call H5Sselect_hyperslab_f(filespace, H5S_SELECT_SET_F, starts, count, ierr, h5stride, sz)
             ASSERT(ierr == 0, "H5Sselect_hyperslab_f")
 
@@ -226,48 +210,35 @@ contains
             !
             ! (5) Create the dataset with default properties.
             !
-      HERE;
             CALL H5Dcreate_f(group_id, varT(i) % name, H5T_NATIVE_DOUBLE, filespace, &
                  dset_id, ierr)
             ASSERT(ierr == 0, "H5Dcreate_f")
-      HERE;
             CALL H5Sclose_f(filespace, ierr)
             ASSERT(ierr == 0, "H5Sclose_f")
             !
             !
             ! (6) Select hyperslab in the file.
             !
-      HERE;
             CALL H5Dget_space_f(dset_id, filespace, ierr)
-      HERE;
             CALL H5Sselect_hyperslab_f (filespace, H5S_SELECT_SET_F, starts, sz, ierr)
-      HERE;
          end if
 
 
          !
          ! (7a) Create property list for collective dataset write
-      HERE;
          call H5Pcreate_f(H5P_DATASET_XFER_F, plist_id, ierr)
          ASSERT(ierr == 0, "H5Pcreate_f")
-      HERE;
          call H5Pset_dxpl_mpio_f(plist_id, H5FD_MPIO_COLLECTIVE_F, ierr)
          ASSERT(ierr == 0, "H5Pset_dxpl_mpio_f")
 
          !
          ! (7b) Add attribute
-      HERE;
          call add_attribute(dset_id, varT(i) % descript)
 
 
          !
          ! (8) Write the dataset collectively.
          t1 = walltime()
-      HERE;
-
-      print *, "sz:",  sz
-      print *, "gsz:", gsz
-
 
 
          call H5Dwrite_f(dset_id, H5T_NATIVE_DOUBLE, u, gsz, ierr, &
@@ -281,39 +252,28 @@ contains
          !
          ! (9) Close dataspaces.
          !
-      HERE;
          call H5Sclose_f(filespace, ierr); ASSERT(ierr == 0,"H5Sclose_f")
-      HERE;
          call H5Sclose_f(memspace, ierr); ASSERT(ierr == 0,"H5Sclose_f")
-      HERE;
 
          !
          ! (10) Close the dataset and property list.
          !
-      HERE;
          call H5Dclose_f(dset_id, ierr); ASSERT(ierr == 0,"H5Dclose_f")
-      HERE;
          call H5Pclose_f(plist_id, ierr); ASSERT(ierr == 0,"H5Pclose_f")
-      HERE;
-
       end do
 
       !
       ! (12) Close the group and file.
       !
-      HERE;
       call H5Gclose_f(group_id, ierr); ASSERT(ierr == 0,"H5Gclose_f")
-      HERE;
       call H5Fclose_f(file_id,  ierr); ASSERT(ierr == 0,"H5Fclose_f")
 
       !
       ! (12) Close FORTRAN predefined datatypes.
       !
-      HERE;
       call H5Close_f(ierr); ASSERT(ierr == 0,"H5Close_f")
 
       rate = totalSz /(t* 1024.0* 1024.0)
-      HERE;
 
       deallocate(u)
 #     endif
