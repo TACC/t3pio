@@ -73,6 +73,9 @@ contains
       real(8), allocatable :: u(:)
 
 
+      !------------------------------------------------------------
+      ! Form a random value using system random_seed
+
       call random_seed(size=m)
       allocate(newSeed(m))
 
@@ -80,7 +83,8 @@ contains
       newSeed = iseed
       call random_seed(put=newSeed)
 
-      print *, "HSIZE_t: ", HSIZE_t
+      !------------------------------------------------------------
+      ! Compute global size of solution vector(s)
 
       lSz = 1
       totalSz = 8.0
@@ -96,7 +100,10 @@ contains
       totalSz  = totalSz * Numvar
       iTotalSz = totalSz / (1024*1024)
 
-      info = MPI_INFO_NULL
+      
+
+      !------------------------------------------------------------
+      ! Delete old file if it exists
 
       fn = FILE_NAME // ".h5"
       if ( p % myProc == 0) then
@@ -104,9 +111,13 @@ contains
       end if
       call MPI_Barrier(p % comm,ierr)
 
+      !------------------------------------------------------------
+      ! Create an MPI Info object and use the T3PIO library to
+      ! initialize it.
+
+      info = MPI_INFO_NULL
       call MPI_Info_create(info, ierr)
       ASSERT(ierr == 0, "MPI_Info_create")
-
 
       call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
                           global_size          = iTotalSz,      &
@@ -376,7 +387,7 @@ contains
    subroutine init3d(local, u)
       implicit none
       type(grid_t) local
-      integer :: kk, k, jj, j, ii, i, ja, iseed, m
+      integer :: kk, k, jj, j, ii, i, ja
       real(8) :: u(local % num(1)* local % num(2) * local % num(3))
       real(8) :: rval
 
