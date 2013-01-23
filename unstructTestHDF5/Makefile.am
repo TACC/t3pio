@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = .
 
-CXXFLAGS = -I$(top_srcdir)/libt3pio 
+CXXFLAGS += -I$(top_srcdir)/libt3pio 
 
 unstructTestHDF5_SOURCES        = main.C parallel.C cmdLineOptions.C h5writer.C measure.C
 unstructTestHDF5_CXXFLAGS       = -I$(top_srcdir)/include
