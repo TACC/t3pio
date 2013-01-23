@@ -50,7 +50,7 @@ void H5::writer(CmdLineOptions& cmd)
 
   double lSz     = 1.0;
 
-  int nVar    = cmd.nvar;
+  m_numvar    = cmd.nvar;
   num         = cmd.localSz;
   lSz         = num;
   is          = P.myProc*num;
@@ -59,8 +59,12 @@ void H5::writer(CmdLineOptions& cmd)
   starts[0]   = is;
   sz[0]       = num;
   gsz[0]      = cmd.globalSz;
-  m_totalSz   = cmd.globalSz*nVar*sizeof(double);
+  m_totalSz   = cmd.globalSz*m_numvar*sizeof(double);
+
   
+  int iTotalSz = m_totalSz/(1024*1024);
+  
+
   // Initialize data buffer
   double xk = num*P.myProc;
 
@@ -84,7 +88,7 @@ void H5::writer(CmdLineOptions& cmd)
 
   T3PIO_results_t results;
   int ierr = t3pio_set_info(P.comm, info, "./",
-                            T3PIO_GLOBAL_SIZE,         m_totalSz,
+                            T3PIO_GLOBAL_SIZE,         iTotalSz,
                             T3PIO_MAX_STRIPES,         cmd.stripes,
                             T3PIO_MAX_WRITER_PER_NODE, cmd.maxWritersPer,
                             T3PIO_FACTOR,              cmd.factor,
@@ -116,7 +120,7 @@ void H5::writer(CmdLineOptions& cmd)
   add_attribute(group_id,"Local Time", timeL.c_str());
 
 
-  for (int ivar = 0; ivar < nVar; ++ivar)
+  for (int ivar = 0; ivar < m_numvar; ++ivar)
     {
 
       // Create the dataspace for the dataset
