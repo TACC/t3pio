@@ -162,7 +162,7 @@ contains
 
       if (p % myProc == 0) then
          blkSz = lSz * 8.0 / (1024.0 * 1024.0 * 1024.0)
-         print *, "allocating: ", lSz, " entries or ", blkSz , " (GB)"
+         ! print *, "allocating: ", lSz, " entries or ", blkSz , " (GB)"
       end if
 
       allocate(u(lSz), stat = istat)
