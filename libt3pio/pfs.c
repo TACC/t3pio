@@ -1,5 +1,5 @@
+#include <mpi.h>
 #include "config.h"
-#include "mpi.h"
 #include <assert.h>
 #include <limits.h>
 #include <time.h>

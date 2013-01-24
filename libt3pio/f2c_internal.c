@@ -1,7 +1,7 @@
+#include <mpi.h>
 #include <stdio.h>
 #include "t3pio.h"
 #include "t3pio_internal.h"
-#include <mpi.h>
 
 int t3piointernal_(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes, int* factor,
                    const char* file, int* maxWritersPer, int* nWriters, int* nNodes)
