@@ -1,9 +1,9 @@
+#include "parallel.h"
 #include <iostream>
 #include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "cmdLineOptions.h"
-#include "parallel.h"
 #include "h5test.h"
 
 void printVersion(const char* execName)
