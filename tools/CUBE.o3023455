@@ -1,0 +1,2459 @@
+TACC: Setting memory limits for job 3023455 to unlimited KB
+TACC: Dumping job script:
+--------------------------------------------------------------------------------
+#!/bin/bash
+# -*- shell-script -*-
+
+#$  -V
+#
+#$ -cwd
+#
+#$ -A A-ccsc
+#
+#$ -P hpc
+#
+#$ -N CUBE
+#
+#$ -j y
+#
+#$ -o $JOB_NAME.o$JOB_ID
+#
+#$ -pe 16way 256
+#
+#$ -q systest
+#
+#$ -l h_rt=23:59:00
+
+########################################################################
+# Copy executable to SCRATCH
+########################################################################
+
+hostname
+echo TARG: $TARG
+module list
+
+factor=1
+lSz=100
+nvar=1
+
+for stripes in 4 8 16 32 60 80 100 120 140 160; do
+   for i in $(seq 1 30) ; do  
+       echo
+       t=$( echo " ( $RANDOM * 13 ) / 32768 " | bc -q )
+       sleep $t
+       ibrun tacc_affinity `pwd`/cubeTestHDF5  --lua --h5slab --numvar $nvar --dim 3 -l 100 -f $factor --stripes $stripes --mwriters $stripes
+   done
+done
+--------------------------------------------------------------------------------
+TACC: Done.
+i177-310.ranger.tacc.utexas.edu
+TARG: OBJ/_x86_64_opt_intel-12.1_mvapich2-1.8
+Currently Loaded Modules:
+  1) TACC-paths             7)  tar/1.22         13) petsc/3.3
+  2) papi/3.6.0             8)  intel/12.1       14) fdepend/fdepend
+  3) Linux                  9)  mvapich2/1.8     15) mkl/10.0
+  4) cluster-paths          10) phdf5/1.8.10     16) TACC
+  5) binutils-amd/070220    11) autotools/1.2    17) cluster
+  6) gzip/1.3.12            12) git/1.7.9.6
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.079740    , rate =    384.4931    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    4.995811    , rate =    390.9525    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.292950    , rate =    369.0050    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    6.821719    , rate =    286.3098    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    6.380490    , rate =    306.1089    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    6.239612    , rate =    313.0203    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.609638    , rate =    348.1731    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    6.555544    , rate =    297.9349    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.264564    , rate =    370.9946    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    8.257442    , rate =    236.5291    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    9.295333    , rate =    210.1189    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.632703    , rate =    346.7474    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.401590    , rate =    361.5834    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    6.146324    , rate =    317.7712    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    7.767941    , rate =    251.4341    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.634825    , rate =    346.6168    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    9.350718    , rate =    208.8743    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    4.965331    , rate =    393.3524    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    6.405409    , rate =    304.9181    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    6.007001    , rate =    325.1415    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.201503    , rate =    375.4924    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.567135    , rate =    350.8313    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.423283    , rate =    360.1370    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.341378    , rate =    365.6594    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.909211    , rate =    330.5221    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.731641    , rate =    340.7619    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.595689    , rate =    349.0410    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    7.008826    , rate =    278.6665    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.584330    , rate =    349.7510    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     4, nstripes =     4, stripeSz =         64, fileSz =    1.907349    , time =    5.384954    , rate =    362.7004    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.377272    , rate =    578.3144    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.010164    , rate =    648.8434    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    2.942789    , rate =    663.6987    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.308445    , rate =    590.3453    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.132995    , rate =    623.4051    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    2.820558    , rate =    692.4605    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.168155    , rate =    616.4866    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    2.837038    , rate =    688.4381    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    2.720608    , rate =    717.9002    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.092508    , rate =    631.5667    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    2.916567    , rate =    669.6657    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.400477    , rate =    574.3680    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.294880    , rate =    592.7757    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.510816    , rate =    556.3166    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.581620    , rate =    545.3189    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.351921    , rate =    582.6882    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    2.763493    , rate =    706.7595    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.084694    , rate =    633.1665    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.304744    , rate =    591.0064    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.558242    , rate =    548.9017    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    2.750563    , rate =    710.0819    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.298294    , rate =    592.1622    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    4.282060    , rate =    456.1181    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.649254    , rate =    535.2121    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.245242    , rate =    601.8426    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.295087    , rate =    592.7385    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.298538    , rate =    592.1184    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    2.983477    , rate =    654.6472    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.455732    , rate =    565.1841    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =     8, nstripes =     8, stripeSz =         64, fileSz =    1.907349    , time =    3.233314    , rate =    604.0629    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    2.045180    , rate =    954.9894    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    2.478765    , rate =    787.9428    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.798877    , rate =    1085.747    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.764629    , rate =    1106.819    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.823419    , rate =    1071.133    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.807193    , rate =    1080.751    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.784266    , rate =    1094.638    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.837567    , rate =    1062.886    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    2.610160    , rate =    748.2779    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.950737    , rate =    1001.224    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.958270    , rate =    997.3728    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.654428    , rate =    1180.544    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.742558    , rate =    1120.838    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.870411    , rate =    1044.222    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.832643    , rate =    1065.742    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.789000    , rate =    1091.741    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    2.093986    , rate =    932.7307    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.938238    , rate =    1007.681    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    2.075636    , rate =    940.9767    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    2.813206    , rate =    694.2702    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    2.444021    , rate =    799.1441    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.808348    , rate =    1080.060    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.765274    , rate =    1106.415    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.949758    , rate =    1001.727    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.889681    , rate =    1033.574    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.799865    , rate =    1085.151    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.751629    , rate =    1115.034    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.825697    , rate =    1069.797    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.945888    , rate =    1003.719    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     1, iounits =    16, nstripes =    16, stripeSz =         64, fileSz =    1.907349    , time =    1.979492    , rate =    986.6799    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.631645    , rate =    1197.028    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    2.003297    , rate =    974.9552    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.514082    , rate =    1289.973    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.433485    , rate =    1362.501    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.544245    , rate =    1264.777    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.640570    , rate =    1190.516    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.468464    , rate =    1330.046    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.672421    , rate =    1167.843    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.569135    , rate =    1244.714    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.921614    , rate =    1016.398    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.442316    , rate =    1354.159    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.440017    , rate =    1356.321    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    4.302948    , rate =    453.9039    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.725411    , rate =    1131.977    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.428764    , rate =    1367.003    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.535228    , rate =    1272.205    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.455645    , rate =    1341.759    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.497622    , rate =    1304.151    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.470805    , rate =    1327.929    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.488836    , rate =    1311.847    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.452638    , rate =    1344.536    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.522021    , rate =    1283.244    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.512856    , rate =    1291.018    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.479502    , rate =    1320.123    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.404394    , rate =    1390.724    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.459623    , rate =    1338.102    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.457923    , rate =    1339.662    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.444968    , rate =    1351.674    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.525806    , rate =    1280.061    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     2, iounits =    32, nstripes =    32, stripeSz =         32, fileSz =    1.907349    , time =    1.419536    , rate =    1375.890    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.606954    , rate =    1215.421    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.618721    , rate =    1206.585    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.636336    , rate =    1193.596    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.581817    , rate =    1234.735    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.643133    , rate =    1188.659    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.547928    , rate =    1261.767    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.663187    , rate =    1174.327    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.570085    , rate =    1243.961    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.537459    , rate =    1270.359    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.531373    , rate =    1275.408    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.803722    , rate =    1082.830    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.495569    , rate =    1305.941    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.520449    , rate =    1284.571    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.658164    , rate =    1177.884    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.539936    , rate =    1268.316    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.532095    , rate =    1274.807    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.491300    , rate =    1309.679    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.685957    , rate =    1158.467    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.498879    , rate =    1303.057    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.520284    , rate =    1284.711    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.557918    , rate =    1253.676    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.575775    , rate =    1239.470    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.515484    , rate =    1288.780    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.589813    , rate =    1228.525    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.538376    , rate =    1269.602    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.535684    , rate =    1271.827    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.609542    , rate =    1213.466    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.693431    , rate =    1153.354    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.619869    , rate =    1205.730    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     3, iounits =    60, nstripes =    60, stripeSz =         32, fileSz =    1.907349    , time =    1.649499    , rate =    1184.072    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.418682    , rate =    1376.718    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.394516    , rate =    1400.576    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.385591    , rate =    1409.597    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.415245    , rate =    1380.062    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.457945    , rate =    1339.643    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.508340    , rate =    1294.884    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.452981    , rate =    1344.219    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.512704    , rate =    1291.148    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.471498    , rate =    1327.304    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.540891    , rate =    1267.530    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.410727    , rate =    1384.481    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.421402    , rate =    1374.083    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.428676    , rate =    1367.087    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.657788    , rate =    1178.151    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.371090    , rate =    1424.505    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.403217    , rate =    1391.891    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.396811    , rate =    1398.274    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.438641    , rate =    1357.618    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.394105    , rate =    1400.988    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.410054    , rate =    1385.142    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.484481    , rate =    1315.696    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.412092    , rate =    1383.143    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.532657    , rate =    1274.339    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.430422    , rate =    1365.419    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.422839    , rate =    1372.696    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.633810    , rate =    1195.442    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.468061    , rate =    1330.411    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.418157    , rate =    1377.228    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.528137    , rate =    1278.109    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     5, iounits =    80, nstripes =    80, stripeSz =         16, fileSz =    1.907349    , time =    1.397904    , rate =    1397.181    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.796731    , rate =    1087.044    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    2.108459    , rate =    926.3282    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.843608    , rate =    1059.404    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    2.201963    , rate =    886.9927    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.787122    , rate =    1092.888    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.774282    , rate =    1100.797    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.807216    , rate =    1080.737    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.645500    , rate =    1186.949    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.885339    , rate =    1035.954    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.935856    , rate =    1008.921    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.843262    , rate =    1059.603    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.901043    , rate =    1027.397    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.668934    , rate =    1170.283    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.767237    , rate =    1105.186    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.743948    , rate =    1119.944    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.835262    , rate =    1064.221    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.996112    , rate =    978.4646    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.703093    , rate =    1146.811    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.676573    , rate =    1164.951    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.955014    , rate =    999.0338    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    2.017891    , rate =    967.9041    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.913309    , rate =    1020.810    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.746183    , rate =    1118.511    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.850305    , rate =    1055.569    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.732450    , rate =    1127.377    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.767356    , rate =    1105.111    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.806123    , rate =    1081.391    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.645304    , rate =    1187.091    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.688320    , rate =    1156.845    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     6, iounits =   100, nstripes =   100, stripeSz =         16, fileSz =    1.907349    , time =    1.863484    , rate =    1048.104    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.571846    , rate =    1242.568    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.602568    , rate =    1218.747    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.502432    , rate =    1299.976    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.509512    , rate =    1293.878    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.667693    , rate =    1171.154    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.650138    , rate =    1183.613    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.536750    , rate =    1270.945    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.613051    , rate =    1210.827    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.534473    , rate =    1272.831    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.561437    , rate =    1250.851    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.559289    , rate =    1252.574    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.663175    , rate =    1174.335    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.521964    , rate =    1283.292    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.500585    , rate =    1301.576    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.531272    , rate =    1275.492    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.537002    , rate =    1270.737    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.543199    , rate =    1265.634    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.552660    , rate =    1257.922    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.552463    , rate =    1258.081    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.523242    , rate =    1282.216    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.534739    , rate =    1272.611    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.482870    , rate =    1317.125    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.504440    , rate =    1298.241    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.502429    , rate =    1299.978    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.492087    , rate =    1308.989    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.531361    , rate =    1275.418    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.540736    , rate =    1267.657    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.560244    , rate =    1251.808    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.519881    , rate =    1285.051    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     7, iounits =   120, nstripes =   120, stripeSz =         16, fileSz =    1.907349    , time =    1.560266    , rate =    1251.790    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.572934    , rate =    1241.708    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.575610    , rate =    1239.599    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.738703    , rate =    1123.323    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.642507    , rate =    1189.112    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.628265    , rate =    1199.513    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.563835    , rate =    1248.933    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.645003    , rate =    1187.308    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.677218    , rate =    1164.503    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.637697    , rate =    1192.605    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.607930    , rate =    1214.683    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.595364    , rate =    1224.251    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.596549    , rate =    1223.342    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.536838    , rate =    1270.872    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.562423    , rate =    1250.062    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.585091    , rate =    1232.185    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.640477    , rate =    1190.584    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.603062    , rate =    1218.372    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.618393    , rate =    1206.830    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.585374    , rate =    1231.965    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.591293    , rate =    1227.382    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.581825    , rate =    1234.729    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.612373    , rate =    1211.336    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.606299    , rate =    1215.916    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.602707    , rate =    1218.641    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.539212    , rate =    1268.912    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.657335    , rate =    1178.473    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.594375    , rate =    1225.010    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.581935    , rate =    1234.643    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.619736    , rate =    1205.829    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =     8, iounits =   140, nstripes =   140, stripeSz =          8, fileSz =    1.907349    , time =    1.566440    , rate =    1246.856    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.543024    , rate =    1265.777    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.487850    , rate =    1312.716    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.511343    , rate =    1292.311    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.478950    , rate =    1320.616    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.542229    , rate =    1266.430    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    2.354085    , rate =    829.6747    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.614020    , rate =    1210.100    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.508057    , rate =    1295.127    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.515909    , rate =    1288.418    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.484581    , rate =    1315.607    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.530563    , rate =    1276.083    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.660080    , rate =    1176.525    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.695934    , rate =    1151.652    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.470465    , rate =    1328.236    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.523262    , rate =    1282.199    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.533568    , rate =    1273.582    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.534653    , rate =    1272.682    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.757585    , rate =    1111.255    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.487841    , rate =    1312.724    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.556879    , rate =    1254.513    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.577272    , rate =    1238.293    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.494934    , rate =    1306.496    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.464256    , rate =    1333.868    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.503999    , rate =    1298.621    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.501199    , rate =    1301.043    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.543916    , rate =    1265.046    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.488772    , rate =    1311.903    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.480993    , rate =    1318.794    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.572036    , rate =    1242.417    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+
+TACC: Starting up job 3023455
+TACC: Setting up parallel environment for MVAPICH ssh-based mpirun.
+TACC: Setup complete. Running job script.
+TACC: starting parallel tasks...
+%% { nprocs =    256, lSz =  100, gSz =   800, numvar =  1, wrtStyle = "h5slab", nWritersPer =    10, iounits =   160, nstripes =   160, stripeSz =          8, fileSz =    1.907349    , time =    1.527730    , rate =    1278.449    },
+TACC: Shutting down parallel environment.
+TACC: Shutdown complete. Exiting.
+TACC: Cleaning up after job: 3023455
+TACC: Done.
