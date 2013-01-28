@@ -24,19 +24,20 @@ function main()
    options()
    local masterTbl   = masterTbl()
    
-   local resultFn = masterTbl.pargs[1]
-   local f        = assert(io.open(resultFn,"r"))
-
-   local whole    = f:read("*all")
-   f:close()
-
    local a = {}
-
    a[#a+1] = "t = {"
 
-   for line in whole:split("\n") do
-      if (line:find("^%%")) then
-         a[#a+1] = line:sub(3)
+   for i = 1,#masterTbl.pargs do
+      local resultFn = masterTbl.pargs[i]
+      local f        = assert(io.open(resultFn,"r"))
+
+      local whole    = f:read("*all")
+      f:close()
+      
+      for line in whole:split("\n") do
+         if (line:find("^%%")) then
+            a[#a+1] = line:sub(3)
+         end
       end
    end
 
