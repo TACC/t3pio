@@ -18,7 +18,7 @@ factor=2
 lSz=200
 nvar=1
 
-for lSz in 10 20 30 37 40 50 60 70 80 90
+for lSz in 10 20 30 37 40 50 60 70 80 90; do
    for i in $(seq 1 30) ; do  
        echo
        t=$( echo " ( $RANDOM * 13 ) / 32768 " | bc -q )
