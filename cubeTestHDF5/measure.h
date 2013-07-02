@@ -5,6 +5,6 @@
 
 #define f_walltime    F77_FUNC(walltime,   WALLTIME)
 
-double f_walltime();
+double f_walltime(void);
 
 #endif /* MEASURE_H */
