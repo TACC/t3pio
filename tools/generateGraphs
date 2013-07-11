@@ -14,6 +14,9 @@ local huge      = math.huge
 local master    = {}
 local max       = math.max
 local min       = math.min
+local load      = (_VERSION == "Lua 5.1") and loadstring or load
+local dbg       = Dbg:dbg()
+
 
 function masterTbl()
    return master
@@ -44,16 +47,24 @@ function main()
    a[#a+1] = "}"
    local s = concatTbl(a,"\n")
 
-   assert(loadstring(s))()
+   assert(load(s))()
    
    local resultT = {}
 
-   local x = "nstripes"
+   local xaxisT = {
+      fileSz    = "File Size in GBytes",
+      nstripes  = "Number of Stripes",
+      lSz       = "Local Cube Size",
+      gSz       = "Global Cube Size",
+   }
+      
 
+   local xx     = masterTbl.xaxis
+   local xlabel = "set xlabel \"" .. xaxisT[xx] .. "\""
 
    for i = 1,#t do
       local entry   = t[i]
-      local x       = entry[x]      
+      local x       = entry[xx]      
       local e       = resultT[x] or {count = 0, rate= 0, min = huge, max = 0 }
       local rate    = entry.rate
 
@@ -94,7 +105,7 @@ function main()
    f:close()
 
    a = {}
-   a[#a+1] = "set xlabel \"Number of Stripes\""
+   a[#a+1] = xlabel
    a[#a+1] = "set ylabel \"Rate (in MB/sec)\""
    a[#a+1] = "set key left top"
    a[#a+1] = "set term png"
@@ -124,6 +135,13 @@ function options()
       name   = {'-v','--verbose'},
       dest   = 'verbosityLevel',
       action = 'count',
+   }
+
+   cmdlineParser:add_option{ 
+      name    = {'-x',},
+      dest    = 'xaxis',
+      action  = 'store',
+      default = 'fileSz',
    }
    local optionTbl, pargs = cmdlineParser:parse(arg)
 
