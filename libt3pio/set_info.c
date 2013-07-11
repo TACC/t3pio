@@ -78,11 +78,12 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   if (t3.factor < 0 || t3.factor > 4)
     t3.factor = 1;
 
-  prt(t3.factor);
 
   MPI_Comm_rank(comm, &myProc);
   MPI_Comm_size(comm, &nProcs);
   
+  prt(t3.factor);
+
   t3pio_numComputerNodes(comm, nProcs, &t3.numNodes, &t3.numCoresPer, &t3.maxCoresPer);
   t3.nodeMem    = t3pio_nodeMemory(comm, myProc);
   t3.stripeSz   = 1024 * 1024;
