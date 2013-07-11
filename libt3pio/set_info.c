@@ -127,6 +127,8 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   prt(t3.factor);
   prt(t3.numIO);
 
+  prt(t3.maxWriters)
+
   if (t3.maxWriters > 0)
     {
       t3.numIO  = min(nProcs, t3.maxWriters);

@@ -38,7 +38,7 @@ contains
       
 
 
-      nWriters      = huge(nWriters)
+      nWriters      = -1
       maxWritersPer = huge(maxWritersPer)
       gblSz         = -1
       maxStripes    = -1

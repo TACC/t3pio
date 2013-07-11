@@ -43,7 +43,8 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   bool version, help, illegal;
 
   maxWritersPer  = INT_MAX;
-  maxWriters     = INT_MAX;
+
+  maxWriters     = -1
   version        = false;
   help           = false;
   localSz        = -1;

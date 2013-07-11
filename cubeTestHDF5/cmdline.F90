@@ -32,7 +32,7 @@ contains
 
    
    MaxWritersPer = huge(MaxWritersPer)
-   MaxWriters    = huge(MaxWriters)
+   MaxWriters    = -1
    Numvar        = 1
    Stripes       = 0
    nDim          = 2
