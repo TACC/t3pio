@@ -20,7 +20,7 @@ contains
       implicit none
 
       integer, parameter              :: PATHMAX = 2048
-      integer                         :: comm, info, ierr
+      integer                         :: comm, info, ierr, myProc
       character(*)                    :: dirIn
       integer,          optional      :: global_size, max_stripes, factor
       character(*),     optional      :: file
@@ -34,6 +34,8 @@ contains
       integer                         :: gblSz, maxStripes, f
       integer                         :: t3piointernal
       type(T3PIO_Results_t), optional :: results
+
+      
 
 
       nWriters      = huge(nWriters)
@@ -60,6 +62,8 @@ contains
       ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, f, usrFile, maxWritersPer,  &
                            nWriters, nNodes)
       
+      call MPI_comm_rank(comm, myProc, ierr)
+
       if (present(results)) then
          call MPI_Info_get_nkeys(info, nkeys, ierr)
 
@@ -76,6 +80,8 @@ contains
                read(value,'(i15)') results % stripeSize
             end if
          end do
+
+         if (myProc == 0) print *, "numIO: ", results % numIO
 
          results % factor      = results % numStripes / results % numIO
          results % nWritersPer = max(results % numIO /nNodes,1)

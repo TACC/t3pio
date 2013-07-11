@@ -133,6 +133,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       t3.factor = t3.numStripes / t3.numIO;
     }
 
+  prt(t3.numIO);
 
   if (t3.globalSz > 0 && !remoteFile)
     {
@@ -140,14 +141,20 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       double numCores = nProcs/t3.numNodes;
       double coreMem  = t3.nodeMem/numCores;
       double bufMemSz = coreMem/16.0;
+      prt(bufMemSz);
+
       double coreExp  = floor(log(bufMemSz)/log2);
       double sz       = ((double)t3.globalSz) / ((double)t3.numIO);
+      prt(sz);
       double exp      = floor(log(sz)/log2);
       exp             = min(coreExp,exp);
       exp             = max(1.0, exp);
       t3.stripeSz     = 1 << ((int) exp) + 20;
+
+      prt(t3.stripeSz);
     }
 
+  prt(t3.numIO);
 
   sprintf(buf, "%d", t3.numIO);
   MPI_Info_set(info, (char *) "cb_nodes", buf);
@@ -179,6 +186,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
         }
       results->factor      = results->numStripes/results->numIO;
       results->nWritersPer = max(results->numIO/t3.numNodes, 1);
+      prt(results->numIO);
     }
 
   return ierr;
