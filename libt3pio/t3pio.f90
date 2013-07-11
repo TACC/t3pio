@@ -28,7 +28,7 @@ contains
       character(PATHMAX)              :: dir
       character(PATHMAX)              :: usrFile
       character(256)                  :: key, value
-      integer                         :: len, valuelen, myProc, maxWritersPer
+      integer                         :: len, valuelen, maxWritersPer
       integer                         :: nNodes, nkeys, i, nWriters
       logical                         :: flag
       integer                         :: gblSz, maxStripes, f
