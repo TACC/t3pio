@@ -62,19 +62,20 @@ subroutine outputResults(wrtStyle, local, global)
    
    fileSz = totalSz /(1024*1024*1024)
    if (LuaOutput) then
-      print 1000, p % nProcs, local % num(1), global % num(1), Numvar, trim(wrtStyle),  &
-           nWritersPer, nIOUnits, nStripes, stripeSize/(1024*1024), fileSz, t,          &
-           rate
+      print 1000, p % nProcs, local % num(1), global % num(1), Numvar,      &
+           trim(wrtStyle), nWritersPer, nIOUnits, nStripes,                 &
+           stripeSize/(1024*1024), fileSz, t, rate
    else
-      print 1010, p % nProcs, local % num(1), global % num(1), Numvar, nIOUnits,        &
-           nWritersPer, nStripes, stripeSize/(1024*1024), fileSz, t, rate,              &
-           adjustr(trim(wrtStyle))
+      print 1010, p % nProcs, local % num(1), global % num(1), Numvar,      &
+           nIOUnits, nWritersPer, nStripes, stripeSize/(1024*1024), fileSz, &
+           t, rate, adjustr(trim(wrtStyle))
    end if
 
-1000 format("%% { nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5,", numvar = ",i2,         &
-          ', wrtStyle = "',a, '", nWritersPer = ',i5, ", iounits = ",i5,                &
-          ", nstripes = ", i5, ", stripeSz = ", i10, ", fileSz = ", 1pg15.7,            &
-          ", time = ", 1pg15.7, ", rate = ", 1pg15.7,"},")
+1000 format("%% { nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5,              &
+            ", numvar = ",i2, ', wrtStyle = "',a, '", nWritersPer = ',i5,   &
+            ", iounits = ",i5, ", nstripes = ", i5, ", stripeSz = ", i10,   &
+            ", fileSz = ", 1pg15.7, ", time = ", 1pg15.7,                   &
+            ", rate = ", 1pg15.7,"},")
 
 1010 format(/,"cubeTestHDF5 Results: ",/  &
               "--------------------- "//  &

@@ -10,6 +10,8 @@
 #define min(x,y) (x) > (y) ? y : x;
 #define max(x,y) (x) > (y) ? x : y;
 
+#define prt(x) if (myProc == 0) printf("%s:%d: %s: %d\n",__FILE__,__LINE__,#x,x)
+
 int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
 {
 
@@ -69,9 +71,14 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   if (maxWritersPer < 0)
     maxWritersPer = INT_MAX;
 
+  prt(t3.factor);
+
+
   /* Set factor to 1 unless the user specified something different*/
   if (t3.factor < 0 || t3.factor > 4)
     t3.factor = 1;
+
+  prt(t3.factor);
 
   MPI_Comm_rank(comm, &myProc);
   MPI_Comm_size(comm, &nProcs);
@@ -82,6 +89,8 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   if (pNodes) 
     *pNodes     = t3.numNodes;
   
+  prt(t3.numNodes);
+
 
   if (t3.fn && t3.fn[0])
     {
@@ -114,6 +123,9 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     }
 
   t3.numIO = t3.numStripes / t3.factor;
+  prt(t3.numStripes);
+  prt(t3.factor);
+  prt(t3.numIO);
 
   if (t3.maxWriters > 0)
     {
