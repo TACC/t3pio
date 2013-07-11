@@ -71,17 +71,16 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   if (maxWritersPer < 0)
     maxWritersPer = INT_MAX;
 
+  MPI_Comm_rank(comm, &myProc);
+  MPI_Comm_size(comm, &nProcs);
+  
   prt(t3.factor);
-
 
   /* Set factor to 1 unless the user specified something different*/
   if (t3.factor < 0 || t3.factor > 4)
     t3.factor = 1;
 
 
-  MPI_Comm_rank(comm, &myProc);
-  MPI_Comm_size(comm, &nProcs);
-  
   prt(t3.factor);
 
   t3pio_numComputerNodes(comm, nProcs, &t3.numNodes, &t3.numCoresPer, &t3.maxCoresPer);
