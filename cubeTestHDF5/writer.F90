@@ -342,10 +342,6 @@ contains
                           max_stripes          = Stripes,       &
                           results              = results )
 
-      if (p % myProc == 0) then
-         print *, "Writer: numIO: ", results % numIO
-      end if
-
       nIOUnits    = results % numIO
       nStripes    = results % numStripes
       stripeSize  = results % stripeSize

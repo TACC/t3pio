@@ -62,8 +62,6 @@ contains
       ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, f, usrFile, maxWritersPer,  &
                            nWriters, nNodes)
       
-      call MPI_comm_rank(comm, myProc, ierr)
-
       if (present(results)) then
          call MPI_Info_get_nkeys(info, nkeys, ierr)
 
@@ -80,8 +78,6 @@ contains
                read(value,'(i15)') results % stripeSize
             end if
          end do
-
-         if (myProc == 0) print *, "numIO: ", results % numIO
 
          results % factor      = results % numStripes / results % numIO
          results % nWritersPer = max(results % numIO /nNodes,1)
