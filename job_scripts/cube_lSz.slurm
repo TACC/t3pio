@@ -6,7 +6,7 @@
 #SBATCH -p normal             # Queue name
 #SBATCH -N 80                 # Total number of nodes requested (16 cores/node)
 #SBATCH -n 1280
-#SBATCH -t 08:00:00   
+#SBATCH -t 12:00:00   
 
 #SBATCH -A A-ccsc
 
@@ -14,12 +14,11 @@ hostname
 echo TARG: $TARG
 module list
 
-factor=2
-lSz=200
+factor=1
 nvar=1
 
-for lSz in 10 20 30 37 40 50 60 70 80 90; do
-   for i in $(seq 1 30) ; do  
+for lSz in 10 20 30 37 40 50 60 70 80 90 100 110 120; do
+   for i in $(seq 1 40) ; do  
        echo
        t=$( echo " ( $RANDOM * 13 ) / 32768 " | bc -q )
        sleep $t
