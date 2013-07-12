@@ -27,6 +27,11 @@ function main()
    options()
    local masterTbl   = masterTbl()
    
+   if (masterTbl.debug) then
+      dbg:activateDebug(1)
+   end
+
+
    local a = {}
    a[#a+1] = "t = {"
 
@@ -52,15 +57,18 @@ function main()
    local resultT = {}
 
    local xaxisT = {
-      fileSz    = "File Size in GBytes",
-      nstripes  = "Number of Stripes",
-      lSz       = "Local Cube Size",
-      gSz       = "Global Cube Size",
+      nWritersPer = "Number of Writer Per Node",
+      fileSz      = "File Size in GBytes",
+      nstripes    = "Number of Stripes",
+      lSz         = "Local Cube Size",
+      gSz         = "Global Cube Size",
    }
       
 
    local xx     = masterTbl.xaxis
    local xlabel = "set xlabel \"" .. xaxisT[xx] .. "\""
+
+   dbg.print("number of entries: ",#t,"\n")
 
    for i = 1,#t do
       local entry   = t[i]
@@ -72,6 +80,10 @@ function main()
       e.rate      = e.rate + rate
       e.min       = min(e.min, rate)
       e.max       = max(e.max, rate)
+
+      if (e.count == 1) then
+         dbg.print("x:", x, " rate: ", rate,"\n")
+      end
 
       resultT[x]  = e
    end
@@ -135,6 +147,12 @@ function options()
       name   = {'-v','--verbose'},
       dest   = 'verbosityLevel',
       action = 'count',
+   }
+
+   cmdlineParser:add_option{ 
+      name   = {'-D','--debug'},
+      dest   = 'debug',
+      action = 'store_true',
    }
 
    cmdlineParser:add_option{ 
