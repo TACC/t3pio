@@ -17,8 +17,10 @@ module list
 factor=1
 nvar=1
 
-for lSz in 10 20 30 37 40 50 60 70 80 90 100 110 120; do
-   for i in $(seq 1 40) ; do  
+#for lSz in 10 20 30 37 40 50 60 70 80 90 100 110 120; do
+#   for i in $(seq 1 40) ; do  
+for lSz in 100 110 120 140 160 180 200 240; do
+   for i in $(seq 1 20) ; do  
        echo
        t=$( echo " ( $RANDOM * 13 ) / 32768 " | bc -q )
        sleep $t
