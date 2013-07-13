@@ -60,8 +60,10 @@ function main()
       nWritersPer = "Number of Writer Per Node",
       fileSz      = "File Size in GBytes",
       nstripes    = "Number of Stripes",
+      iounits     = "Number of Writers",
       lSz         = "Local Cube Size",
       gSz         = "Global Cube Size",
+      factor      = "Stripes/Writers"
    }
       
 
@@ -72,7 +74,13 @@ function main()
 
    for i = 1,#t do
       local entry   = t[i]
-      local x       = entry[xx]      
+      local x
+      if (xx ~= "factor") then
+         x = entry[xx]
+      else
+         x = math.floor(entry.nstripes/entry.iounits+0.5)
+      end
+
       local e       = resultT[x] or {count = 0, rate= 0, min = huge, max = 0 }
       local rate    = entry.rate
 

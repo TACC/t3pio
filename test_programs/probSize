@@ -118,7 +118,7 @@ function main()
 
    for i = 1,3 do
       n   = math.floor(gblSz / partition[i])
-      rem = math.mod(gblSz,  partition[i])
+      rem = gblSz %  partition[i]
       is  = 1
       if (rem > 0) then
          n = n + 1
