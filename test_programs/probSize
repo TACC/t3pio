@@ -114,11 +114,12 @@ function main()
    local gridL = {}
    local gridG = {}
    local totalSz = 1
+   local localSz = 1
 
 
    for i = 1,3 do
       n   = math.floor(gblSz / partition[i])
-      rem = gblSz %  partition[i]
+      rem = gblSz % partition[i]
       is  = 1
       if (rem > 0) then
          n = n + 1
@@ -126,9 +127,11 @@ function main()
       gridL[i] = n
       gridG[i] = gblSz
       totalSz  = totalSz * gridG[i]
+      localSz  = localSz * gridL[i]
    end
 
    totalSz = 8* totalSz * nVar/ (1024* 1024* 1024)
+   localSz = 8* localSz * nVar/ (1024* 1024)
 
    local results = {}
 
@@ -138,6 +141,30 @@ function main()
    print("global grid: ",gridG[1], gridG[2], gridG[3])
 
    print ("total Sz in (GB): ", totalSz)
+   print ("local Sz in (MB): ", localSz)
+
+
+
+   local lSz = math.ceil(math.pow(gridL[1] * gridL[2] * gridL[3], 1.0/3.0))
+
+   totalSz = 1
+   localSz = 1
+   for i = 1, 3 do
+      gridG[i] = partition[i]* lSz
+      totalSz  = totalSz * gridG[i]
+      localSz  = localSz * gridL[i]
+   end
+   totalSz = 8* totalSz * nVar/ (1024* 1024* 1024)
+   localSz = 8* localSz * nVar/ (1024* 1024)
+
+   print("\nPartition: ",partition[1],partition[2],partition[3])
+   print("nProcs:      ",nProcs, "\tProduct: ", partition[1]*partition[2]*partition[3],"\n")
+   print("local grid:  ", lSz, lSz , lSz)
+   print("global grid: ",gridG[1], gridG[2], gridG[3])
+   
+   print ("total Sz in (GB): ", totalSz)
+   print ("local Sz in (MB): ", localSz)
+
 
 
 end
