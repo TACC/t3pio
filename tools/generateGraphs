@@ -136,12 +136,12 @@ function main()
 
    s = concatTbl(a,"\n")
 
-   fn = "graph.gnuplot"
+   fn = "plot.in"
    f  = io.open(fn,"w")
    f:write(s)
    f:close()
 
-   os.execute("gnuplot graph.gnuplot")
+   os.execute("gnuplot plot.in")
 
 
 end
