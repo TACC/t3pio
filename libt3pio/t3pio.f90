@@ -43,7 +43,7 @@ contains
       maxWritersPer = huge(maxWritersPer)
       gblSz         = -1
       maxStripes    = -1
-      maxStripesSz  = -1
+      maxStripeSz   = -1
       f             = -1
       usrFile       = ""
 
