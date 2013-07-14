@@ -33,7 +33,7 @@ contains
       integer                         :: nNodes, nkeys, i, nWriters
       logical                         :: flag
       integer                         :: gblSz, maxStripes, f
-      integer                         :: t3piointernal
+      integer                         :: t3piointernal, maxStripeSz
       type(T3PIO_Results_t), optional :: results
 
       
