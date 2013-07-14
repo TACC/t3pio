@@ -145,7 +145,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       exp             = min(coreExp,exp);
       exp             = max(1.0, exp);
       t3.stripeSz     = 1 << (((int) exp) + 20);
-      t3.stripeSz     = min(t3.StripeSz, mStripeSz)
+      t3.stripeSz     = min(t3.stripeSz, mStripeSz)
     }
 
   sprintf(buf, "%d", t3.numIO);
