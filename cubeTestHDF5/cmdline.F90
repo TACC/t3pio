@@ -4,6 +4,7 @@ module cmdline
    use parallel
    implicit none
    integer :: Stripes       ! number of possible stripes
+   integer :: StripeSz      ! Stripe size in MB.
    integer :: Factor        ! number of stripes per writer
    integer :: nDim          ! number of dimension (2, 3)
    integer :: LocalSz       ! local size
@@ -92,6 +93,10 @@ contains
          i = i + 1
          call getarg(i,arg)
          read(arg,*) Stripes
+      elseif (arg == "--stripeSz") then
+         i = i + 1
+         call getarg(i,arg)
+         read(arg,*) StripeSz
       elseif (arg(1:2) == '-v' .or. arg == '--version') then
          VersionFlag = .TRUE.
       elseif (arg == '--romio') then
@@ -139,6 +144,7 @@ end subroutine parse
       print *, "                      (default = 2)"
       print *, "  --stripes num     : Allow no more than num stripes "
       print *, "                      (file system limit by default)"
+      print *, "  --stripeSz num    : Stripe Size in MB (1 to 256)"
       print *, "  --h5chunk         : use HDF5 with chunks"
       print *, "  --h5slab          : use HDF5 with slab"
       print *, "                      (default)"

@@ -123,6 +123,7 @@ contains
                           global_size          = iTotalSz,      &
                           factor               = Factor,        &
                           max_stripes          = Stripes,       &
+                          max_stripe_size      = StripeSz,      &
                           max_writers_per_node = MaxWritersPer, &
                           max_writers          = MaxWriters,    &
                           results              = results )
