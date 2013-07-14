@@ -75,6 +75,12 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   if (maxWritersPer < 0)
     maxWritersPer = INT_MAX;
 
+  /* Set max Stripe Sz to make sense:
+     a) value 0 or 1 => 1MByte
+     b) value > 1    => (value)*1 Mbyte
+     c) value < 0    -> INT_MAX  (this means no limitations)
+     */
+
   if (mStripeSz == 0)
     mStripeSz = 1;
 
