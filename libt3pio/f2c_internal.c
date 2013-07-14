@@ -26,8 +26,7 @@ int t3piointernal(int* f_comm, int* f_info, const char* dir, int* global_size, i
                         maxWritersPer, nWriters, nNodes);
 }
 
-int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes,
-                   int* mStripeSz, int* factor, const char* file, int* maxWritersPer, int* nWriters,
+wint* factor, const char* file, int* maxWritersPer, int* nWriters,
                    int* nNodes)
 {
   int      ierr, myProc;
