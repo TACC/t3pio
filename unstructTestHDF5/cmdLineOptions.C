@@ -24,6 +24,7 @@ void printUsage(const char* execName)
               << " -v            : Print Version\n"
               << " -C            : use h5 chunk\n"
               << " -S            : use h5 slab (default)\n"
+              << " -N            : no T3PIO\n"
               << " -n nvar       : nvar  (default=4)\n"
               << " -l num        : local size is num (default=10)\n"
               << " -g num        : global size is num\n"
@@ -45,6 +46,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
 
   maxWritersPer  = INT_MAX;
 
+  useT3PIO       = true;
   maxWriters     = -1;
   version        = false;
   help           = false;
@@ -74,6 +76,9 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           break;
         case 'L':
           luaStyleOutput = true;
+          break;
+        case 'N':
+          useT3PIO = false;
           break;
         case 'f':
           factor  = strtol(optarg, (char **) NULL, 10);

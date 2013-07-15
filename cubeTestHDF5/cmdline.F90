@@ -12,6 +12,7 @@ module cmdline
    integer :: Numvar        ! number of variables
    integer :: MaxWriters    ! the max number of writers.
    integer :: MaxWritersPer ! the max number of writers per node.
+   logical :: UseT3PIO      ! if true then use T3PIO (on by default).
    logical :: VersionFlag   ! if true then report version and quit.
    logical :: HelpFlag      ! if true then print usage and quit
    logical :: HDF5Flag      ! if true then use HDF5 instead of MPI I/O
@@ -40,6 +41,8 @@ contains
    Factor        = 1
    LocalSz       = 5
    GblSz         = 0
+
+   UseT3PIO      = .true.
    VersionFlag   = .false.
    HelpFlag      = .false.
    ROMIO         = .true.
@@ -102,6 +105,8 @@ contains
       elseif (arg == '--romio') then
          ROMIO    = .true.
          HDF5Flag = .false.
+      elseif (arg == '--noT3PIO') then
+         UseT3PIO = .false.
       elseif (arg == '--h5chunk') then
          ROMIO    = .false.
          HDF5Flag = .true.
@@ -142,6 +147,7 @@ end subroutine parse
       print *, "                      (default = 5)"
       print *, "  -f num            : number of stripes per writer"
       print *, "                      (default = 2)"
+      print *, "  --noT3PIO         : turn off t3pio"
       print *, "  --stripes num     : Allow no more than num stripes "
       print *, "                      (file system limit by default)"
       print *, "  --stripeSz num    : Stripe Size in MB (1 to 256)"
