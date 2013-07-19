@@ -29,7 +29,9 @@ Var_t varT[] =
   };
 
 H5::H5()
-  : m_t(0.0), m_rate(0.0), m_totalSz(1.0), m_stripeSz(-1)
+  : m_t(0.0), m_rate(0.0), m_totalSz(1.0), m_nStripes(1),
+    m_nIOUnits(1), m_factor(1), m_stripeSz(-1), m_numvar(1),
+    m_nWritersPer(1)
 {}
 
 
@@ -87,19 +89,24 @@ void H5::writer(CmdLineOptions& cmd)
 
 
   T3PIO_results_t results;
-  int ierr = t3pio_set_info(P.comm, info, "./",
-                            T3PIO_GLOBAL_SIZE,         iTotalSz,
-                            T3PIO_MAX_STRIPES,         cmd.stripes,
-                            T3PIO_MAX_WRITER_PER_NODE, cmd.maxWritersPer,
-                            T3PIO_FACTOR,              cmd.factor,
-                            T3PIO_RESULTS,             &results);
+
+  if (cmd.useT3PIO)
+    {
+      int ierr = t3pio_set_info(P.comm, info, "./",
+                                T3PIO_GLOBAL_SIZE,         iTotalSz,
+                                T3PIO_MAX_STRIPES,         cmd.stripes,
+                                T3PIO_MAX_STRIPE_SIZE,     cmd.stripeSz,
+                                T3PIO_MAX_WRITER_PER_NODE, cmd.maxWritersPer,
+                                T3PIO_FACTOR,              cmd.factor,
+                                T3PIO_RESULTS,             &results);
   
 
-  m_factor      = results.factor;
-  m_nStripes    = results.numStripes;
-  m_nIOUnits    = results.numIO;
-  m_stripeSz    = results.stripeSize;
-  m_nWritersPer = results.nWritersPer;
+      m_factor      = results.factor;
+      m_nStripes    = results.numStripes;
+      m_nIOUnits    = results.numIO;
+      m_stripeSz    = results.stripeSize;
+      m_nWritersPer = results.nWritersPer;
+    }
 
   plist_id = H5Pcreate(H5P_FILE_ACCESS);
   H5Pset_fapl_mpio(plist_id, P.comm, info);

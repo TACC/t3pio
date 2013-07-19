@@ -16,7 +16,8 @@ extern "C" {
 #define T3PIO_MAX_WRITER_PER_NODE 1006
 #define T3PIO_NUM_NODES           1007
 #define T3PIO_MAX_WRITERS         1008
-#define T3PIO_END_RANGE           1009
+#define T3PIO_MAX_STRIPE_SIZE     1009
+#define T3PIO_END_RANGE           1010
 
 typedef struct
 {

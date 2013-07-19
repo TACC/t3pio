@@ -21,6 +21,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   va_list ap;
   int     nProcs, myProc;
   char    buf[128];
+  int     mStripeSz     = -1;
   int     remoteFile    = 0;
   int     maxWritersPer = INT_MAX;
   int*    pNodes        = NULL;
@@ -55,7 +56,10 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
           pNodes = va_arg(ap, int*);
           break;
         case T3PIO_MAX_WRITER_PER_NODE:
-          maxWritersPer= va_arg(ap,int);
+          maxWritersPer = va_arg(ap,int);
+          break;
+        case T3PIO_MAX_STRIPE_SIZE:
+          mStripeSz = va_arg(ap,int);
           break;
         case T3PIO_FILE:
           t3.fn = va_arg(ap,char *);
@@ -70,6 +74,21 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   /* Check for valid maxWritersPer */
   if (maxWritersPer < 0)
     maxWritersPer = INT_MAX;
+
+  /* Set max Stripe Sz to make sense:
+     a) value 0 or 1 => 1MByte
+     b) value > 1    => (value)*1 Mbyte
+     c) value < 0    -> INT_MAX  (this means no limitations)
+     */
+
+  if (mStripeSz == 0)
+    mStripeSz = 1;
+
+  if (mStripeSz > 0)
+    mStripeSz = 1 << (19 + mStripeSz);
+
+  if (mStripeSz < 0)
+    mStripeSz = INT_MAX;
 
   MPI_Comm_rank(comm, &myProc);
   MPI_Comm_size(comm, &nProcs);
@@ -134,7 +153,8 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       double exp      = floor(log(sz)/log2);
       exp             = min(coreExp,exp);
       exp             = max(1.0, exp);
-      t3.stripeSz     = 1 << ((int) exp) + 20;
+      t3.stripeSz     = 1 << (((int) exp) + 20);
+      t3.stripeSz     = min(t3.stripeSz, mStripeSz)
     }
 
   sprintf(buf, "%d", t3.numIO);

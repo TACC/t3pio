@@ -119,18 +119,26 @@ contains
       call MPI_Info_create(info, ierr)
       ASSERT(ierr == 0, "MPI_Info_create")
 
-      call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
-                          global_size          = iTotalSz,      &
-                          factor               = Factor,        &
-                          max_stripes          = Stripes,       &
-                          max_writers_per_node = MaxWritersPer, &
-                          max_writers          = MaxWriters,    &
-                          results              = results )
-      nIOUnits    = results % numIO
-      nStripes    = results % numStripes
-      stripeSize  = results % stripeSize
-      Factor      = results % factor
-      nWritersPer = results % nWritersPer
+      nIOUnits    = 1
+      nStripes    = 1
+      stripeSize  = 1
+      Factor      = 1
+      nWritersPer = 1
+      if (UseT3PIO) then
+         call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
+                             global_size          = iTotalSz,      &
+                             factor               = Factor,        &
+                             max_stripes          = Stripes,       &
+                             max_stripe_size      = StripeSz,      &
+                             max_writers_per_node = MaxWritersPer, &
+                             max_writers          = MaxWriters,    &
+                             results              = results )
+         nIOUnits    = results % numIO
+         nStripes    = results % numStripes
+         stripeSize  = results % stripeSize
+         Factor      = results % factor
+         nWritersPer = results % nWritersPer
+      endif
 
       !
       ! (1) Initialize FORTRAN predefined datatypes

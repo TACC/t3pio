@@ -24,11 +24,13 @@ void printUsage(const char* execName)
               << " -v            : Print Version\n"
               << " -C            : use h5 chunk\n"
               << " -S            : use h5 slab (default)\n"
+              << " -N            : no T3PIO\n"
               << " -n nvar       : nvar  (default=4)\n"
               << " -l num        : local size is num (default=10)\n"
               << " -g num        : global size is num\n"
               << " -f factor     : number of stripes per writer (default=2)\n"
               << " -s num        : maximum number of stripes\n"
+              << " -z num        : maximum stripe size in MB\n"
               << " -p num        : maximum number of writers per node\n"
               << " -w num        : Total number of writers\n"
               << std::endl;
@@ -44,6 +46,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
 
   maxWritersPer  = INT_MAX;
 
+  useT3PIO       = true;
   maxWriters     = -1;
   version        = false;
   help           = false;
@@ -53,6 +56,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   h5slab         = false;
   factor         = 1;
   stripes        = -1;
+  stripeSz       = -1;
   h5style        = "h5slab";
   luaStyleOutput = false;
 
@@ -73,11 +77,17 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
         case 'L':
           luaStyleOutput = true;
           break;
+        case 'N':
+          useT3PIO = false;
+          break;
         case 'f':
           factor  = strtol(optarg, (char **) NULL, 10);
           break;
         case 's':
           stripes = strtol(optarg, (char **) NULL, 10);
+          break;
+        case 'z':
+          stripeSz = strtol(optarg, (char **) NULL, 10);
           break;
         case 'g':
           globalSz = strtoll(optarg, (char **) NULL, 10);

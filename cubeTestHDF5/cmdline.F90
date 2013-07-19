@@ -4,6 +4,7 @@ module cmdline
    use parallel
    implicit none
    integer :: Stripes       ! number of possible stripes
+   integer :: StripeSz      ! Stripe size in MB.
    integer :: Factor        ! number of stripes per writer
    integer :: nDim          ! number of dimension (2, 3)
    integer :: LocalSz       ! local size
@@ -11,6 +12,7 @@ module cmdline
    integer :: Numvar        ! number of variables
    integer :: MaxWriters    ! the max number of writers.
    integer :: MaxWritersPer ! the max number of writers per node.
+   logical :: UseT3PIO      ! if true then use T3PIO (on by default).
    logical :: VersionFlag   ! if true then report version and quit.
    logical :: HelpFlag      ! if true then print usage and quit
    logical :: HDF5Flag      ! if true then use HDF5 instead of MPI I/O
@@ -39,6 +41,8 @@ contains
    Factor        = 1
    LocalSz       = 5
    GblSz         = 0
+
+   UseT3PIO      = .true.
    VersionFlag   = .false.
    HelpFlag      = .false.
    ROMIO         = .true.
@@ -92,11 +96,17 @@ contains
          i = i + 1
          call getarg(i,arg)
          read(arg,*) Stripes
+      elseif (arg == "--stripeSz") then
+         i = i + 1
+         call getarg(i,arg)
+         read(arg,*) StripeSz
       elseif (arg(1:2) == '-v' .or. arg == '--version') then
          VersionFlag = .TRUE.
       elseif (arg == '--romio') then
          ROMIO    = .true.
          HDF5Flag = .false.
+      elseif (arg == '--noT3PIO') then
+         UseT3PIO = .false.
       elseif (arg == '--h5chunk') then
          ROMIO    = .false.
          HDF5Flag = .true.
@@ -137,8 +147,10 @@ end subroutine parse
       print *, "                      (default = 5)"
       print *, "  -f num            : number of stripes per writer"
       print *, "                      (default = 2)"
+      print *, "  --noT3PIO         : turn off t3pio"
       print *, "  --stripes num     : Allow no more than num stripes "
       print *, "                      (file system limit by default)"
+      print *, "  --stripeSz num    : Stripe Size in MB (1 to 256)"
       print *, "  --h5chunk         : use HDF5 with chunks"
       print *, "  --h5slab          : use HDF5 with slab"
       print *, "                      (default)"

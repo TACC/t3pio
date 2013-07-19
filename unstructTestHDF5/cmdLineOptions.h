@@ -20,8 +20,10 @@ class CmdLineOptions
   int         nvar;
   int         factor;
   int         stripes;
+  int         stripeSz;  // in MB
   int         maxWritersPer;
   int         maxWriters;
+  bool        useT3PIO;
   bool        luaStyleOutput;
   bool        h5chunk;
   bool        h5slab;
