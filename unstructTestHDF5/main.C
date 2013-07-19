@@ -1,7 +1,7 @@
-#include <stdio.h>
 #define OMPI_SKIP_MPICXX  1
 #define MPICH_SKIP_MPICXX 1
 #include "parallel.h"
+#include <stdio.h>
 #include "cmdLineOptions.h"
 #include "h5test.h"
 #include "h5writer.h"
