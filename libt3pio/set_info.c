@@ -85,7 +85,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     mStripeSz = 1;
 
   if (mStripeSz > 0)
-    mStripeSz = 1 << (19 + mStripeSz);
+    mStripeSz = (1 << 20) * mStripeSz;
 
   if (mStripeSz < 0)
     mStripeSz = INT_MAX;
