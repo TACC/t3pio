@@ -21,6 +21,7 @@ module cmdline
    logical :: ROMIO         ! if true then use MPI I/O
    logical :: LuaOutput     ! if true then write output in a Lua
                             ! table format.
+   logical :: TableOutput   ! if true then write output in table format.
 
 
 contains
@@ -48,6 +49,7 @@ contains
    ROMIO         = .true.
    HDF5Flag      = .false.
    LuaOutput     = .false.
+   TableOutput   = .true.
 
 #ifdef USE_HDF5
    ROMIO         = .false.
@@ -79,7 +81,11 @@ contains
          call getarg(i,arg)
          read(arg,*) nDim
       elseif (arg == "--lua") then
-         LuaOutput = .true.
+         LuaOutput   = .true.
+         TableOutput = .false.
+      elseif (arg == "--all" .or. arg == "--both" ) then
+         LuaOutput   = .true.
+         TableOutput = .true.
       elseif (arg == "--mwriters") then
          i = i + 1
          call getarg(i,arg)
