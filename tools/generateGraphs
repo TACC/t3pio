@@ -18,6 +18,18 @@ local load      = (_VERSION == "Lua 5.1") and loadstring or load
 local dbg       = Dbg:dbg()
 
 
+local axisT = {
+   nWritersPer = "Number of Writer Per Node",
+   fileSz      = "File Size in GBytes",
+   nstripes    = "Number of Stripes",
+   stripeSz    = "Stripe Size in MBytes",
+   iounits     = "Number of Writers",
+   lSz         = "Local Cube Size",
+   gSz         = "Global Cube Size",
+   factor      = "Stripes/Writers",
+   rate        = "Tranfer Rate (in MB/sec)",
+}
+
 function masterTbl()
    return master
 end
@@ -31,7 +43,15 @@ function main()
       dbg:activateDebug(1)
    end
 
+   if (masterTbl.yaxis) then
+      build3D()
+   else
+      build2D()
+   end
+end
 
+function read_T3PIO_results()
+   local masterTbl   = masterTbl()
    local a = {}
    a[#a+1] = "t = {"
 
@@ -53,22 +73,18 @@ function main()
    local s = concatTbl(a,"\n")
 
    assert(load(s))()
-   
-   local resultT = {}
+   return t
+end
 
-   local xaxisT = {
-      nWritersPer = "Number of Writer Per Node",
-      fileSz      = "File Size in GBytes",
-      nstripes    = "Number of Stripes",
-      iounits     = "Number of Writers",
-      lSz         = "Local Cube Size",
-      gSz         = "Global Cube Size",
-      factor      = "Stripes/Writers"
-   }
-      
+
+
+function build2D()
+   local masterTbl = masterTbl()
+   local t         = read_T3PIO_results()
+   local resultT   = {}
 
    local xx     = masterTbl.xaxis
-   local xlabel = "set xlabel \"" .. xaxisT[xx] .. "\""
+   local xlabel = "set xlabel \"" .. axisT[xx] .. "\""
 
    dbg.print("number of entries: ",#t,"\n")
 
@@ -124,7 +140,7 @@ function main()
    end
    f:close()
 
-   a = {}
+   local a = {}
    a[#a+1] = xlabel
    a[#a+1] = "set ylabel \"Rate (in MB/sec)\""
    a[#a+1] = "set key left top"
@@ -134,7 +150,7 @@ function main()
    a[#a+1] = "     'min.data' title 'Min Rate' with linespoints lw 2, \\"
    a[#a+1] = "     'max.data' title 'Max Rate' with linespoints lw 2"
 
-   s = concatTbl(a,"\n")
+   local s = concatTbl(a,"\n")
 
    fn = "plot.data"
    f  = io.open(fn,"w")
@@ -142,9 +158,137 @@ function main()
    f:close()
 
    os.execute("gnuplot plot.data")
-
-
 end
+
+function build3D()
+   local masterTbl = masterTbl()
+   local t         = read_T3PIO_results()
+   local resultT   = {}
+
+   local xx     = masterTbl.xaxis
+   local yy     = masterTbl.yaxis
+   local xlabel = "set xlabel \"" .. axisT[xx] .. "\""
+   local ylabel = "set ylabel \"" .. axisT[yy] .. "\""
+   local zlabel = "set zlabel \"" .. axisT.rate .. "\""
+
+   for i = 1,#t do
+      local entry = t[i]
+      local x  = entry[xx]
+      local y  = entry[yy]
+
+      local rT   = resultT[x] or {}
+      resultT[x] = rT
+
+      local e    = resultT[x][y] or {count = 0, rate= 0, min = huge, max = 0 }
+      local rate = entry.rate
+      e.count    = e.count + 1
+      e.rate     = e.rate + rate
+      e.min      = min(e.min, rate)
+      e.max      = max(e.max, rate)
+
+      if (e.count == 1) then
+         dbg.print("x:", x," y: ",y, " rate: ", rate,"\n")
+      end
+
+      resultT[x][y] = e
+   end
+
+   local fn = "avg.data"
+   local f  = io.open(fn,"w")
+
+   for kk, vv  in pairsByKeys(resultT) do
+      for k, v in pairsByKeys(vv) do
+         local rate = v.rate/v.count
+         f:write(kk, "\t", k, "\t", rate,"\n")
+      end
+      f:write("\n")
+   end
+   f:close()
+
+   fn = "min.data"
+   f  = io.open(fn,"w")
+   for kk, vv  in pairsByKeys(resultT) do
+      for k, v in pairsByKeys(vv) do
+         f:write(kk, "\t", k, "\t", v.min,"\n")
+      end
+      f:write("\n")
+   end
+   f:close()
+
+   fn = "max.data"
+   f  = io.open(fn,"w")
+   for kk, vv  in pairsByKeys(resultT) do
+      for k, v in pairsByKeys(vv) do
+         f:write(kk, "\t", k, "\t", v.max,"\n")
+      end
+      f:write("\n")
+   end
+   f:close()
+
+   local a = {}
+   a[#a+1] = xlabel
+   a[#a+1] = ylabel
+   a[#a+1] = zlabel
+
+   a[#a+1] = "set view 45, 15, 1, 1"
+   a[#a+1] = "set clabel '%8.2f'"
+   a[#a+1] = "set key right"
+   a[#a+1] = 'set title "T3PIO Average"'
+   a[#a+1] = "set term png"
+   a[#a+1] = "set output '3Davg.png'"
+   a[#a+1] = "splot 'avg.data' using 1:2:3 with lines"
+   local s = concatTbl(a,"\n")
+   
+   fn = "plotAvg.data"
+   f  = io.open(fn,"w")
+   f:write(s)
+   f:close()
+
+   os.execute("gnuplot plotAvg.data")
+   
+   a = {}
+   a[#a+1] = xlabel
+   a[#a+1] = ylabel
+   a[#a+1] = zlabel
+
+   a[#a+1] = "set view 45, 15, 1, 1"
+   a[#a+1] = "set clabel '%8.2f'"
+   a[#a+1] = "set key right"
+   a[#a+1] = 'set title "T3PIO min"'
+   a[#a+1] = "set term png"
+   a[#a+1] = "set output '3Dmin.png'"
+   a[#a+1] = "splot 'min.data' using 1:2:3 with lines"
+   s = concatTbl(a,"\n")
+   
+   fn = "plotMin.data"
+   f  = io.open(fn,"w")
+   f:write(s)
+   f:close()
+
+   os.execute("gnuplot plotMin.data")
+   
+   a = {}
+   a[#a+1] = xlabel
+   a[#a+1] = ylabel
+   a[#a+1] = zlabel
+
+   a[#a+1] = "set view 45, 15, 1, 1"
+   a[#a+1] = "set clabel '%8.2f'"
+   a[#a+1] = "set key right"
+   a[#a+1] = 'set title "T3PIO max"'
+   a[#a+1] = "set term png"
+   a[#a+1] = "set output '3Dmax.png'"
+   a[#a+1] = "splot 'max.data' using 1:2:3 with lines"
+   s = concatTbl(a,"\n")
+   
+   fn = "plotMax.data"
+   f  = io.open(fn,"w")
+   f:write(s)
+   f:close()
+
+   os.execute("gnuplot plotMax.data")
+end
+
 
 function options()
    local masterTbl = masterTbl()
@@ -168,6 +312,12 @@ function options()
       dest    = 'xaxis',
       action  = 'store',
       default = 'fileSz',
+   }
+
+   cmdlineParser:add_option{ 
+      name    = {'-y',},
+      dest    = 'yaxis',
+      action  = 'store',
    }
    local optionTbl, pargs = cmdlineParser:parse(arg)
 
