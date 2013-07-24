@@ -65,7 +65,8 @@ subroutine outputResults(wrtStyle, local, global)
       print 1000, p % nProcs, local % num(1), global % num(1), Numvar,      &
            trim(wrtStyle), nWritersPer, nIOUnits, nStripes,                 &
            stripeSize/(1024*1024), fileSz, t, rate
-   else
+   end if
+   if (TableOutput) then
       print 1010, p % nProcs, local % num(1), global % num(1), Numvar,      &
            nIOUnits, nWritersPer, nStripes, stripeSize/(1024*1024), fileSz, &
            t, rate, adjustr(trim(wrtStyle))
