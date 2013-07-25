@@ -152,12 +152,12 @@ function build2D()
 
    local s = concatTbl(a,"\n")
 
-   fn = "plot.data"
+   fn = "plot.gp"
    f  = io.open(fn,"w")
    f:write(s)
    f:close()
 
-   os.execute("gnuplot plot.data")
+   os.execute("gnuplot plot.gp")
 end
 
 function build3D()
@@ -239,12 +239,12 @@ function build3D()
    a[#a+1] = "splot 'avg.data' using 1:2:3 with lines"
    local s = concatTbl(a,"\n")
    
-   fn = "plotAvg.data"
+   fn = "plotAvg.gp"
    f  = io.open(fn,"w")
    f:write(s)
    f:close()
 
-   os.execute("gnuplot plotAvg.data")
+   os.execute("gnuplot plotAvg.gp")
    
    a = {}
    a[#a+1] = xlabel
@@ -260,12 +260,12 @@ function build3D()
    a[#a+1] = "splot 'min.data' using 1:2:3 with lines"
    s = concatTbl(a,"\n")
    
-   fn = "plotMin.data"
+   fn = "plotMin.gp"
    f  = io.open(fn,"w")
    f:write(s)
    f:close()
 
-   os.execute("gnuplot plotMin.data")
+   os.execute("gnuplot plotMin.gp")
    
    a = {}
    a[#a+1] = xlabel
@@ -281,12 +281,12 @@ function build3D()
    a[#a+1] = "splot 'max.data' using 1:2:3 with lines"
    s = concatTbl(a,"\n")
    
-   fn = "plotMax.data"
+   fn = "plotMax.gp"
    f  = io.open(fn,"w")
    f:write(s)
    f:close()
 
-   os.execute("gnuplot plotMax.data")
+   os.execute("gnuplot plotMax.gp")
 end
 
 
