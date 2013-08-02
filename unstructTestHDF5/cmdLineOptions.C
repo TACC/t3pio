@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <ctype.h>
 #include "cmdLineOptions.h"
 #include "h5test.h"
 
@@ -44,6 +45,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
 {
   int  opt;
   bool version, help, illegal;
+  char option;
 
   maxWritersPer  = INT_MAX;
 
@@ -98,7 +100,8 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           nvar =    strtol(optarg, (char **) NULL, 10);
           break;
         case 'O':
-          
+          choice         = tolower(optarg[0]);
+          luaStyleOutput = ( choice == 'b' || choice == 'l')
           break;
         case 'p':
           maxWritersPer = strtol(optarg, (char **) NULL, 10);
