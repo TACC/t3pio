@@ -1,7 +1,7 @@
 ! -*- f90 -*-
 #include "assert.hf"
 #include "top.hf"
-#define FILE_NAME "myfile"
+#define FILE_NAME "cube"
 module writer
    use grid
    use parallel

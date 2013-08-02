@@ -46,7 +46,7 @@ void H5::writer(CmdLineOptions& cmd)
   hid_t   plist_id;      //Property List id
   hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1];
   hsize_t is, num;
-  const char * fn = "myfile.h5";
+  const char * fn = "unstruct.h5";
 
   // compute size info
 
