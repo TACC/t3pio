@@ -45,7 +45,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
 {
   int  opt;
   bool version, help, illegal;
-  char option;
+  char choice;
 
   maxWritersPer  = INT_MAX;
 
