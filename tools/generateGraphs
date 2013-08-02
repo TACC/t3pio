@@ -167,6 +167,17 @@ function build3D()
 
    local xx     = masterTbl.xaxis
    local yy     = masterTbl.yaxis
+   if (not axisT[xx] ) then
+      io.stdout:write("X-axis: \"",xx,"\" is unknown\n")
+      os.exit(1)
+   end
+
+   if (not axisT[yy] ) then
+      io.stdout:write("Y-axis: \"",yy,"\" is unknown\n")
+      os.exit(1)
+   end
+
+
    local xlabel = "set xlabel \"" .. axisT[xx] .. "\""
    local ylabel = "set ylabel \"" .. axisT[yy] .. "\""
    local zlabel = "set zlabel \"" .. axisT.rate .. "\""

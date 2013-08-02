@@ -60,7 +60,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   h5style        = "h5slab";
   luaStyleOutput = false;
 
-  while ( (opt = getopt(argc, argv, "s:hCSLf:p:w:l:g:n:?v")) != -1)
+  while ( (opt = getopt(argc, argv, "s:hCSLf:p:w:l:g:n:z:?v")) != -1)
     {
       switch (opt)
         {
