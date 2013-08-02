@@ -79,7 +79,7 @@ void H5::writer(CmdLineOptions& cmd)
 
   // Delete old file
   if (P.myProc == 0)
-    MPI_File_delete((char * )fn,MPI_INFO_NULL);
+    MPI_File_delete((char * )fn, MPI_INFO_NULL);
   MPI_Barrier(P.comm);
 
 
