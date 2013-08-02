@@ -70,7 +70,9 @@ file.  If you do so then stripe size will increase to improve
 performance.
 
 In C/C++ it is very similar (a complete example can be found in
-unstructTestHDF5/h5writer.C (lines 71-95))
+unstructTestHDF5/h5writer.C (lines 71-95)).  Note that the first
+arguments to the function t3pio_set_info are required.  All other
+options are optional.
 
    #include "t3pio.h"
    #include "hdf5.h"

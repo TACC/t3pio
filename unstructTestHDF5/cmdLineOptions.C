@@ -25,6 +25,7 @@ void printUsage(const char* execName)
               << " -C            : use h5 chunk\n"
               << " -S            : use h5 slab (default)\n"
               << " -N            : no T3PIO\n"
+              << " -O type       : output type (l: lua, t: table, b: both (default: table))\n"
               << " -n nvar       : nvar  (default=4)\n"
               << " -l num        : local size is num (default=10)\n"
               << " -g num        : global size is num\n"
@@ -46,21 +47,22 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
 
   maxWritersPer  = INT_MAX;
 
-  useT3PIO       = true;
-  maxWriters     = -1;
-  version        = false;
-  help           = false;
-  localSz        = -1;
-  globalSz       = -1;
-  h5chunk        = false;
-  h5slab         = false;
-  factor         = 1;
-  stripes        = -1;
-  stripeSz       = -1;
-  h5style        = "h5slab";
-  luaStyleOutput = false;
+  useT3PIO         = true;
+  maxWriters       = -1;
+  version          = false;
+  help             = false;
+  localSz          = -1;
+  globalSz         = -1;
+  h5chunk          = false;
+  h5slab           = false;
+  factor           = 1;
+  stripes          = -1;
+  stripeSz         = -1;
+  h5style          = "h5slab";
+  luaStyleOutput   = false;
+  tableStyleOutput = true;
 
-  while ( (opt = getopt(argc, argv, "s:hCSLf:p:w:l:g:n:z:?v")) != -1)
+  while ( (opt = getopt(argc, argv, "s:hCSLO:f:p:w:l:g:n:z:?v")) != -1)
     {
       switch (opt)
         {
@@ -73,9 +75,6 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           break;
         case 'C':
           h5chunk = true;
-          break;
-        case 'L':
-          luaStyleOutput = true;
           break;
         case 'N':
           useT3PIO = false;
@@ -97,6 +96,9 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           break;
         case 'n':
           nvar =    strtol(optarg, (char **) NULL, 10);
+          break;
+        case 'O':
+          
           break;
         case 'p':
           maxWritersPer = strtol(optarg, (char **) NULL, 10);

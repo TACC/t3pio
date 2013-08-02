@@ -47,7 +47,7 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
              P.nProcs, cmd.localSz, cmd.h5style.c_str(), h5.factor(), h5.nIOUnits(), h5.nWritersPer(),
              h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(), h5.rate());
     }
-  else
+  if (cmd.tableStyleOutput)
     {
       printf("\nunstructTestHDF5:\n"
              "-------------------\n\n"
@@ -68,5 +68,4 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
              h5.rate(), cmd.h5style.c_str());
 
     }
-
 }
