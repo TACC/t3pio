@@ -96,6 +96,7 @@ void H5::writer(CmdLineOptions& cmd)
                                 T3PIO_GLOBAL_SIZE,         iTotalSz,
                                 T3PIO_MAX_STRIPES,         cmd.stripes,
                                 T3PIO_MAX_STRIPE_SIZE,     cmd.stripeSz,
+                                T3PIO_MAX_WRITERS,         cmd.maxWriters,
                                 T3PIO_MAX_WRITER_PER_NODE, cmd.maxWritersPer,
                                 T3PIO_FACTOR,              cmd.factor,
                                 T3PIO_RESULTS,             &results);
