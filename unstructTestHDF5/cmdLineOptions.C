@@ -101,7 +101,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           break;
         case 'O':
           choice         = tolower(optarg[0]);
-          luaStyleOutput = ( choice == 'b' || choice == 'l')
+          luaStyleOutput = ( choice == 'b' || choice == 'l');
           break;
         case 'p':
           maxWritersPer = strtol(optarg, (char **) NULL, 10);
