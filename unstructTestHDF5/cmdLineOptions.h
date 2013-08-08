@@ -25,6 +25,7 @@ class CmdLineOptions
   int         maxWriters;
   bool        useT3PIO;
   bool        luaStyleOutput;
+  bool        tableStyleOutput;
   bool        h5chunk;
   bool        h5slab;
   std::string h5style;

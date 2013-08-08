@@ -46,7 +46,7 @@ void H5::writer(CmdLineOptions& cmd)
   hid_t   plist_id;      //Property List id
   hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1];
   hsize_t is, num;
-  const char * fn = "myfile.h5";
+  const char * fn = "unstruct.h5";
 
   // compute size info
 
@@ -79,7 +79,7 @@ void H5::writer(CmdLineOptions& cmd)
 
   // Delete old file
   if (P.myProc == 0)
-    MPI_File_delete((char * )fn,MPI_INFO_NULL);
+    MPI_File_delete((char * )fn, MPI_INFO_NULL);
   MPI_Barrier(P.comm);
 
 
@@ -96,6 +96,7 @@ void H5::writer(CmdLineOptions& cmd)
                                 T3PIO_GLOBAL_SIZE,         iTotalSz,
                                 T3PIO_MAX_STRIPES,         cmd.stripes,
                                 T3PIO_MAX_STRIPE_SIZE,     cmd.stripeSz,
+                                T3PIO_MAX_WRITERS,         cmd.maxWriters,
                                 T3PIO_MAX_WRITER_PER_NODE, cmd.maxWritersPer,
                                 T3PIO_FACTOR,              cmd.factor,
                                 T3PIO_RESULTS,             &results);
