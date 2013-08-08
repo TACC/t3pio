@@ -230,11 +230,29 @@ function build3D()
    a[#a+1] = ylabel
    a[#a+1] = zlabel
 
-   a[#a+1] = "set view 45, 15, 1, 1"
+   a[#a+1] = "set clabel '%8.2f'"
+   a[#a+1] = "set key right"
+   a[#a+1] = 'set title "T3PIO Average"'
+   a[#a+1] = "set term wxt"
+   a[#a+1] = "set pm3d; set palette"
+   a[#a+1] = "splot 'avg.data' using 1:2:3 with lines"
+   local s = concatTbl(a,"\n")
+   
+   fn = "plotAvg.int.gp"
+   f  = io.open(fn,"w")
+   f:write(s)
+   f:close()
+
+   a       = {}
+   a[#a+1] = xlabel
+   a[#a+1] = ylabel
+   a[#a+1] = zlabel
+
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO Average"'
    a[#a+1] = "set term png"
+   a[#a+1] = "set pm3d; set palette"
    a[#a+1] = "set output '3Davg.png'"
    a[#a+1] = "splot 'avg.data' using 1:2:3 with lines"
    local s = concatTbl(a,"\n")
@@ -251,11 +269,30 @@ function build3D()
    a[#a+1] = ylabel
    a[#a+1] = zlabel
 
-   a[#a+1] = "set view 45, 15, 1, 1"
+   a[#a+1] = "set clabel '%8.2f'"
+   a[#a+1] = "set key right"
+   a[#a+1] = 'set title "T3PIO min"'
+   a[#a+1] = "set term wxt"
+   a[#a+1] = "set pm3d; set palette"
+   a[#a+1] = "splot 'min.data' using 1:2:3 with lines"
+   s = concatTbl(a,"\n")
+   
+   fn = "plotMin.int.gp"
+   f  = io.open(fn,"w")
+   f:write(s)
+   f:close()
+
+
+   a = {}
+   a[#a+1] = xlabel
+   a[#a+1] = ylabel
+   a[#a+1] = zlabel
+
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO min"'
    a[#a+1] = "set term png"
+   a[#a+1] = "set pm3d; set palette"
    a[#a+1] = "set output '3Dmin.png'"
    a[#a+1] = "splot 'min.data' using 1:2:3 with lines"
    s = concatTbl(a,"\n")
@@ -272,11 +309,29 @@ function build3D()
    a[#a+1] = ylabel
    a[#a+1] = zlabel
 
-   a[#a+1] = "set view 45, 15, 1, 1"
+   a[#a+1] = "set clabel '%8.2f'"
+   a[#a+1] = "set key right"
+   a[#a+1] = 'set title "T3PIO max"'
+   a[#a+1] = "set term wxt"
+   a[#a+1] = "set pm3d; set palette"
+   a[#a+1] = "splot 'max.data' using 1:2:3 with lines"
+   s = concatTbl(a,"\n")
+   
+   fn = "plotMax.int.gp"
+   f  = io.open(fn,"w")
+   f:write(s)
+   f:close()
+
+   a = {}
+   a[#a+1] = xlabel
+   a[#a+1] = ylabel
+   a[#a+1] = zlabel
+
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO max"'
    a[#a+1] = "set term png"
+   a[#a+1] = "set pm3d; set palette"
    a[#a+1] = "set output '3Dmax.png'"
    a[#a+1] = "splot 'max.data' using 1:2:3 with lines"
    s = concatTbl(a,"\n")
