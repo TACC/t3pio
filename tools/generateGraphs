@@ -146,6 +146,10 @@ function build2D()
    a[#a+1] = "set key left top"
    a[#a+1] = "set term png"
    a[#a+1] = "set output 'graph.png'"
+   if(masterTbl.title) then
+      a[#a+1] = "set title '" .. masterTbl.title .. "'"
+   end
+   
    a[#a+1] = "plot 'avg.data' title 'Avg Rate' with linespoints lw 2, \\"
    a[#a+1] = "     'min.data' title 'Min Rate' with linespoints lw 2, \\"
    a[#a+1] = "     'max.data' title 'Max Rate' with linespoints lw 2"
@@ -247,6 +251,9 @@ function build3D()
    a[#a+1] = 'set title "T3PIO Average"'
    a[#a+1] = "set term png"
    a[#a+1] = "set output '3Davg.png'"
+   if(masterTbl.title) then
+      a[#a+1] = "set title '" .. masterTbl.title .. "'"
+   end
    a[#a+1] = "splot 'avg.data' using 1:2:3 with lines"
    local s = concatTbl(a,"\n")
    
@@ -267,6 +274,9 @@ function build3D()
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO min"'
    a[#a+1] = "set term png"
+   if(masterTbl.title) then
+      a[#a+1] = "set title '" .. masterTbl.title .. "'"
+   end
    a[#a+1] = "set output '3Dmin.png'"
    a[#a+1] = "splot 'min.data' using 1:2:3 with lines"
    s = concatTbl(a,"\n")
@@ -288,6 +298,9 @@ function build3D()
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO max"'
    a[#a+1] = "set term png"
+   if(masterTbl.title) then
+      a[#a+1] = "set title '" .. masterTbl.title .. "'"
+   end
    a[#a+1] = "set output '3Dmax.png'"
    a[#a+1] = "splot 'max.data' using 1:2:3 with lines"
    s = concatTbl(a,"\n")
@@ -328,6 +341,12 @@ function options()
    cmdlineParser:add_option{ 
       name    = {'-y',},
       dest    = 'yaxis',
+      action  = 'store',
+   }
+
+   cmdlineParser:add_option{ 
+      name    = {'-t',},
+      dest    = 'title',
       action  = 'store',
    }
    local optionTbl, pargs = cmdlineParser:parse(arg)
