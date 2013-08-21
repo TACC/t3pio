@@ -245,14 +245,14 @@ function build3D()
    a[#a+1] = ylabel
    a[#a+1] = zlabel
 
-   a[#a+1] = "set view 45, 15, 1, 1"
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO Average"'
    a[#a+1] = "set term png"
    a[#a+1] = "set output '3Davg.png'"
+   a[#a+1] = "set pm3d; set palette"
    if(masterTbl.title) then
-      a[#a+1] = "set title '" .. masterTbl.title .. "'"
+      a[#a+1] = "set title '" .. masterTbl.title .. " (Avg)'"
    end
    a[#a+1] = "splot 'avg.data' using 1:2:3 with lines"
    local s = concatTbl(a,"\n")
@@ -269,13 +269,13 @@ function build3D()
    a[#a+1] = ylabel
    a[#a+1] = zlabel
 
-   a[#a+1] = "set view 45, 15, 1, 1"
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO min"'
    a[#a+1] = "set term png"
+   a[#a+1] = "set pm3d; set palette"
    if(masterTbl.title) then
-      a[#a+1] = "set title '" .. masterTbl.title .. "'"
+      a[#a+1] = "set title '" .. masterTbl.title .. " (Min)'"
    end
    a[#a+1] = "set output '3Dmin.png'"
    a[#a+1] = "splot 'min.data' using 1:2:3 with lines"
@@ -293,13 +293,14 @@ function build3D()
    a[#a+1] = ylabel
    a[#a+1] = zlabel
 
-   a[#a+1] = "set view 45, 15, 1, 1"
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO max"'
    a[#a+1] = "set term png"
+   a[#a+1] = "set pm3d; set palette"
+   
    if(masterTbl.title) then
-      a[#a+1] = "set title '" .. masterTbl.title .. "'"
+      a[#a+1] = "set title '" .. masterTbl.title .. " (Max)'"
    end
    a[#a+1] = "set output '3Dmax.png'"
    a[#a+1] = "splot 'max.data' using 1:2:3 with lines"
