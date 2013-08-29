@@ -247,8 +247,6 @@ function build3D()
    a[#a+1] = ylabel
    a[#a+1] = zlabel
 
-<<<<<<< HEAD
-=======
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO Average"'
@@ -267,7 +265,6 @@ function build3D()
    a[#a+1] = ylabel
    a[#a+1] = zlabel
 
->>>>>>> 7ca4e0611077bc6d2278a1be2e851d03c1cf544c
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO Average"'
