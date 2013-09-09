@@ -25,6 +25,7 @@ void printUsage(const char* execName)
               << " -v            : Print Version\n"
               << " -C            : use h5 chunk\n"
               << " -S            : use h5 slab (default)\n"
+              << " -I            : use independent instead of collective(collective is default)\n"
               << " -N            : no T3PIO\n"
               << " -O type       : output type (l: lua, t: table, b: both (default: table))\n"
               << " -n nvar       : nvar  (default=4)\n"
@@ -63,6 +64,8 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   h5style          = "h5slab";
   luaStyleOutput   = false;
   tableStyleOutput = true;
+  collective       = true;
+  xferStyle        = "Collective";
 
   while ( (opt = getopt(argc, argv, "s:hCSLO:f:p:w:l:g:n:z:?v")) != -1)
     {
@@ -77,6 +80,10 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           break;
         case 'C':
           h5chunk = true;
+          break;
+        case 'I':
+          collective = false;
+          xferStyle = "Independent";
           break;
         case 'N':
           useT3PIO = false;

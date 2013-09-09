@@ -46,6 +46,7 @@ void H5::writer(CmdLineOptions& cmd)
   hid_t   plist_id;      //Property List id
   hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1];
   hsize_t is, num;
+  H5FD_mpio_xfer_t  xfer_mode;   // HDF5 transfer mode (indep or collective)
   const char * fn = "unstruct.h5";
 
   // compute size info
@@ -109,6 +110,8 @@ void H5::writer(CmdLineOptions& cmd)
       m_nWritersPer = results.nWritersPer;
     }
 
+  xfer_mode = (cmd.collective) ? H5FD_MPIO_COLLECTIVE : H5FD_MPIO_INDEPENDENT;
+
   plist_id = H5Pcreate(H5P_FILE_ACCESS);
   H5Pset_fapl_mpio(plist_id, P.comm, info);
 
@@ -161,7 +164,7 @@ void H5::writer(CmdLineOptions& cmd)
         }
 
       plist_id = H5Pcreate(H5P_DATASET_XFER);
-      H5Pset_dxpl_mpio(plist_id, H5FD_MPIO_COLLECTIVE);
+      H5Pset_dxpl_mpio(plist_id, xfer_mode);
 
       add_attribute(dset_id, "Variable Description", varT[ivar].descript);
 

@@ -67,10 +67,17 @@ contains
 
       character(40)    :: date, time
       integer          :: info         ! mpi info
+      integer          :: xfer_mode    ! Transfer mode: Collective/Independent
       integer          :: i, ierr, m, iseed
       integer          :: iTotalSz, istat
       real(8)          :: walltime, blkSz
       real(8), allocatable :: u(:)
+
+      if (Collective) then
+         xfer_mode = H5FD_MPIO_COLLECTIVE_F
+      else
+         xfer_mode = H5FD_MPIO_INDEPENDENT_F
+      end if
 
 
       !------------------------------------------------------------
@@ -240,7 +247,7 @@ contains
          ! (7a) Create property list for collective dataset write
          call H5Pcreate_f(H5P_DATASET_XFER_F, plist_id, ierr)
          ASSERT(ierr == 0, "H5Pcreate_f")
-         call H5Pset_dxpl_mpio_f(plist_id, H5FD_MPIO_COLLECTIVE_F, ierr)
+         call H5Pset_dxpl_mpio_f(plist_id, xfer_mode, ierr)
          ASSERT(ierr == 0, "H5Pset_dxpl_mpio_f")
 
          !

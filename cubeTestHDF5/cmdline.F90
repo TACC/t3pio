@@ -18,6 +18,7 @@ module cmdline
    logical :: HDF5Flag      ! if true then use HDF5 instead of MPI I/O
    logical :: H5chunk       ! if true then use HDF5 w/ chunks
    logical :: H5slab        ! if true then use HDF5 w/ slabs
+   logical :: Collective    ! if true then use collective, otherwise do independent.
    logical :: ROMIO         ! if true then use MPI I/O
    logical :: LuaOutput     ! if true then write output in a Lua
                             ! table format.
@@ -43,6 +44,7 @@ contains
    LocalSz       = 5
    GblSz         = 0
 
+   Collective    = .true.
    UseT3PIO      = .true.
    VersionFlag   = .false.
    HelpFlag      = .false.
@@ -86,6 +88,8 @@ contains
       elseif (arg == "--all" .or. arg == "--both" ) then
          LuaOutput   = .true.
          TableOutput = .true.
+      elseif (arg == "--independent") then
+         Collective  = .false.
       elseif (arg == "--mwriters") then
          i = i + 1
          call getarg(i,arg)
@@ -160,6 +164,7 @@ end subroutine parse
       print *, "  --h5chunk         : use HDF5 with chunks"
       print *, "  --h5slab          : use HDF5 with slab"
       print *, "                      (default)"
+      print *, "  --independent     : Use independent writes instead of collective"
       print *, "  --romio           : use MPI I/O"
       print *, "  --numvar num      : number of variables 1 to 9"
       print *, "  --mwriters    num : Total number of writers"

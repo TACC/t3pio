@@ -40,12 +40,15 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
 {
   double fileSz = h5.totalSz()/(1024.0 * 1024.0 * 1024.0);
 
+
   if (cmd.luaStyleOutput)
     {
-      printf("%%%% { nprocs = %d, lSz = %ld, wrtStyle = \"%s\", factor = %d, iounits = %d, nWritersPer = %d, "
-             " nstripes = %d, stripeSzMB = %d,  fileSzGB = %15.7g, time = %15.7g, rate = %15.7g }\n",
-             P.nProcs, cmd.localSz, cmd.h5style.c_str(), h5.factor(), h5.nIOUnits(), h5.nWritersPer(),
-             h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(), h5.rate());
+      printf("%%%% { nprocs = %d, lSz = %ld, wrtStyle = \"%s\", xferStyle = \"%s\", factor = %d,"
+             "iounits = %d, nWritersPer = %d, nstripes = %d, stripeSzMB = %d,  fileSzGB = %15.7g, "
+             "time = %15.7g, rate = %15.7g }\n",
+             P.nProcs, cmd.localSz, cmd.h5style.c_str(), cmd.xferStyle.c_str(), h5.factor(),
+             h5.nIOUnits(), h5.nWritersPer(), h5.nStripes(), h5.stripeSzMB(), fileSz,
+             h5.time(), h5.rate());
     }
   if (cmd.tableStyleOutput)
     {
@@ -65,7 +68,7 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
              " wrtStyle:         %12s\n",
              P.nProcs, cmd.localSz, h5.numvar(), h5.factor(), h5.nIOUnits(),
              h5.nWritersPer(), h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(),
-             h5.rate(), cmd.h5style.c_str());
+             h5.rate(), cmd.h5style.c_str(), cmd.xferStyle.c_str());
 
     }
 }

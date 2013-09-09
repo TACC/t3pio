@@ -23,12 +23,14 @@ class CmdLineOptions
   int         stripeSz;  // in MB
   int         maxWritersPer;
   int         maxWriters;
+  bool        collective;
   bool        useT3PIO;
   bool        luaStyleOutput;
   bool        tableStyleOutput;
   bool        h5chunk;
   bool        h5slab;
   std::string h5style;
+  std::string xferStyle;
  private:
   state_t      m_state;
 };
