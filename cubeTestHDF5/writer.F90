@@ -285,9 +285,9 @@ contains
       !
       call H5Close_f(ierr); ASSERT(ierr == 0,"H5Close_f")
 
-      rate = totalSz /(t* 1024.0* 1024.0)
 
       totalTime = walltime() - t0
+      rate = totalSz /(totalTime * 1024.0 * 1024.0)
 
       deallocate(u)
 #     endif
@@ -324,6 +324,8 @@ contains
       do i = 1, nDim
          totalSz = totalSz * DBLE(global % num(i))
       end do
+
+      t0 = walltime()
 
       call MPI_Type_create_subarray(nDim , sz, sz, starts, MPI_ORDER_FORTRAN, MPI_DOUBLE_PRECISION, coreData, ierr)
       ASSERT(ierr == 0, "MPI_Type_create_subarray")
@@ -379,9 +381,11 @@ contains
 
       call MPI_File_close(filehandle,ierr)
       ASSERT(ierr == 0, "MPI_File_close")
+
+      totalTime = walltime() - t0
       t = t2 - t1
 
-      rate = totalSz /((t2 - t1)* 1024.0* 1024.0)
+      rate = totalSz /(totalTime * 1024.0 * 1024.0)
       deallocate(u)
 
 
