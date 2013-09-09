@@ -12,15 +12,15 @@ module writer
 #endif
    use t3pio
    implicit none 
-   real(8)          :: t1, t2
+   real(8)          :: t0, t1, t2, t3
    integer          :: nIOUnits, nStripes, stripeSize, nWritersPer
    character(80)    :: fn
    character(256)   :: buffer
    integer(8)       :: lSz
-   real(8)          :: rate    = 0.0d0
-   real(8)          :: totalSz = 0.0d0
-   real(8)          :: t       = 0.0d0
-
+   real(8)          :: rate      = 0.0d0
+   real(8)          :: totalSz   = 0.0d0
+   real(8)          :: t         = 0.0d0
+   real(8)          :: totalTime = 0.0d0
 
 
    type Var_t
@@ -143,6 +143,7 @@ contains
       !
       ! (1) Initialize FORTRAN predefined datatypes
 
+      t0 = walltime()
       call H5open_f(ierr)
       ASSERT(ierr == 0, "H5Open_f")
 
@@ -285,6 +286,8 @@ contains
       call H5Close_f(ierr); ASSERT(ierr == 0,"H5Close_f")
 
       rate = totalSz /(t* 1024.0* 1024.0)
+
+      totalTime = walltime() - t0
 
       deallocate(u)
 #     endif
