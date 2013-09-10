@@ -66,7 +66,7 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
              " time (sec):       %12.3f\n"
              " totalTime (sec):  %12.3f\n"
              " rate (MB/s):      %12.3f\n"
-             " wrtStyle:         %12s\n",
+             " wrtStyle:         %12s\n"
              " xferStyle:        %12s\n",
              P.nProcs, cmd.localSz, h5.numvar(), h5.factor(), h5.nIOUnits(),
              h5.nWritersPer(), h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(),
