@@ -46,7 +46,7 @@ fi
 case $SYSHOST in
   ls4)
      PREFIX="$SCRATCH/t3pio/bin"
-     EXTRA="--with-node-memory=24000"
+     EXTRA="--with-node-memory=24675 --with-numcores=12"
      PHDF5_DIR=$TACC_HDF5_DIR
      ;;
   stampede)
