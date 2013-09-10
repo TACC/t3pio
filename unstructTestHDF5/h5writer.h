@@ -13,6 +13,7 @@ public:
   void add_attribute(hid_t id, const char* descript, const char* value);
   double rate()        { return m_rate;}
   double time()        { return m_t;}
+  double totalTime()   { return m_totalTime;}
   double totalSz()     { return m_totalSz;}
   int    nStripes()    { return m_nStripes;}
   int    nIOUnits()    { return m_nIOUnits;}
@@ -24,6 +25,7 @@ public:
 
 private:
   double m_t;
+  double m_totalTime;
   double m_rate;
   double m_totalSz;
   int    m_nStripes;

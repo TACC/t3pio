@@ -45,10 +45,10 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
     {
       printf("%%%% { nprocs = %d, lSz = %ld, wrtStyle = \"%s\", xferStyle = \"%s\", factor = %d,"
              "iounits = %d, nWritersPer = %d, nstripes = %d, stripeSzMB = %d,  fileSzGB = %15.7g, "
-             "time = %15.7g, rate = %15.7g }\n",
+             "time = %15.7g, totalTime = %15.7g, rate = %15.7g },\n",
              P.nProcs, cmd.localSz, cmd.h5style.c_str(), cmd.xferStyle.c_str(), h5.factor(),
              h5.nIOUnits(), h5.nWritersPer(), h5.nStripes(), h5.stripeSzMB(), fileSz,
-             h5.time(), h5.rate());
+             h5.time(), h5.totalTime(), h5.rate());
     }
   if (cmd.tableStyleOutput)
     {
@@ -64,11 +64,13 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
              " stripeSz (MB):    %12d\n"
              " fileSz (GB):      %12.3f\n"
              " time (sec):       %12.3f\n"
+             " totalTime (sec):  %12.3f\n"
              " rate (MB/s):      %12.3f\n"
              " wrtStyle:         %12s\n",
+             " xferStyle:        %12s\n",
              P.nProcs, cmd.localSz, h5.numvar(), h5.factor(), h5.nIOUnits(),
              h5.nWritersPer(), h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(),
-             h5.rate(), cmd.h5style.c_str(), cmd.xferStyle.c_str());
+             h5.totalTime(), h5.rate(), cmd.h5style.c_str(), cmd.xferStyle.c_str());
 
     }
 }

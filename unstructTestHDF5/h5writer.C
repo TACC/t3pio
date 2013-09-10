@@ -76,7 +76,7 @@ void H5::writer(CmdLineOptions& cmd)
     data[i] = xk++;
 
 
-  double t1, t2;
+  double t0, t1, t2;
 
   // Delete old file
   if (P.myProc == 0)
@@ -111,6 +111,8 @@ void H5::writer(CmdLineOptions& cmd)
     }
 
   xfer_mode = (cmd.collective) ? H5FD_MPIO_COLLECTIVE : H5FD_MPIO_INDEPENDENT;
+
+  t0 = walltime();
 
   plist_id = H5Pcreate(H5P_FILE_ACCESS);
   H5Pset_fapl_mpio(plist_id, P.comm, info);
@@ -181,7 +183,8 @@ void H5::writer(CmdLineOptions& cmd)
       H5Pclose(plist_id);
     }
 
-  m_rate = m_totalSz /(m_t * 1024.0 * 1024.0);
+  m_totalTime = walltime() - t0;
+  m_rate      = m_totalSz /(m_totalTime * 1024.0 * 1024.0);
   free(data);
   H5Gclose(group_id);
   H5Fclose(file_id);
