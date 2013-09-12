@@ -102,8 +102,8 @@ subroutine outputResults(wrtStyle, local, global)
               " time:          ", f9.3,/, &
               " totalTime:     ", f9.3,/, &
               " rate (MB/s):   ", f9.3,/, &
-              " wrtStyle:      ", a9,     &
-              " xferStyle:     ", a9)
+              " wrtStyle:      ", a9,/,   &
+              " xferStyle:     ", a11)
 
 end subroutine outputResults
 
