@@ -126,11 +126,6 @@ contains
       call MPI_Info_create(info, ierr)
       ASSERT(ierr == 0, "MPI_Info_create")
 
-      nIOUnits    = 1
-      nStripes    = 1
-      stripeSize  = 1
-      Factor      = 1
-      nWritersPer = 1
       if (UseT3PIO) then
          call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
                              global_size          = iTotalSz,      &

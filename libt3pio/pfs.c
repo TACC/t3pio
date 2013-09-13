@@ -63,10 +63,10 @@ static int t3pio_compare (const void * a, const void * b)
 
 
 
-int t3pio_maxStripesPossible(int stripes)
+int t3pio_maxStripesPossible(void)
 {
   const int lustreMax = 160;
-  return stripes < lustreMax ? stripes : lustreMax;
+  return lustreMax;
 }
 
 
@@ -163,7 +163,7 @@ void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCor
 int t3pio_asklustre(MPI_Comm comm, int myProc, const char* dir)
 {
   int        ierr;
-  int        stripes = 4;
+  int        stripes = t3pio_maxStripesPossible();
   
 #ifdef HAVE_LUSTRE
   if (myProc == 0 && t3pio_usingLustreFS(dir))
@@ -219,10 +219,13 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 {
   const char *p, *p0;
   int  ierr;
-  int  matchLen = 0;
-  int  stripes  = 4;
+  int  matchLen    = 0;
+  int  stripes;
+  int  stripesMax  = t3pio_maxStripesPossible();
   char abspath[PATH_MAX];
   
+  stripes = stripesMax;
+
 #ifdef HAVE_LUSTRE
 #ifdef AX_LUSTRE_FS
   /* Find realpath of dir */
@@ -262,7 +265,7 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
       p0 = strchr(p+1,':')+1;
     }
 
-  stripes = t3pio_maxStripesPossible(stripes);
+  stripes = (stripes > stripesMax) ? stripesMax : stripes
 #else
   stripes = t3pio_asklustre(comm, myProc, dir);
 #endif  /* AX_LUSTRE_FS */

@@ -24,6 +24,7 @@ void t3pio_numComputerNodes(MPI_Comm comm, int nProc,  int* numNodes, int* numCo
 int  t3pio_maxStripes(MPI_Comm comm,       int myProc, const char* dir);
 int  t3pio_readStripes(MPI_Comm comm,      int myProc, const char* fn);
 int  t3pio_nodeMemory(MPI_Comm comm,       int myProc);
+int  t3pio_maxStripesPossible(void);
 
 int  t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes,
                     int* max_stripe_size, int* factor, const char* file, int* maxWritersPer,

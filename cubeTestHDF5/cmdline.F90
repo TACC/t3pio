@@ -35,14 +35,15 @@ contains
    count = iargc()
 
    
-   MaxWritersPer = huge(MaxWritersPer)
+   MaxWritersPer = -1
    MaxWriters    = -1
    Numvar        = 1
-   Stripes       = 0
+   Stripes       = -1
    nDim          = 2
-   Factor        = 1
+   Factor        = -1
    LocalSz       = 5
    GblSz         = 0
+   StripeSz      = -1
 
    Collective    = .true.
    UseT3PIO      = .true.
@@ -102,7 +103,7 @@ contains
          i = i + 1
          call getarg(i,arg)
          read(arg,*) Numvar
-      elseif (arg == "--stripes") then
+      elseif (arg == "--stripes" .or. arg == "--nstripes") then
          i = i + 1
          call getarg(i,arg)
          read(arg,*) Stripes
@@ -158,7 +159,7 @@ end subroutine parse
       print *, "  -f num            : number of stripes per writer"
       print *, "                      (default = 2)"
       print *, "  --noT3PIO         : turn off t3pio"
-      print *, "  --stripes num     : Allow no more than num stripes "
+      print *, "  --nstripes num    : Allow no more than num stripes "
       print *, "                      (file system limit by default)"
       print *, "  --stripeSz num    : Stripe Size in MB (1 to 256)"
       print *, "  --h5chunk         : use HDF5 with chunks"

@@ -40,7 +40,7 @@ contains
 
 
       nWriters      = -1
-      maxWritersPer = huge(maxWritersPer)
+      maxWritersPer = -1
       gblSz         = -1
       maxStripes    = -1
       maxStripeSz   = -1
