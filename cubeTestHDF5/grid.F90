@@ -15,7 +15,9 @@ contains
       implicit none
       type (grid_t) global, local
 
-      integer :: is, ie, rem, i, n
+      integer :: is, ie, rem, i, n, 
+
+      real(8) :: fileSz
 
       global % num(3) = 1
       local  % num(3) = 1
@@ -25,6 +27,12 @@ contains
       do i = 1, nDim
          global % is(i) = 1
       end do
+
+      if (GblFileSz > 0 ) then
+         fileSz = dble(GblFileSz)
+         fileSz = fileSz * (1024.0 * 1024.0 * 1024.0)
+         GblSz  = floor((fileSz / ( 8.0 * Numvar)) ** (1.0/3.0)) + 1
+      end if
 
       if (GblSz == 0) then
          do i = 1, nDim

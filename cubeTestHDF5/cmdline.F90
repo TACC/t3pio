@@ -9,6 +9,7 @@ module cmdline
    integer :: nDim          ! number of dimension (2, 3)
    integer :: LocalSz       ! local size
    integer :: GblSz         ! Global size
+   integer :: GblFileSz     ! Global File Size in GB.
    integer :: Numvar        ! number of variables
    integer :: MaxWriters    ! the max number of writers.
    integer :: MaxWritersPer ! the max number of writers per node.
@@ -44,6 +45,7 @@ contains
    LocalSz       = 5
    GblSz         = 0
    StripeSz      = -1
+   GblFileSz     = -1
 
    Collective    = .true.
    UseT3PIO      = .true.
@@ -75,6 +77,10 @@ contains
          i = i + 1
          call getarg(i,arg)
          read(arg,*) GblSz
+      elseif (arg == "-G") then
+         i = i + 1
+         call getarg(i,arg)
+         read(arg,*) GblFileSz
       elseif (arg == "-l" .or. arg == "--local") then
          i = i + 1
          call getarg(i,arg)
@@ -134,6 +140,8 @@ contains
       end if
    end do
 
+
+
    Numvar = max(1,Numvar)
    Numvar = min(9,Numvar)
 
@@ -156,6 +164,7 @@ end subroutine parse
       print *, "                      (no default)"
       print *, "  -l num            : number of points in each direction locally"
       print *, "                      (default = 5)"
+      print *, "  -G num            : Total File size in GB"
       print *, "  -f num            : number of stripes per writer"
       print *, "                      (default = 2)"
       print *, "  --noT3PIO         : turn off t3pio"
