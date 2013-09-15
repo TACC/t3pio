@@ -15,7 +15,7 @@ contains
       implicit none
       type (grid_t) global, local
 
-      integer :: is, ie, rem, i, n, 
+      integer :: is, ie, rem, i, n
 
       real(8) :: fileSz
 
