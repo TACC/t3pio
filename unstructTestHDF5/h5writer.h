@@ -2,7 +2,10 @@
 #define H5WRITER_H
 
 #include "cmdLineOptions.h"
-#include "hdf5.h"
+
+#ifdef USE_HDF5
+#  include "hdf5.h"
+#endif
 
 class H5
 {
