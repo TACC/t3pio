@@ -265,7 +265,7 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
       p0 = strchr(p+1,':')+1;
     }
 
-  stripes = (stripes > stripesMax) ? stripesMax : stripes
+  stripes = (stripes > stripesMax) ? stripesMax : stripes;
 #else
   stripes = t3pio_asklustre(comm, myProc, dir);
 #endif  /* AX_LUSTRE_FS */
