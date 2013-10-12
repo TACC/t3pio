@@ -35,6 +35,17 @@ H5::H5()
 {}
 
 
+#ifndef USE_HDF5
+void H5::writer(CmdLineOptions& cmd)
+{
+  printf("This program requires HDF5 which is not available => quitting\n");
+}
+
+void H5::add_attribute(hid_t id, const char* descript, const char* value)
+{
+}
+
+#else
 void H5::writer(CmdLineOptions& cmd)
 {
 
@@ -209,3 +220,4 @@ void H5::add_attribute(hid_t id, const char* descript, const char* value)
   H5Aclose(attr_id);
   H5Sclose(aspace_id);
 }
+#endif
