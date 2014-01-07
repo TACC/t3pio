@@ -72,12 +72,12 @@ subroutine outputResults(wrtStyle, local, global)
    if (LuaOutput) then
       print 1000, p % nProcs, local % num(1), global % num(1), Numvar,      &
            trim(wrtStyle), trim(xferStyle), nWritersPer, nIOUnits, nStripes,&
-           stripeSize/(1024*1024), fileSz, t, totalTime, rate
+           stripeSize/(1024*1024), fileSz, totalTime, rate
    end if
    if (TableOutput) then
       print 1010, p % nProcs, local % num(1), global % num(1), Numvar,      &
            nIOUnits, nWritersPer, nStripes, stripeSize/(1024*1024), fileSz, &
-           t, totalTime, rate, adjustr(trim(wrtStyle)),                     &
+           totalTime, rate, adjustr(trim(wrtStyle)),                     &
            adjustr(trim(xferStyle))
    end if
 
@@ -85,8 +85,7 @@ subroutine outputResults(wrtStyle, local, global)
           ", numvar = ",i2, ', wrtStyle = "',a, '", xferStyle = "',a,       &
           '", nWritersPer = ',i5, ", iounits = ",i5, ", nstripes = ", i5,   &
           ", stripeSz = ", i10, ", fileSz = ", 1pg15.7,                     &
-          ", time = ", 1pg15.7, ", totalTime = ", 1pg15.7,                  &
-          ", rate = ", 1pg15.7,"},")
+          ", totalTime = ", 1pg15.7, ", rate = ", 1pg15.7,"},")
 
 1010 format(/,"cubeTestHDF5 Results: ",/  &
               "--------------------- "//  &
@@ -99,7 +98,6 @@ subroutine outputResults(wrtStyle, local, global)
               " nstripes:      ", i7,/,   &
               " stripeSz (MB): ", i7,/,   &
               " fileSz (GB):   ", f9.3,/, &
-              " time:          ", f9.3,/, &
               " totalTime:     ", f9.3,/, &
               " rate (MB/s):   ", f9.3,/, &
               " wrtStyle:      ", a9,/,   &

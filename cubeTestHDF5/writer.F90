@@ -19,7 +19,6 @@ module writer
    integer(8)       :: lSz
    real(8)          :: rate      = 0.0d0
    real(8)          :: totalSz   = 0.0d0
-   real(8)          :: t         = 0.0d0
    real(8)          :: totalTime = 0.0d0
 
 
@@ -183,8 +182,6 @@ contains
       end if
 
 
-      t = 0.0D0
-
       do i = 1, Numvar
 
          call init3d(local, u)
@@ -252,16 +249,11 @@ contains
 
          !
          ! (8) Write the dataset collectively.
-         t1 = walltime()
 
 
          call H5Dwrite_f(dset_id, H5T_NATIVE_DOUBLE, u, gsz, ierr, &
               file_space_id = filespace, mem_space_id = memspace, xfer_prp = plist_id)
          ASSERT(ierr == 0, "H5Dwrite_f")
-         t2 = walltime()
-
-         t = t + (t2 - t1)
-
 
          !
          ! (9) Close dataspaces.
@@ -327,7 +319,6 @@ contains
          totalSz = totalSz * DBLE(global % num(i))
       end do
 
-      t0 = walltime()
 
       call MPI_Type_create_subarray(nDim , sz, sz, starts, MPI_ORDER_FORTRAN, MPI_DOUBLE_PRECISION, coreData, ierr)
       ASSERT(ierr == 0, "MPI_Type_create_subarray")
@@ -363,6 +354,8 @@ contains
       Factor      = results % factor
       nWritersPer = results % nWritersPer
 
+      t0 = walltime()
+
       call MPI_File_open(p % comm, fn, MPI_MODE_CREATE+MPI_MODE_RDWR, info, filehandle, ierr)
       ASSERT(ierr == 0, "MPI_File_open")
 
@@ -375,17 +368,13 @@ contains
       call init3d(local, u)
 
 
-      t1 = walltime()
-
       call MPI_File_write_all(filehandle, u, 1, coreData, status, ierr)
       ASSERT(ierr == 0, "MPI_File_write_all")
-      t2 = walltime()
 
       call MPI_File_close(filehandle,ierr)
       ASSERT(ierr == 0, "MPI_File_close")
 
       totalTime = walltime() - t0
-      t = t2 - t1
 
       rate = totalSz /(totalTime * 1024.0 * 1024.0)
       deallocate(u)
