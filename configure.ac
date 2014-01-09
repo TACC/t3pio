@@ -28,8 +28,8 @@ fi
 
 AC_PROG_CXX
 AC_HEADER_STDC
-AC_CHECK_HEADERS(lustre/liblustreapi.h)
-AC_CHECK_LIB(lustreapi,llapi_file_create)
+AC_CHECK_HEADERS(lustre/lustreapi.h)
+AC_CHECK_LIB(lustre,llapi_file_create)
 
 AC_ARG_WITH(phdf5, [ --with-phdf5            use Parallel HDF5 with test programs],
             with_phdf5=$withval, with_phdf5=no)

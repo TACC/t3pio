@@ -15,9 +15,9 @@
 #include <sys/utsname.h>
 #include "t3pio_internal.h"
 
-#if (defined(HAVE_LIBLUSTREAPI) && defined(HAVE_LUSTRE_LIBLUSTREAPI_H))
+#if (defined(HAVE_LUSTREAPI) && defined(HAVE_LUSTRE_LUSTREAPI_H))
 #   define HAVE_LUSTRE 1
-#   include "lustre/liblustreapi.h"
+#   include "lustre/lustreapi.h"
 #   include "lustre/lustre_user.h"
 #endif
 #define MAXLINE 4096
