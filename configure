@@ -23029,25 +23029,25 @@ $as_echo "#define STDC_HEADERS 1" >>confdefs.h
 
 fi
 
-for ac_header in lustre/liblustreapi.h
+for ac_header in lustre/lustreapi.h
 do :
-  ac_fn_c_check_header_mongrel "$LINENO" "lustre/liblustreapi.h" "ac_cv_header_lustre_liblustreapi_h" "$ac_includes_default"
-if test "x$ac_cv_header_lustre_liblustreapi_h" = xyes; then :
+  ac_fn_c_check_header_mongrel "$LINENO" "lustre/lustreapi.h" "ac_cv_header_lustre_lustreapi_h" "$ac_includes_default"
+if test "x$ac_cv_header_lustre_lustreapi_h" = xyes; then :
   cat >>confdefs.h <<_ACEOF
-#define HAVE_LUSTRE_LIBLUSTREAPI_H 1
+#define HAVE_LUSTRE_LUSTREAPI_H 1
 _ACEOF
 
 fi
 
 done
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for llapi_file_create in -llustreapi" >&5
-$as_echo_n "checking for llapi_file_create in -llustreapi... " >&6; }
-if ${ac_cv_lib_lustreapi_llapi_file_create+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for llapi_file_create in -llustre" >&5
+$as_echo_n "checking for llapi_file_create in -llustre... " >&6; }
+if ${ac_cv_lib_lustre_llapi_file_create+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-llustreapi  $LIBS"
+LIBS="-llustre  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -23075,22 +23075,22 @@ return llapi_file_create ();
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_lustreapi_llapi_file_create=yes
+  ac_cv_lib_lustre_llapi_file_create=yes
 else
-  ac_cv_lib_lustreapi_llapi_file_create=no
+  ac_cv_lib_lustre_llapi_file_create=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_lustreapi_llapi_file_create" >&5
-$as_echo "$ac_cv_lib_lustreapi_llapi_file_create" >&6; }
-if test "x$ac_cv_lib_lustreapi_llapi_file_create" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_lustre_llapi_file_create" >&5
+$as_echo "$ac_cv_lib_lustre_llapi_file_create" >&6; }
+if test "x$ac_cv_lib_lustre_llapi_file_create" = xyes; then :
   cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBLUSTREAPI 1
+#define HAVE_LIBLUSTRE 1
 _ACEOF
 
-  LIBS="-llustreapi $LIBS"
+  LIBS="-llustre $LIBS"
 
 fi
 
