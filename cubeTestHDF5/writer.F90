@@ -345,6 +345,7 @@ contains
                           max_writers_per_node = MaxWritersPer, &
                           max_writers          = MaxWriters,    &
                           factor               = Factor,        &
+                          max_stripe_size      = StripeSz,      &
                           max_stripes          = Stripes,       &
                           results              = results )
 
