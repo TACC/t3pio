@@ -340,20 +340,22 @@ contains
       ASSERT(ierr == 0, "MPI_Info_create")
 
       iTotalSz = totalSz / (1024*1024)
-      call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
-                          global_size          = iTotalSz,      &
-                          max_writers_per_node = MaxWritersPer, &
-                          max_writers          = MaxWriters,    &
-                          factor               = Factor,        &
-                          max_stripe_size      = StripeSz,      &
-                          max_stripes          = Stripes,       &
-                          results              = results )
+      if (UseT3PIO) then
+         call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
+                             global_size          = iTotalSz,      &
+                             max_writers_per_node = MaxWritersPer, &
+                             max_writers          = MaxWriters,    &
+                             factor               = Factor,        &
+                             max_stripe_size      = StripeSz,      &
+                             max_stripes          = Stripes,       &
+                             results              = results )
 
-      nIOUnits    = results % numIO
-      nStripes    = results % numStripes
-      stripeSize  = results % stripeSize
-      Factor      = results % factor
-      nWritersPer = results % nWritersPer
+         nIOUnits    = results % numIO
+         nStripes    = results % numStripes
+         stripeSize  = results % stripeSize
+         Factor      = results % factor
+         nWritersPer = results % nWritersPer
+      endif
 
       t0 = walltime()
 
