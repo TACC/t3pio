@@ -76,19 +76,16 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     maxWritersPer = INT_MAX;
 
   /* Set max Stripe Sz to make sense:
-     a) value 0 or 1 => 1MByte
+     a) value < 1    => 2MByte
      b) value > 1    => (value)*1 Mbyte
-     c) value < 0    -> INT_MAX  (this means no limitations)
+
      */
 
-  if (mStripeSz == 0)
-    mStripeSz = 1;
-
-  if (mStripeSz > 0)
+  if (mStripeSz < 1)
+    mStripeSz = 2;
+  else
     mStripeSz = (1 << 20) * mStripeSz;
 
-  if (mStripeSz < 0)
-    mStripeSz = INT_MAX;
 
   MPI_Comm_rank(comm, &myProc);
   MPI_Comm_size(comm, &nProcs);
@@ -141,6 +138,8 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       t3.factor = t3.numStripes / t3.numIO;
     }
 
+  /* use stripe given, do not change base on file size */
+  /*
   if (t3.globalSz > 0 && !remoteFile)
     {
       double log2     = log(2.0);
@@ -156,6 +155,9 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       t3.stripeSz     = 1 << (((int) exp) + 20);
       t3.stripeSz     = min(t3.stripeSz, mStripeSz)
     }
+  */
+
+  t3.stripeSz = mStripeSz
 
   sprintf(buf, "%d", t3.numIO);
   MPI_Info_set(info, (char *) "cb_nodes", buf);
