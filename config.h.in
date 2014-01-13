@@ -38,11 +38,11 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to 1 if you have the `lustreapi' library (-llustreapi). */
-#undef HAVE_LIBLUSTREAPI
+/* Define to 1 if you have the `lustre' library (-llustre). */
+#undef HAVE_LIBLUSTRE
 
-/* Define to 1 if you have the <lustre/liblustreapi.h> header file. */
-#undef HAVE_LUSTRE_LIBLUSTREAPI_H
+/* Define to 1 if you have the <lustre/lustreapi.h> header file. */
+#undef HAVE_LUSTRE_LUSTREAPI_H
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
