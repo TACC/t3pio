@@ -157,7 +157,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     }
   */
 
-  t3.stripeSz = mStripeSz
+  t3.stripeSz = mStripeSz;
 
   sprintf(buf, "%d", t3.numIO);
   MPI_Info_set(info, (char *) "cb_nodes", buf);
