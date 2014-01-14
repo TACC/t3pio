@@ -167,6 +167,7 @@ end subroutine parse
       print *, "  -G num            : Total File size in GB"
       print *, "  -f num            : number of stripes per writer"
       print *, "                      (default = 2)"
+      print *, "  --both            : Report results in both a lua table and regular table"
       print *, "  --noT3PIO         : turn off t3pio"
       print *, "  --nstripes num    : Allow no more than num stripes "
       print *, "                      (file system limit by default)"
