@@ -1,6 +1,22 @@
 #!/usr/bin/env lua
 -- -*- lua -*-
 
+------------------------------------------------------------------------
+-- Use command name to add the command directory to the package.path
+------------------------------------------------------------------------
+local LuaCommandName = arg[0]
+local i,j = LuaCommandName:find(".*/")
+local LuaCommandName_dir = "./"
+if (i) then
+   LuaCommandName_dir = LuaCommandName:sub(1,j)
+   LuaCommandName     = LuaCommandName:sub(j+1)
+end
+
+package.path = LuaCommandName_dir .. "../tools/?.lua;" ..
+               LuaCommandName_dir .. "?.lua;"       ..
+               LuaCommandName_dir .. "?/init.lua;"  ..
+               package.path
+
 t = {}
 Version = "0.0"
 
