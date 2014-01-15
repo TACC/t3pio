@@ -30,8 +30,8 @@ contains
 
    subroutine parse()
 
-   integer        :: count, i, iargc
-   character(160) :: arg
+   integer        :: count, i, iargc, ierr
+   character(160) :: arg, optarg
 
    count = iargc()
 
@@ -71,24 +71,24 @@ contains
 
       if (arg == "-f" .or. arg == "--factor") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) Factor
+         call getarg(i,optarg)
+         read(optarg,*, err=11) Factor
       elseif (arg == "-g" .or. arg == "--global") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) GblSz
+         call getarg(i,optarg)
+         read(optarg,*, err=11) GblSz
       elseif (arg == "-G") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) GblFileSz
+         call getarg(i,optarg)
+         read(optarg,*, err=11) GblFileSz
       elseif (arg == "-l" .or. arg == "--local") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) LocalSz
+         call getarg(i,optarg)
+         read(optarg,*, err=11) LocalSz
       elseif (arg == "-n" .or. arg == "--dim") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) nDim
+         call getarg(i,optarg)
+         read(optarg,*, err=11) nDim
       elseif (arg == "--lua") then
          LuaOutput   = .true.
          TableOutput = .false.
@@ -99,24 +99,24 @@ contains
          Collective  = .false.
       elseif (arg == "--mwriters") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) MaxWriters
+         call getarg(i,optarg)
+         read(optarg,*, err=11) MaxWriters
       elseif (arg == "--mwritersper") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) MaxWritersPer
+         call getarg(i,optarg)
+         read(optarg,*, err=11) MaxWritersPer
       elseif (arg == "--numvar") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) Numvar
+         call getarg(i,optarg)
+         read(optarg,*, err=11) Numvar
       elseif (arg == "--stripes" .or. arg == "--nstripes") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) Stripes
+         call getarg(i,optarg)
+         read(optarg,*, err=11) Stripes
       elseif (arg == "--stripeSz") then
          i = i + 1
-         call getarg(i,arg)
-         read(arg,*) StripeSz
+         call getarg(i,optarg)
+         read(optarg,*, err=11) StripeSz
       elseif (arg(1:2) == '-v' .or. arg == '--version') then
          VersionFlag = .TRUE.
       elseif (arg == '--romio') then
@@ -147,6 +147,14 @@ contains
 
    if (ROMIO) Numvar = 1
 
+   return
+11 continue
+   if (p % myProc == 0) then
+      print *, "Illegal argument for option: ", trim(arg)
+      print *, "Terminating."
+   end if
+   call MPI_Finalize(ierr)
+   call exit()
 end subroutine parse
 
    subroutine usage()
