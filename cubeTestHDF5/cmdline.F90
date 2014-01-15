@@ -25,7 +25,6 @@ module cmdline
                             ! table format.
    logical :: TableOutput   ! if true then write output in table format.
 
-
 contains
 
    subroutine parse()
@@ -139,8 +138,6 @@ contains
          HelpFlag = .true.
       end if
    end do
-
-
 
    Numvar = max(1,Numvar)
    Numvar = min(9,Numvar)
