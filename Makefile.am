@@ -4,6 +4,18 @@ VERSION_SRC = .version
 SHELL = bash
 
 
+world_update:
+	@git status -s > /tmp/rtm$$$$;                                             \
+        if [ -s /tmp/rtm$$$$ ]; then                                               \
+            echo "All files not checked in => try again";                          \
+        else                                                                       \
+            git push origin;                                                       \
+            git push --tags origin;                                                \
+            git push github;                                                       \
+            git push --tags github;                                                \
+        fi;                                                                        \
+        rm -f /tmp/rtm$$$$
+
 gittag:
         ifneq ($(TAG),)
 	  @git status -s > /tmp/t3pio$$$$;                                             \
