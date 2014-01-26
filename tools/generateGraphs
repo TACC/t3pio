@@ -115,11 +115,12 @@ function build2D()
          x = math.floor(entry.nstripes/entry.iounits+0.5)
       end
 
-      local e       = resultT[x] or {count = 0, rate= 0, min = huge, max = 0 }
+      local e       = resultT[x] or {count = 0, rate= 0.0, r2 = 0.0,  min = huge, max = 0 }
       local rate    = entry.rate
 
       e.count     = e.count + 1
       e.rate      = e.rate + rate
+      e.r2        = e.r2   + rate*rate
       e.min       = min(e.min, rate)
       e.max       = max(e.max, rate)
 
@@ -135,7 +136,8 @@ function build2D()
 
    for k, v in pairsByKeys(resultT) do
       local rate = v.rate/v.count
-      f:write(k, "\t",rate,"\n")
+      local serr = math.sqrt(v.r2/v.count - v.rate*v.rate/(v.count*v.count))/math.sqrt(v.count)
+      f:write(k, "\t",rate,"\t", serr, "\n")
    end
    f:close()
    
@@ -171,6 +173,29 @@ function build2D()
    a[#a+1] = "plot 'avg.data' title 'Avg Rate' with linespoints lw 2, \\"
    a[#a+1] = "     'min.data' title 'Min Rate' with linespoints lw 2, \\"
    a[#a+1] = "     'max.data' title 'Max Rate' with linespoints lw 2"
+
+   local s = concatTbl(a,"\n")
+
+   fn = "plot.gp"
+   f  = io.open(fn,"w")
+   f:write(s)
+   f:close()
+
+   os.execute("gnuplot plot.gp")
+
+   local a = {}
+   a[#a+1] = xlabel
+   a[#a+1] = "set ylabel \"Rate (in MB/sec)\""
+   a[#a+1] = "set key left top"
+   a[#a+1] = "set term png"
+   a[#a+1] = "set output '" .. masterTbl.name .. "_bars" .. ".png'"
+   if(masterTbl.title) then
+      a[#a+1] = "set title '" .. masterTbl.title .. "'"
+   end
+   
+   a[#a+1] = "plot 'avg.data' title 'Avg Rate' with linespoints lw 2, \\"
+   a[#a+1] = "     'avg.data' title 'std err'  with yerrorbars"
+         
 
    local s = concatTbl(a,"\n")
 
