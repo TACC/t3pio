@@ -162,7 +162,7 @@ function build2D()
    a[#a+1] = xlabel
    a[#a+1] = "set ylabel \"Rate (in MB/sec)\""
    a[#a+1] = "set key left top"
-   a[#a+1] = "set term png"
+   a[#a+1] = 'set term png font "Arial"'
    a[#a+1] = "set output '" .. masterTbl.name .. ".png'"
    if(masterTbl.title) then
       a[#a+1] = "set title '" .. masterTbl.title .. "'"
@@ -284,7 +284,7 @@ function build3D()
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO Average"'
-   a[#a+1] = "set term png"
+   a[#a+1] = 'set term png font "Arial"'
    a[#a+1] = "set pm3d; set palette"
    a[#a+1] = "set output '" .. masterTbl.name .. ".3Davg.png'"
    a[#a+1] = "set pm3d; set palette"
@@ -331,7 +331,7 @@ function build3D()
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO min"'
-   a[#a+1] = "set term png"
+   a[#a+1] = 'set term png font "Arial"'
    a[#a+1] = "set pm3d; set palette"
    if(masterTbl.title) then
       a[#a+1] = "set title '" .. masterTbl.title .. " (Min)'"
@@ -373,7 +373,7 @@ function build3D()
    a[#a+1] = "set clabel '%8.2f'"
    a[#a+1] = "set key right"
    a[#a+1] = 'set title "T3PIO max"'
-   a[#a+1] = "set term png"
+   a[#a+1] = 'set term png font "Arial"'
    a[#a+1] = "set pm3d; set palette"
    
    if(masterTbl.title) then
