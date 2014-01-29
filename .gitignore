@@ -17,3 +17,4 @@ config.status
 libtool
 *.tar.bz2
 qaversion.h
+a.out
