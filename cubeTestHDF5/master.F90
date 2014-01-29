@@ -54,12 +54,14 @@ subroutine outputResults(wrtStyle, local, global)
    use grid
    use cmdline
    use writer
+   use t3pio
    implicit none
 
    real(8)       :: fileSz
    type(grid_t)  :: local, global
    character(*)  :: wrtStyle
    character(15) :: xferStyle
+   character(80) :: t3pioV
 
    if (Collective) then
       xferStyle="Collective"
@@ -67,21 +69,23 @@ subroutine outputResults(wrtStyle, local, global)
       xferStyle="Independent"
    end if
       
+   call t3pio_version(t3pioV)
    
    fileSz = totalSz /(1024*1024*1024)
    if (LuaOutput) then
-      print 1000, p % nProcs, local % num(1), global % num(1), Numvar,      &
-           trim(wrtStyle), trim(xferStyle), nWritersPer, nIOUnits, nStripes,&
-           stripeSize/(1024*1024), fileSz, totalTime, rate
+      print 1000, adjustr(trim(t3pioV)), p % nProcs, local % num(1),        &
+           global % num(1), Numvar, trim(wrtStyle), trim(xferStyle),        &
+           nWritersPer, nIOUnits, nStripes,stripeSize/(1024*1024), fileSz,  &
+           totalTime, rate
    end if
    if (TableOutput) then
       print 1010, p % nProcs, local % num(1), global % num(1), Numvar,      &
            nIOUnits, nWritersPer, nStripes, stripeSize/(1024*1024), fileSz, &
-           totalTime, rate, adjustr(trim(wrtStyle)),                     &
-           adjustr(trim(xferStyle))
+           totalTime, rate, adjustr(trim(wrtStyle)),                        &
+           adjustr(trim(xferStyle)), adjustr(trim(t3pioV))
    end if
 
-1000 format("%% { nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5,              &
+1000 format("%% { t3pioV = '", a,"', nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5,              &
           ", numvar = ",i2, ', wrtStyle = "',a, '", xferStyle = "',a,       &
           '", nWritersPer = ',i5, ", iounits = ",i5, ", nstripes = ", i5,   &
           ", stripeSz = ", i10, ", fileSz = ", 1pg15.7,                     &
@@ -101,7 +105,9 @@ subroutine outputResults(wrtStyle, local, global)
               " totalTime:     ", f9.3,/, &
               " rate (MB/s):   ", f9.3,/, &
               " wrtStyle:      ", a9,/,   &
-              " xferStyle:     ", a11)
+              " xferStyle:     ", a11,/,  &
+              " t3pioV:        ", a)
+   
 
 end subroutine outputResults
 

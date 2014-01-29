@@ -88,6 +88,11 @@ contains
 
    end subroutine t3pio_set_info
 
+   subroutine t3pio_version(myVersion)
+      implicit none
+      character(*)  :: myVersion
+      call t3pioInternalVersion(myVersion)
+   end subroutine t3pio_version
 
 
 end module t3pio

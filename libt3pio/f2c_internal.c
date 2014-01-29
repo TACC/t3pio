@@ -1,5 +1,6 @@
 #include <mpi.h>
 #include <stdio.h>
+#include <string.h>
 #include "t3pio.h"
 #include "t3pio_internal.h"
 
@@ -48,3 +49,22 @@ int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, 
   return   ierr;
 }
 
+void t3piointernalversion_(char* v)
+{
+  t3pio_version_internal(v);
+}
+void t3piointernalversion(char* v)
+{
+  t3pio_version_internal(v);
+}
+void T3PIOINTERNALVERSION(char* v)
+{
+  t3pio_version_internal(v);
+}
+
+void  t3pio_version_internal(char *v)
+{
+  const char* myVersion = t3pio_version();
+
+  strcpy(v, myVersion);
+}

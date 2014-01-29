@@ -5,6 +5,7 @@
 #include "cmdLineOptions.h"
 #include "h5test.h"
 #include "h5writer.h"
+#include "t3pio.h"
 Parallel P;
 
 
@@ -38,17 +39,17 @@ int main(int argc, char* argv[])
 
 void outputResults(CmdLineOptions& cmd, H5& h5)
 {
-  double fileSz = h5.totalSz()/(1024.0 * 1024.0 * 1024.0);
-
+  double fileSz       = h5.totalSz()/(1024.0 * 1024.0 * 1024.0);
+  const char*  t3pioV = t3pio_version();
 
   if (cmd.luaStyleOutput)
     {
-      printf("%%%% { nprocs = %d, lSz = %ld, wrtStyle = \"%s\", xferStyle = \"%s\", factor = %d,"
-             "iounits = %d, nWritersPer = %d, nstripes = %d, stripeSzMB = %d,  fileSzGB = %15.7g, "
-             "time = %15.7g, totalTime = %15.7g, rate = %15.7g },\n",
-             P.nProcs, cmd.localSz, cmd.h5style.c_str(), cmd.xferStyle.c_str(), h5.factor(),
-             h5.nIOUnits(), h5.nWritersPer(), h5.nStripes(), h5.stripeSzMB(), fileSz,
-             h5.time(), h5.totalTime(), h5.rate());
+      printf("%%%% { t3pioV = \"%s\", nprocs = %d, lSz = %ld, wrtStyle = \"%s\", xferStyle = \"%s\","
+             "factor = %d, iounits = %d, nWritersPer = %d, nstripes = %d, stripeSzMB = %d, "
+             "fileSzGB = %15.7g, time = %15.7g, totalTime = %15.7g, rate = %15.7g },\n",
+             t3pioV, P.nProcs, cmd.localSz, cmd.h5style.c_str(), cmd.xferStyle.c_str(), 
+             h5.factor(),h5.nIOUnits(), h5.nWritersPer(), h5.nStripes(), h5.stripeSzMB(), 
+             fileSz, h5.time(), h5.totalTime(), h5.rate());
     }
   if (cmd.tableStyleOutput)
     {
@@ -67,10 +68,12 @@ void outputResults(CmdLineOptions& cmd, H5& h5)
              " totalTime (sec):  %12.3f\n"
              " rate (MB/s):      %12.3f\n"
              " wrtStyle:         %12s\n"
-             " xferStyle:        %12s\n",
+             " xferStyle:        %12s\n"
+             " t3pioV:           %12s\n",
              P.nProcs, cmd.localSz, h5.numvar(), h5.factor(), h5.nIOUnits(),
              h5.nWritersPer(), h5.nStripes(), h5.stripeSzMB(), fileSz, h5.time(),
-             h5.totalTime(), h5.rate(), cmd.h5style.c_str(), cmd.xferStyle.c_str());
+             h5.totalTime(), h5.rate(), cmd.h5style.c_str(), cmd.xferStyle.c_str(),
+             t3pioV);
 
     }
 }

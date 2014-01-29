@@ -16,3 +16,4 @@ config.status
 *.la
 libtool
 *.tar.bz2
+qaversion.h
