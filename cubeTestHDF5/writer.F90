@@ -69,7 +69,7 @@ contains
       integer          :: xfer_mode    ! Transfer mode: Collective/Independent
       integer          :: i, ierr, m, iseed
       integer          :: iTotalSz, istat
-      real(8)          :: walltime, blkSz
+      real(8)          :: walltime
       real(8), allocatable :: u(:)
 
       if (Collective) then
@@ -105,7 +105,13 @@ contains
       end do
       totalSz  = totalSz * Numvar
       iTotalSz = totalSz / (1024*1024)
+      allocate(u(lSz), stat = istat)
 
+      if (istat /= 0) then
+         print *, "unable to allocate soln vector u, istat: ",istat
+      end if
+
+      call init3d(local, u)
       
 
       !------------------------------------------------------------
@@ -144,7 +150,6 @@ contains
       !
       ! (1) Initialize FORTRAN predefined datatypes
 
-      t0 = walltime()
       call H5open_f(ierr)
       ASSERT(ierr == 0, "H5Open_f")
 
@@ -158,6 +163,7 @@ contains
 
       !
       ! (3.0) Create the file collectively
+      t0 = walltime()
       call H5Fcreate_f(fn, H5F_ACC_TRUNC_F, file_id, ierr, access_prp = plist_id)
       ASSERT(ierr == 0, "H5fcreate_f")
       call H5Pclose_f(plist_id, ierr)
@@ -168,23 +174,11 @@ contains
       call H5Gcreate_f(file_id,"Solution", group_id, ierr)
       ASSERT(ierr == 0, "H5Gopen_f")
 
-      call add_solution_description(group_id)
-
-      if (p % myProc == 0) then
-         blkSz = lSz * 8.0 / (1024.0 * 1024.0 * 1024.0)
-         ! print *, "allocating: ", lSz, " entries or ", blkSz , " (GB)"
-      end if
-
-      allocate(u(lSz), stat = istat)
-
-      if (istat /= 0) then
-         print *, "unable to allocate soln vector u, istat: ",istat
-      end if
-
+      ! For timing tests do not run.
+      !call add_solution_description(group_id)
 
       do i = 1, Numvar
 
-         call init3d(local, u)
          !
          ! (4) Create the data space for the dataset: filespace, memspace
          call H5Screate_simple_f(ndim, gsz, filespace, ierr)
@@ -244,7 +238,7 @@ contains
 
          !
          ! (7b) Add attribute
-         call add_attribute(dset_id, varT(i) % descript)
+         ! call add_attribute(dset_id, varT(i) % descript)
 
 
          !
