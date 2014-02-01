@@ -1,7 +1,7 @@
 SUBDIRS = include libt3pio cubeTestHDF5 unstructTestHDF5
 ACLOCAL_AMFLAGS = -I m4
 VERSION_SRC = .version
-SHELL = bash
+SHELL := bash
 
 
 world_update:

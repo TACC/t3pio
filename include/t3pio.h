@@ -31,6 +31,8 @@ typedef struct
 
 int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char *dir, ...);
 
+const char* t3pio_version();
+
 #ifdef __cplusplus
 }
 #endif
