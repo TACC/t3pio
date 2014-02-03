@@ -49,22 +49,26 @@ int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, 
   return   ierr;
 }
 
-void t3piointernalversion_(char* v)
+void t3piointernalversion_(char* v, int *len)
 {
-  t3pio_version_internal(v);
+  t3pio_version_internal(v, len);
 }
-void t3piointernalversion(char* v)
+void t3piointernalversion(char* v, int *len)
 {
-  t3pio_version_internal(v);
+  t3pio_version_internal(v, len);
 }
-void T3PIOINTERNALVERSION(char* v)
+void T3PIOINTERNALVERSION(char* v, int *len)
 {
-  t3pio_version_internal(v);
+  t3pio_version_internal(v, len);
 }
 
-void  t3pio_version_internal(char *v)
+void  t3pio_version_internal(char *v, int *len)
 {
   const char* myVersion = t3pio_version();
-
-  strcpy(v, myVersion);
+  int slen              = strlen(myVersion);
+  int vlen              = *len;
+  slen = (slen < vlen) ? slen : vlen;
+  memcpy(v, myVersion, slen);
+  if (vlen > slen)
+    memset(&v[slen],' ', vlen - slen); 
 }

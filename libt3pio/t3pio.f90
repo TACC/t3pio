@@ -91,7 +91,10 @@ contains
    subroutine t3pio_version(myVersion)
       implicit none
       character(*)  :: myVersion
-      call t3pioInternalVersion(myVersion)
+      integer       :: vlen
+      vlen = len(myVersion)
+      call t3pioInternalVersion(myVersion, vlen)
+
    end subroutine t3pio_version
 
 
