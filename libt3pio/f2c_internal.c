@@ -49,6 +49,8 @@ int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, 
   return   ierr;
 }
 
+
+
 void t3piointernalversion_(char* v, int *len)
 {
   t3pio_version_internal(v, len);
