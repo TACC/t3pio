@@ -33,5 +33,5 @@ qaversion.h:
         echo '#define MPI_VERSION_STR'  '"'${MPI_VERSION_STR}'"'  >> conftmp.0 ; \
 	echo '#define BUILD_DATE'       '"'$(VDATE)'"'            >> conftmp.0 ; \
         echo '#define T3PIO_GIT_VERSION' '"''$(GIT_VERSION)''"'   >> conftmp.0 ; \
-	cat conftmp.0 | cpif $@;                                                 \
+	cat conftmp.0 > $@;                                                      \
 	$(RM) conftmp.[012];
