@@ -68,7 +68,7 @@ else
   AX_HOW_MANY_OSTs
 fi
 
-
+AM_MAINTAINER_MODE([disable])
 AM_CONDITIONAL(PHDF5_ENABLED, test x$USE_PHDF5 = x1)
 
 
