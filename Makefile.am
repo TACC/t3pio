@@ -1,4 +1,4 @@
-SUBDIRS = include libt3pio cubeTestHDF5 unstructTestHDF5
+SUBDIRS = include libt3pio cubeTest unstructTest
 ACLOCAL_AMFLAGS = -I m4
 VERSION_SRC = .version
 SHELL := bash

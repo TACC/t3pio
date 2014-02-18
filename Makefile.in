@@ -342,7 +342,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = include libt3pio cubeTestHDF5 unstructTestHDF5
+SUBDIRS = include libt3pio cubeTest unstructTest
 ACLOCAL_AMFLAGS = -I m4
 VERSION_SRC = .version
 all: config.h

@@ -75,8 +75,8 @@ AM_CONDITIONAL(PHDF5_ENABLED, test x$USE_PHDF5 = x1)
 AC_OUTPUT([Makefile
            libt3pio/Makefile
            include/Makefile
-	   cubeTestHDF5/Makefile
-           unstructTestHDF5/Makefile])
+	   cubeTest/Makefile
+           unstructTest/Makefile])
 
 AX_SUMMARIZE_ENV
 AX_SUMMARIZE_CONFIG

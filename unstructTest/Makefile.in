@@ -78,11 +78,10 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-standalone_PROGRAMS = cubeTestHDF5$(EXEEXT)
-@PHDF5_ENABLED_TRUE@am__append_1 = -DUSE_HDF5  -I $(PHDF5_DIR)/include
-@PHDF5_ENABLED_TRUE@am__append_2 = -L$(PHDF5_DIR)/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5  -lz -lm
-@PHDF5_ENABLED_TRUE@am__append_3 = -Wl,-rpath,@prefix@/lib
-subdir = cubeTestHDF5
+standalone_PROGRAMS = unstructTest$(EXEEXT)
+@PHDF5_ENABLED_TRUE@am__append_1 = -DUSE_HDF5  -I$(PHDF5_DIR)/include
+@PHDF5_ENABLED_TRUE@am__append_2 = -L$(PHDF5_DIR)/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5  -lz 
+subdir = unstructTest
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/build-aux/depcomp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -101,19 +100,19 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(standalonedir)"
 PROGRAMS = $(standalone_PROGRAMS)
-am__objects_1 = master.$(OBJEXT) assert.$(OBJEXT) cmdline.$(OBJEXT) \
-	grid.$(OBJEXT) parallel.$(OBJEXT) writer.$(OBJEXT)
-am__objects_2 = measure.$(OBJEXT)
-am_cubeTestHDF5_OBJECTS = $(am__objects_1) $(am__objects_2)
-cubeTestHDF5_OBJECTS = $(am_cubeTestHDF5_OBJECTS)
+am_unstructTest_OBJECTS = unstructTest-main.$(OBJEXT) \
+	unstructTest-parallel.$(OBJEXT) \
+	unstructTest-cmdLineOptions.$(OBJEXT) \
+	unstructTest-h5writer.$(OBJEXT) unstructTest-measure.$(OBJEXT)
+unstructTest_OBJECTS = $(am_unstructTest_OBJECTS)
 am__DEPENDENCIES_1 =
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-cubeTestHDF5_LINK = $(LIBTOOL) $(AM_V_lt) --tag=FC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(FCLD) $(AM_FCFLAGS) $(FCFLAGS) \
-	$(cubeTestHDF5_LDFLAGS) $(LDFLAGS) -o $@
+unstructTest_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(unstructTest_CXXFLAGS) \
+	$(CXXFLAGS) $(unstructTest_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -130,44 +129,26 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
-PPFCCOMPILE = $(FC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FCFLAGS) $(FCFLAGS)
-LTPPFCCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=FC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=compile $(FC) $(DEFS) \
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) \
 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_FCFLAGS) $(FCFLAGS)
-AM_V_PPFC = $(am__v_PPFC_@AM_V@)
-am__v_PPFC_ = $(am__v_PPFC_@AM_DEFAULT_V@)
-am__v_PPFC_0 = @echo "  PPFC    " $@;
-am__v_PPFC_1 = 
-FCLD = $(FC)
-FCLINK = $(LIBTOOL) $(AM_V_lt) --tag=FC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(FCLD) $(AM_FCFLAGS) $(FCFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_FCLD = $(am__v_FCLD_@AM_V@)
-am__v_FCLD_ = $(am__v_FCLD_@AM_DEFAULT_V@)
-am__v_FCLD_0 = @echo "  FCLD    " $@;
-am__v_FCLD_1 = 
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
-	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CFLAGS) $(CFLAGS)
-AM_V_CC = $(am__v_CC_@AM_V@)
-am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
-am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 = 
-CCLD = $(CC)
-LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_CCLD = $(am__v_CCLD_@AM_V@)
-am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
-am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 = 
-SOURCES = $(cubeTestHDF5_SOURCES)
-DIST_SOURCES = $(cubeTestHDF5_SOURCES)
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+AM_V_CXX = $(am__v_CXX_@AM_V@)
+am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
+am__v_CXX_0 = @echo "  CXX     " $@;
+am__v_CXX_1 = 
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
+am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
+am__v_CXXLD_0 = @echo "  CXXLD   " $@;
+am__v_CXXLD_1 = 
+SOURCES = $(unstructTest_SOURCES)
+DIST_SOURCES = $(unstructTest_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -257,7 +238,7 @@ CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
-CXXFLAGS = @CXXFLAGS@
+CXXFLAGS = @CXXFLAGS@ -I$(top_srcdir)/libt3pio $(am__append_1)
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -314,7 +295,7 @@ PHDF5_DIR = @PHDF5_DIR@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
-SHELL := bash
+SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
@@ -375,30 +356,16 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 SUBDIRS = .
-AM_FCFLAGS = -I ../libt3pio $(am__append_1)
-AM_CFLAGS = 
-AM_LIBTOOLFLAGS = 
-
-#----------------------------
-# cubeTestHDF5 Binaries
-#----------------------------
-fc_sources := master.F90  assert.F90 cmdline.F90 grid.F90 parallel.F90 writer.F90
-c_sources := measure.c
-cubeTestHDF5_SOURCES := $(fc_sources) $(c_sources)
-cubeTestHDF5_FFLAGS := -I$(top_srcdir)/include
-cubeTestHDF5_DEPENDENCIES := ../libt3pio/libt3pio.la
-cubeTestHDF5_LDADD := -L../libt3pio -lt3pio $(am__append_2)
-cubeTestHDF5_LDFLAGS := -Wl,-rpath,$(PHDF5_DIR)/lib $(am__append_3)
+unstructTest_SOURCES = main.C parallel.C cmdLineOptions.C h5writer.C measure.C
+unstructTest_CXXFLAGS = -I$(top_srcdir)/include
+unstructTest_DEPENDENCIES := ../libt3pio/libt3pio.la
+unstructTest_LDADD = -L../libt3pio -lt3pio $(am__append_2)
 standalonedir = @prefix@/bin
-
-#IGNORED_MODULES = --ignore mpi --ignore hdf5 --ignore t3pio
-IGNORED_MODULES = -i mpi -i hdf5 -i t3pio
-PARSE_OPTIONS = -I $(top_srcdir)/include $(IGNORED_MODULES)
-CLEANFILES = *.mod Makefile.dep1
+@PHDF5_ENABLED_TRUE@@SHARED_LIBRARIES_TRUE@unstructTest_LDFLAGS = -Wl,-rpath,$(PHDF5_DIR)/lib -Wl,-rpath,@prefix@/lib
 all: all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .F90 .c .lo .o .obj
+.SUFFIXES: .C .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -408,9 +375,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign cubeTestHDF5/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign unstructTest/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign cubeTestHDF5/Makefile
+	  $(AUTOMAKE) --foreign unstructTest/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -479,9 +446,9 @@ clean-standalonePROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
-cubeTestHDF5$(EXEEXT): $(cubeTestHDF5_OBJECTS) $(cubeTestHDF5_DEPENDENCIES) $(EXTRA_cubeTestHDF5_DEPENDENCIES) 
-	@rm -f cubeTestHDF5$(EXEEXT)
-	$(AM_V_FCLD)$(cubeTestHDF5_LINK) $(cubeTestHDF5_OBJECTS) $(cubeTestHDF5_LDADD) $(LIBS)
+unstructTest$(EXEEXT): $(unstructTest_OBJECTS) $(unstructTest_DEPENDENCIES) $(EXTRA_unstructTest_DEPENDENCIES) 
+	@rm -f unstructTest$(EXEEXT)
+	$(AM_V_CXXLD)$(unstructTest_LINK) $(unstructTest_OBJECTS) $(unstructTest_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -489,34 +456,102 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/measure.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-cmdLineOptions.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-h5writer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-measure.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-parallel.Po@am__quote@
 
-.F90.obj:
-	$(AM_V_PPFC)$(PPFCCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+.C.o:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
 
-.F90.lo:
-	$(AM_V_PPFC)$(LTPPFCCOMPILE) -c -o $@ $<
+.C.obj:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-.c.o:
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c $<
+.C.lo:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
-.c.obj:
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c `$(CYGPATH_W) '$<'`
+unstructTest-main.o: main.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-main.o -MD -MP -MF $(DEPDIR)/unstructTest-main.Tpo -c -o unstructTest-main.o `test -f 'main.C' || echo '$(srcdir)/'`main.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-main.Tpo $(DEPDIR)/unstructTest-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='main.C' object='unstructTest-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-main.o `test -f 'main.C' || echo '$(srcdir)/'`main.C
 
-.c.lo:
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+unstructTest-main.obj: main.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-main.obj -MD -MP -MF $(DEPDIR)/unstructTest-main.Tpo -c -o unstructTest-main.obj `if test -f 'main.C'; then $(CYGPATH_W) 'main.C'; else $(CYGPATH_W) '$(srcdir)/main.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-main.Tpo $(DEPDIR)/unstructTest-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='main.C' object='unstructTest-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-main.obj `if test -f 'main.C'; then $(CYGPATH_W) 'main.C'; else $(CYGPATH_W) '$(srcdir)/main.C'; fi`
+
+unstructTest-parallel.o: parallel.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-parallel.o -MD -MP -MF $(DEPDIR)/unstructTest-parallel.Tpo -c -o unstructTest-parallel.o `test -f 'parallel.C' || echo '$(srcdir)/'`parallel.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-parallel.Tpo $(DEPDIR)/unstructTest-parallel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parallel.C' object='unstructTest-parallel.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-parallel.o `test -f 'parallel.C' || echo '$(srcdir)/'`parallel.C
+
+unstructTest-parallel.obj: parallel.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-parallel.obj -MD -MP -MF $(DEPDIR)/unstructTest-parallel.Tpo -c -o unstructTest-parallel.obj `if test -f 'parallel.C'; then $(CYGPATH_W) 'parallel.C'; else $(CYGPATH_W) '$(srcdir)/parallel.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-parallel.Tpo $(DEPDIR)/unstructTest-parallel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parallel.C' object='unstructTest-parallel.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-parallel.obj `if test -f 'parallel.C'; then $(CYGPATH_W) 'parallel.C'; else $(CYGPATH_W) '$(srcdir)/parallel.C'; fi`
+
+unstructTest-cmdLineOptions.o: cmdLineOptions.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-cmdLineOptions.o -MD -MP -MF $(DEPDIR)/unstructTest-cmdLineOptions.Tpo -c -o unstructTest-cmdLineOptions.o `test -f 'cmdLineOptions.C' || echo '$(srcdir)/'`cmdLineOptions.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-cmdLineOptions.Tpo $(DEPDIR)/unstructTest-cmdLineOptions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='cmdLineOptions.C' object='unstructTest-cmdLineOptions.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-cmdLineOptions.o `test -f 'cmdLineOptions.C' || echo '$(srcdir)/'`cmdLineOptions.C
+
+unstructTest-cmdLineOptions.obj: cmdLineOptions.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-cmdLineOptions.obj -MD -MP -MF $(DEPDIR)/unstructTest-cmdLineOptions.Tpo -c -o unstructTest-cmdLineOptions.obj `if test -f 'cmdLineOptions.C'; then $(CYGPATH_W) 'cmdLineOptions.C'; else $(CYGPATH_W) '$(srcdir)/cmdLineOptions.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-cmdLineOptions.Tpo $(DEPDIR)/unstructTest-cmdLineOptions.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='cmdLineOptions.C' object='unstructTest-cmdLineOptions.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-cmdLineOptions.obj `if test -f 'cmdLineOptions.C'; then $(CYGPATH_W) 'cmdLineOptions.C'; else $(CYGPATH_W) '$(srcdir)/cmdLineOptions.C'; fi`
+
+unstructTest-h5writer.o: h5writer.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-h5writer.o -MD -MP -MF $(DEPDIR)/unstructTest-h5writer.Tpo -c -o unstructTest-h5writer.o `test -f 'h5writer.C' || echo '$(srcdir)/'`h5writer.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-h5writer.Tpo $(DEPDIR)/unstructTest-h5writer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='h5writer.C' object='unstructTest-h5writer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-h5writer.o `test -f 'h5writer.C' || echo '$(srcdir)/'`h5writer.C
+
+unstructTest-h5writer.obj: h5writer.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-h5writer.obj -MD -MP -MF $(DEPDIR)/unstructTest-h5writer.Tpo -c -o unstructTest-h5writer.obj `if test -f 'h5writer.C'; then $(CYGPATH_W) 'h5writer.C'; else $(CYGPATH_W) '$(srcdir)/h5writer.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-h5writer.Tpo $(DEPDIR)/unstructTest-h5writer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='h5writer.C' object='unstructTest-h5writer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-h5writer.obj `if test -f 'h5writer.C'; then $(CYGPATH_W) 'h5writer.C'; else $(CYGPATH_W) '$(srcdir)/h5writer.C'; fi`
+
+unstructTest-measure.o: measure.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-measure.o -MD -MP -MF $(DEPDIR)/unstructTest-measure.Tpo -c -o unstructTest-measure.o `test -f 'measure.C' || echo '$(srcdir)/'`measure.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-measure.Tpo $(DEPDIR)/unstructTest-measure.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='measure.C' object='unstructTest-measure.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-measure.o `test -f 'measure.C' || echo '$(srcdir)/'`measure.C
+
+unstructTest-measure.obj: measure.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-measure.obj -MD -MP -MF $(DEPDIR)/unstructTest-measure.Tpo -c -o unstructTest-measure.obj `if test -f 'measure.C'; then $(CYGPATH_W) 'measure.C'; else $(CYGPATH_W) '$(srcdir)/measure.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-measure.Tpo $(DEPDIR)/unstructTest-measure.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='measure.C' object='unstructTest-measure.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-measure.obj `if test -f 'measure.C'; then $(CYGPATH_W) 'measure.C'; else $(CYGPATH_W) '$(srcdir)/measure.C'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -680,7 +715,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(PROGRAMS) all-local
+all-am: Makefile $(PROGRAMS)
 installdirs: installdirs-recursive
 installdirs-am:
 	for dir in "$(DESTDIR)$(standalonedir)"; do \
@@ -708,7 +743,6 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
-	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -790,8 +824,8 @@ uninstall-am: uninstall-standalonePROGRAMS
 
 .MAKE: $(am__recursive_targets) install-am install-strip
 
-.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am all-local \
-	check check-am clean clean-generic clean-libtool \
+.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am check \
+	check-am clean clean-generic clean-libtool \
 	clean-standalonePROGRAMS cscopelist-am ctags ctags-am \
 	distclean distclean-compile distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
@@ -806,19 +840,6 @@ uninstall-am: uninstall-standalonePROGRAMS
 	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
 	uninstall-am uninstall-standalonePROGRAMS
 
-
-all-local: Makefile.dep1 
-
-Makefile.dep1: $(fc_sources)
-	$(top_srcdir)/utils/sfmakedepend.pl $(PARSE_OPTIONS) $^ > $@
-
--include Makefile.dep1
-
-.F90.o:
-	module=$(*F)                                            ;\
-	MODULE=$$(echo $$module | tr '[:lower:]' '[:upper:]' )  ;\
-	$(PPFCCOMPILE) -c -o $@ $<                              ;\
-	if [ -f $$MODULE.mod ]; then cp $$MODULE.mod $$module.mod; fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

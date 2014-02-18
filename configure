@@ -23414,7 +23414,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile libt3pio/Makefile include/Makefile cubeTestHDF5/Makefile unstructTestHDF5/Makefile"
+ac_config_files="$ac_config_files Makefile libt3pio/Makefile include/Makefile cubeTest/Makefile unstructTest/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -24714,8 +24714,8 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "libt3pio/Makefile") CONFIG_FILES="$CONFIG_FILES libt3pio/Makefile" ;;
     "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
-    "cubeTestHDF5/Makefile") CONFIG_FILES="$CONFIG_FILES cubeTestHDF5/Makefile" ;;
-    "unstructTestHDF5/Makefile") CONFIG_FILES="$CONFIG_FILES unstructTestHDF5/Makefile" ;;
+    "cubeTest/Makefile") CONFIG_FILES="$CONFIG_FILES cubeTest/Makefile" ;;
+    "unstructTest/Makefile") CONFIG_FILES="$CONFIG_FILES unstructTest/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
