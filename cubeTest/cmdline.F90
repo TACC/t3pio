@@ -29,135 +29,147 @@ contains
 
    subroutine parse()
 
-   integer        :: count, i, iargc, ierr
-   character(160) :: arg, optarg
-
-   count = iargc()
-
-   
-   MaxWritersPer = -1
-   MaxWriters    = -1
-   Numvar        = 1
-   Stripes       = -1
-   nDim          = 2
-   Factor        = -1
-   LocalSz       = 5
-   GblSz         = 0
-   StripeSz      = -1
-   GblFileSz     = -1
-
-   Collective    = .true.
-   UseT3PIO      = .true.
-   VersionFlag   = .false.
-   HelpFlag      = .false.
-   ROMIO         = .true.
-   HDF5Flag      = .false.
-   LuaOutput     = .false.
-   TableOutput   = .true.
-
+      integer        :: count, i, iargc, ierr
+      character(160) :: arg, optarg
+      
+      count = iargc()
+      
+      
+      MaxWritersPer = -1
+      MaxWriters    = -1
+      Numvar        = 1
+      Stripes       = -1
+      nDim          = 2
+      Factor        = -1
+      LocalSz       = 5
+      GblSz         = 0
+      StripeSz      = -1
+      GblFileSz     = -1
+      
+      Collective    = .true.
+      UseT3PIO      = .true.
+      VersionFlag   = .false.
+      HelpFlag      = .false.
+      ROMIO         = .true.
+      HDF5Flag      = .false.
+      LuaOutput     = .false.
+      TableOutput   = .true.
+      
 #ifdef USE_HDF5
-   ROMIO         = .false.
-   H5chunk       = .false.
-   H5slab        = .true.
-   HDF5Flag      = .true.
+      ROMIO         = .false.
+      H5chunk       = .false.
+      H5slab        = .true.
+      HDF5Flag      = .true.
 #endif
 
-   i = 0
-   do
-      i = i + 1
-      if (i > count) exit
-      call getarg(i,arg)
-
-      if (arg == "-f" .or. arg == "--factor") then
+      i = 0
+      do
          i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) Factor
-      elseif (arg == "-g" .or. arg == "--global") then
-         i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) GblSz
-      elseif (arg == "-G") then
-         i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) GblFileSz
-      elseif (arg == "-l" .or. arg == "--local") then
-         i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) LocalSz
-      elseif (arg == "-n" .or. arg == "--dim") then
-         i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) nDim
-      elseif (arg == "--lua") then
-         LuaOutput   = .true.
-         TableOutput = .false.
-      elseif (arg == "--all" .or. arg == "--both" ) then
-         LuaOutput   = .true.
-         TableOutput = .true.
-      elseif (arg == "--independent") then
-         Collective  = .false.
-      elseif (arg == "--mwriters") then
-         i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) MaxWriters
-      elseif (arg == "--mwritersper") then
-         i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) MaxWritersPer
-      elseif (arg == "--numvar") then
-         i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) Numvar
-      elseif (arg == "--stripes" .or. arg == "--nstripes") then
-         i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) Stripes
-      elseif (arg == "--stripeSz") then
-         i = i + 1
-         call getarg(i,optarg)
-         read(optarg,*, err=11) StripeSz
-      elseif (arg(1:2) == '-v' .or. arg == '--version') then
-         VersionFlag = .TRUE.
-      elseif (arg == '--romio') then
-         ROMIO    = .true.
-         HDF5Flag = .false.
-      elseif (arg == '--noT3PIO') then
-         UseT3PIO = .false.
-      elseif (arg == '--h5chunk') then
-         ROMIO    = .false.
-         HDF5Flag = .true.
-         H5chunk  = .true.
-         H5slab   = .false.
-      elseif (arg == '--h5slab') then
-         ROMIO    = .false.
-         HDF5Flag = .true.
-         H5chunk  = .false.
-         H5slab   = .true.
-      else if (arg(1:2) == '-H' .or. arg(1:2) == '-h' .or. &
-           arg == '--help') then
-         HelpFlag = .true.
+         if (i > count) exit
+         call getarg(i,arg)
+         
+         if (arg == "-f" .or. arg == "--factor") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) Factor
+         elseif (arg == "-g" .or. arg == "--global") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) GblSz
+         elseif (arg == "-G") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) GblFileSz
+         elseif (arg == "-l" .or. arg == "--local") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) LocalSz
+         elseif (arg == "-n" .or. arg == "--dim") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) nDim
+         elseif (arg == "--lua") then
+            LuaOutput   = .true.
+            TableOutput = .false.
+         elseif (arg == "--all" .or. arg == "--both" ) then
+            LuaOutput   = .true.
+            TableOutput = .true.
+         elseif (arg == "--independent") then
+            Collective  = .false.
+         elseif (arg == "--mwriters") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) MaxWriters
+         elseif (arg == "--mwritersper") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) MaxWritersPer
+         elseif (arg == "--numvar") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) Numvar
+         elseif (arg == "--stripes" .or. arg == "--nstripes") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) Stripes
+         elseif (arg == "--stripeSz") then
+            i = i + 1
+            call getarg(i,optarg)
+            read(optarg,*, err=11) StripeSz
+         elseif (arg(1:2) == '-v' .or. arg == '--version') then
+            VersionFlag = .TRUE.
+         elseif (arg == '--romio') then
+            ROMIO    = .true.
+            HDF5Flag = .false.
+         elseif (arg == '--noT3PIO') then
+            UseT3PIO = .false.
+         elseif (arg == '--h5chunk') then
+            ROMIO    = .false.
+            HDF5Flag = .true.
+            H5chunk  = .true.
+            H5slab   = .false.
+         elseif (arg == '--h5slab') then
+            ROMIO    = .false.
+            HDF5Flag = .true.
+            H5chunk  = .false.
+            H5slab   = .true.
+         else if (arg(1:2) == '-H' .or. arg(1:2) == '-h' .or. &
+              arg == '--help') then
+            HelpFlag = .true.
+         end if
+      end do
+      
+      Numvar = max(1,Numvar)
+      Numvar = min(9,Numvar)
+      
+      if (ROMIO) Numvar = 1
+      
+      return
+11    continue
+      if (p % myProc == 0) then
+         print *, "Illegal argument for option: ", trim(arg)
+         print *, "Terminating."
       end if
-   end do
-
-   Numvar = max(1,Numvar)
-   Numvar = min(9,Numvar)
-
-   if (ROMIO) Numvar = 1
-
-   return
-11 continue
-   if (p % myProc == 0) then
-      print *, "Illegal argument for option: ", trim(arg)
-      print *, "Terminating."
-   end if
-   call MPI_Finalize(ierr)
-   call exit()
-end subroutine parse
+      call MPI_Finalize(ierr)
+      call exit()
+   end subroutine parse
 
    subroutine usage()
       implicit none
+      character(10) :: romioDft, h5slabDft
+
+      
+      if (ROMIO) then
+         h5slabDft = ''
+         romioDft  = ' (default)'
+      else
+         h5slabDft = ' (default)'
+         romioDft  = ''
+      endif
+
 
       if (p % myproc > 0) return
+
 
       print *, "Usage: cubeTestHDF5 [options]"
       print *, "options:"
@@ -177,11 +189,10 @@ end subroutine parse
       print *, "  --nstripes num    : Allow no more than num stripes "
       print *, "                      (file system limit by default)"
       print *, "  --stripeSz num    : Stripe Size in MB (1 to 256)"
-      print *, "  --h5chunk         : use HDF5 with chunks"
+      print *, "  --h5chunk         : use HDF5 with chunks",h5slabDft
+      print *, "  --romio           : use MPI I/O",romioDft
       print *, "  --h5slab          : use HDF5 with slab"
-      print *, "                      (default)"
       print *, "  --independent     : Use independent writes instead of collective"
-      print *, "  --romio           : use MPI I/O"
       print *, "  --numvar num      : number of variables 1 to 9"
       print *, "  --mwriters    num : Total number of writers"
       print *, "  --mwritersper num : the number of writers per node"

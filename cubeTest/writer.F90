@@ -313,6 +313,9 @@ contains
          totalSz = totalSz * DBLE(global % num(i))
       end do
 
+      allocate (u(lSz))
+      call init3d(local, u)
+
 
       call MPI_Type_create_subarray(nDim , sz, sz, starts, MPI_ORDER_FORTRAN, MPI_DOUBLE_PRECISION, coreData, ierr)
       ASSERT(ierr == 0, "MPI_Type_create_subarray")
@@ -361,9 +364,6 @@ contains
       ASSERT(ierr == 0, "MPI_File_set_view")
 
       lSz = local % num(1) * local % num(2) * local % num(3)
-      allocate (u(lSz))
-      call init3d(local, u)
-
 
       call MPI_File_write_all(filehandle, u, 1, coreData, status, ierr)
       ASSERT(ierr == 0, "MPI_File_write_all")

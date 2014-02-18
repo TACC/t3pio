@@ -80,7 +80,7 @@ build_triplet = @build@
 host_triplet = @host@
 standalone_PROGRAMS = unstructTest$(EXEEXT)
 @PHDF5_ENABLED_TRUE@am__append_1 = -DUSE_HDF5  -I$(PHDF5_DIR)/include
-@PHDF5_ENABLED_TRUE@am__append_2 = -L$(PHDF5_DIR)/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5  -lz 
+@PHDF5_ENABLED_TRUE@am__append_2 = -L$(PHDF5_DIR)/lib -lhdf5_hl -lhdf5  -lz 
 subdir = unstructTest
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/build-aux/depcomp
@@ -103,7 +103,8 @@ PROGRAMS = $(standalone_PROGRAMS)
 am_unstructTest_OBJECTS = unstructTest-main.$(OBJEXT) \
 	unstructTest-parallel.$(OBJEXT) \
 	unstructTest-cmdLineOptions.$(OBJEXT) \
-	unstructTest-h5writer.$(OBJEXT) unstructTest-measure.$(OBJEXT)
+	unstructTest-parallel_io.$(OBJEXT) \
+	unstructTest-measure.$(OBJEXT)
 unstructTest_OBJECTS = $(am_unstructTest_OBJECTS)
 am__DEPENDENCIES_1 =
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -356,7 +357,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 SUBDIRS = .
-unstructTest_SOURCES = main.C parallel.C cmdLineOptions.C h5writer.C measure.C
+unstructTest_SOURCES = main.C parallel.C cmdLineOptions.C parallel_io.C measure.C
 unstructTest_CXXFLAGS = -I$(top_srcdir)/include
 unstructTest_DEPENDENCIES := ../libt3pio/libt3pio.la
 unstructTest_LDADD = -L../libt3pio -lt3pio $(am__append_2)
@@ -457,10 +458,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-cmdLineOptions.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-h5writer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-measure.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-parallel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unstructTest-parallel_io.Po@am__quote@
 
 .C.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -525,19 +526,19 @@ unstructTest-cmdLineOptions.obj: cmdLineOptions.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-cmdLineOptions.obj `if test -f 'cmdLineOptions.C'; then $(CYGPATH_W) 'cmdLineOptions.C'; else $(CYGPATH_W) '$(srcdir)/cmdLineOptions.C'; fi`
 
-unstructTest-h5writer.o: h5writer.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-h5writer.o -MD -MP -MF $(DEPDIR)/unstructTest-h5writer.Tpo -c -o unstructTest-h5writer.o `test -f 'h5writer.C' || echo '$(srcdir)/'`h5writer.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-h5writer.Tpo $(DEPDIR)/unstructTest-h5writer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='h5writer.C' object='unstructTest-h5writer.o' libtool=no @AMDEPBACKSLASH@
+unstructTest-parallel_io.o: parallel_io.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-parallel_io.o -MD -MP -MF $(DEPDIR)/unstructTest-parallel_io.Tpo -c -o unstructTest-parallel_io.o `test -f 'parallel_io.C' || echo '$(srcdir)/'`parallel_io.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-parallel_io.Tpo $(DEPDIR)/unstructTest-parallel_io.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parallel_io.C' object='unstructTest-parallel_io.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-h5writer.o `test -f 'h5writer.C' || echo '$(srcdir)/'`h5writer.C
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-parallel_io.o `test -f 'parallel_io.C' || echo '$(srcdir)/'`parallel_io.C
 
-unstructTest-h5writer.obj: h5writer.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-h5writer.obj -MD -MP -MF $(DEPDIR)/unstructTest-h5writer.Tpo -c -o unstructTest-h5writer.obj `if test -f 'h5writer.C'; then $(CYGPATH_W) 'h5writer.C'; else $(CYGPATH_W) '$(srcdir)/h5writer.C'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-h5writer.Tpo $(DEPDIR)/unstructTest-h5writer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='h5writer.C' object='unstructTest-h5writer.obj' libtool=no @AMDEPBACKSLASH@
+unstructTest-parallel_io.obj: parallel_io.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-parallel_io.obj -MD -MP -MF $(DEPDIR)/unstructTest-parallel_io.Tpo -c -o unstructTest-parallel_io.obj `if test -f 'parallel_io.C'; then $(CYGPATH_W) 'parallel_io.C'; else $(CYGPATH_W) '$(srcdir)/parallel_io.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/unstructTest-parallel_io.Tpo $(DEPDIR)/unstructTest-parallel_io.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parallel_io.C' object='unstructTest-parallel_io.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-h5writer.obj `if test -f 'h5writer.C'; then $(CYGPATH_W) 'h5writer.C'; else $(CYGPATH_W) '$(srcdir)/h5writer.C'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -c -o unstructTest-parallel_io.obj `if test -f 'parallel_io.C'; then $(CYGPATH_W) 'parallel_io.C'; else $(CYGPATH_W) '$(srcdir)/parallel_io.C'; fi`
 
 unstructTest-measure.o: measure.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(unstructTest_CXXFLAGS) $(CXXFLAGS) -MT unstructTest-measure.o -MD -MP -MF $(DEPDIR)/unstructTest-measure.Tpo -c -o unstructTest-measure.o `test -f 'measure.C' || echo '$(srcdir)/'`measure.C

@@ -29,7 +29,8 @@ class CmdLineOptions
   bool        tableStyleOutput;
   bool        h5chunk;
   bool        h5slab;
-  std::string h5style;
+  bool        romio;
+  std::string wrtStyle;
   std::string xferStyle;
  private:
   state_t      m_state;

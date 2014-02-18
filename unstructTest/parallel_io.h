@@ -1,5 +1,5 @@
-#ifndef H5WRITER_H
-#define H5WRITER_H
+#ifndef PARALLELIO_H
+#define PARALLELIO_H
 
 #include "cmdLineOptions.h"
 
@@ -9,12 +9,13 @@
 typedef unsigned long long hid_t;
 #endif
 
-class H5
+class ParallelIO
 {
 public:
-  H5();
-  ~H5() {}
-  void writer(CmdLineOptions& cmd);
+  ParallelIO();
+  ~ParallelIO() {}
+  void h5writer(CmdLineOptions& cmd);
+  void MPIIOwriter(CmdLineOptions& cmd);
   void add_attribute(hid_t id, const char* descript, const char* value);
   double rate()        { return m_rate;}
   double time()        { return m_t;}
@@ -41,4 +42,5 @@ private:
   int    m_nWritersPer;
 };
 
-#endif // H5WRITER_H
+#endif // PARALLELIO_H
+

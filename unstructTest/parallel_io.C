@@ -1,5 +1,5 @@
 #include "h5test.h"
-#include "h5writer.h"
+#include "parallel_io.h"
 #include "parallel.h"
 #include "cmdLineOptions.h"
 #include <stdlib.h>
@@ -28,7 +28,7 @@ Var_t varT[] =
     {"e", "E Velocity in m/s"},
   };
 
-H5::H5()
+ParallelIO::ParallelIO()
   : m_t(0.0), m_rate(0.0), m_totalSz(1.0), m_nStripes(1),
     m_nIOUnits(1), m_factor(1), m_stripeSz(-1), m_numvar(1),
     m_nWritersPer(1)
@@ -36,18 +36,18 @@ H5::H5()
 
 
 #ifndef USE_HDF5
-void H5::writer(CmdLineOptions& cmd)
+void ParalleIO::h5writer(CmdLineOptions& cmd)
 {
   if (P.myProc == 0) 
     printf("This program requires HDF5 which is not available => quitting\n");
 }
 
-void H5::add_attribute(hid_t id, const char* descript, const char* value)
+void ParalleIO::add_attribute(hid_t id, const char* descript, const char* value)
 {
 }
 
 #else
-void H5::writer(CmdLineOptions& cmd)
+void ParallelIO::h5writer(CmdLineOptions& cmd)
 {
 
   hid_t   file_id;       //file      identifier
@@ -56,19 +56,24 @@ void H5::writer(CmdLineOptions& cmd)
   hid_t   filespace;     //Dataspace id in file
   hid_t   memspace;      //Dataspace id in memory.
   hid_t   plist_id;      //Property List id
-  hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1];
+  hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1], rem;
   hsize_t is, num;
   H5FD_mpio_xfer_t  xfer_mode;   // HDF5 transfer mode (indep or collective)
   const char * fn = "unstruct.h5";
 
   // compute size info
 
+  rem = cmd.globalSz % P.nProcs;
+  if (P.myProc < rem)
+    is = P.myProc * cmd.localSz;
+  else
+    is = (cmd.localSz + 1)*rem + cmd.localSz*(P.myProc - rem);
+
   double lSz     = 1.0;
 
   m_numvar    = cmd.nvar;
   num         = cmd.localSz;
   lSz         = num;
-  is          = P.myProc*num;
   count[0]    = 1;
   h5stride[0] = 1;
   starts[0]   = is;
@@ -202,7 +207,7 @@ void H5::writer(CmdLineOptions& cmd)
   H5Fclose(file_id);
 }
 
-void H5::add_attribute(hid_t id, const char* descript, const char* value)
+void ParallelIO::add_attribute(hid_t id, const char* descript, const char* value)
 {
   hid_t attr_id, aspace_id, atype_id;
   hsize_t attrlen, num[1];
@@ -222,3 +227,94 @@ void H5::add_attribute(hid_t id, const char* descript, const char* value)
   H5Sclose(aspace_id);
 }
 #endif
+
+void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
+{
+
+  int          sz[1], gsz[1], starts[1];
+  MPI_File     fh;
+  MPI_Offset   is, rem, offset;
+  MPI_Datatype coreData, gblData;
+  MPI_Status   status;
+  int          iTotalSz, ierr, ndim;
+  const char*  fn = "unstruct.mpiio";
+
+  rem = cmd.globalSz % P.nProcs;
+  if (P.myProc < rem)
+    is = P.myProc * cmd.localSz;
+  else
+    is = (cmd.localSz + 1)*rem + cmd.localSz*(P.myProc - rem);
+  
+
+  m_numvar      = 1;
+  m_totalSz     = cmd.globalSz*m_numvar*sizeof(double);
+  iTotalSz      = m_totalSz/(1024*1024);
+  long long num = cmd.localSz;
+  double *data  = new double[num];
+  double xk     = is;
+  sz[0]         = num;
+  gsz[0]        = cmd.globalSz;
+  starts[0]     = P.myProc*num;
+
+  
+  for (long long i = 0; i < num; ++i)
+    data[i] = xk++;
+
+  double t0, t1, t2;
+
+  // Delete old file
+  if (P.myProc == 0)
+    MPI_File_delete((char * )fn, MPI_INFO_NULL);
+  MPI_Barrier(P.comm);
+
+
+  // Build MPI info;
+  MPI_Info info = MPI_INFO_NULL;
+  MPI_Info_create(&info);
+
+
+  T3PIO_results_t results;
+
+  if (cmd.useT3PIO)
+    {
+      int ierr = t3pio_set_info(P.comm, info, "./",
+                                T3PIO_GLOBAL_SIZE,         iTotalSz,
+                                T3PIO_MAX_STRIPES,         cmd.stripes,
+                                T3PIO_MAX_STRIPE_SIZE,     cmd.stripeSz,
+                                T3PIO_MAX_WRITERS,         cmd.maxWriters,
+                                T3PIO_MAX_WRITER_PER_NODE, cmd.maxWritersPer,
+                                T3PIO_FACTOR,              cmd.factor,
+                                T3PIO_RESULTS,             &results);
+  
+
+      m_factor      = results.factor;
+      m_nStripes    = results.numStripes;
+      m_nIOUnits    = results.numIO;
+      m_stripeSz    = results.stripeSize;
+      m_nWritersPer = results.nWritersPer;
+    }
+
+  ndim = 1;
+  ierr = MPI_Type_create_subarray(ndim, sz, sz, starts, MPI_ORDER_C, MPI_DOUBLE, &coreData);
+  ierr = MPI_Type_commit(&coreData);
+
+  ierr = MPI_Type_create_subarray(ndim, gsz, sz, starts, MPI_ORDER_C, MPI_DOUBLE, &gblData);
+  ierr = MPI_Type_commit(&gblData);
+
+
+  t0 = walltime();
+  
+  ierr = MPI_File_open(P.comm, (char *) fn, MPI_MODE_WRONLY | MPI_MODE_CREATE, info, &fh);
+  if (ierr)
+    MPI_Abort(P.comm, -1);
+
+
+  offset = 0;
+  ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, gblData, "native", info);
+  ierr = MPI_File_write_all(fh, &data[0], 1, coreData, &status);
+  ierr = MPI_File_close(&fh);
+
+  m_totalTime = walltime() - t0;
+  m_rate      = m_totalSz/(m_totalTime * 1024.0 * 1024.0);
+}
+

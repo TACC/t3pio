@@ -16,6 +16,15 @@ void printVersion(const char* execName)
 void printUsage(const char* execName)
 {
   printVersion(execName);
+  
+  std::string romioDft, h5slabDft;
+  #ifdef USE_HDF5
+    h5slabDft = " (default)";
+    romioDft  = "";
+  #else
+    h5slabDft = "";
+    romioDft  = " (default)";
+  #endif
 
   if (P.myProc == 0)
     std::cerr << "\nUsage:\n"
@@ -23,14 +32,15 @@ void printUsage(const char* execName)
               << "Options:\n"
               << " -h, -?        : Print Usage\n"
               << " -v            : Print Version\n"
+              << " -R            : use ROMIO" <<  romioDft  << "\n"
               << " -C            : use h5 chunk\n"
-              << " -S            : use h5 slab (default)\n"
+              << " -S            : use h5 slab"<< h5slabDft << "\n"
               << " -I            : use independent instead of collective(collective is default)\n"
               << " -N            : no T3PIO\n"
               << " -O type       : output type (l: lua, t: table, b: both (default: table))\n"
               << " -n nvar       : nvar  (default=4)\n"
               << " -l num        : local size is num (default=10)\n"
-              << " -g num        : global size is num\n"
+              << " -g num        : global size in GBytes\n"
               << " -f factor     : number of stripes per writer (default=2)\n"
               << " -s num        : maximum number of stripes\n"
               << " -z num        : maximum stripe size in MB\n"
@@ -58,16 +68,25 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   globalSz         = -1;
   h5chunk          = false;
   h5slab           = false;
+  romio            = true;
   factor           = 1;
   stripes          = -1;
   stripeSz         = -1;
-  h5style          = "h5slab";
   luaStyleOutput   = false;
   tableStyleOutput = true;
   collective       = true;
   xferStyle        = "Collective";
+  wrtStyle         = "Romio";
 
-  while ( (opt = getopt(argc, argv, "s:hCSLO:f:p:w:l:g:n:z:?v")) != -1)
+#ifdef USE_HDF5
+  h5slab           = true;
+  romio            = false;
+  wrtStyle         = "h5slab";
+#endif
+
+
+
+  while ( (opt = getopt(argc, argv, "s:hCSRLO:f:p:w:l:g:n:z:?v")) != -1)
     {
       switch (opt)
         {
@@ -79,7 +98,22 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           help = true;
           break;
         case 'C':
-          h5chunk = true;
+          h5chunk  = true;
+          h5slab   = false;
+          romio    = false;
+          wrtStyle = "h5chunk";
+          break;
+        case 'R':
+          h5chunk  = false;
+          h5slab   = false;
+          romio    = true;
+          wrtStyle = "Romio";
+          break;
+        case 'S':
+          h5slab   = true;
+          h5chunk  = false;
+          romio    = false;
+          wrtStyle = "h5slab";
           break;
         case 'I':
           collective = false;
@@ -116,9 +150,6 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
         case 'w':
           maxWriters    = strtol(optarg, (char **) NULL, 10);
           break;
-        case 'S':
-          h5slab = true;
-          break;
         default:
           illegal = true;
           ;
@@ -139,18 +170,13 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
       return;
     }
 
-  if (! h5chunk && ! h5slab)
-    h5slab = true;
-
-  if ( h5chunk )
-    h5style = "h5chunk";
-
   if (localSz < 0)
     {
       if (globalSz < 0)
         localSz = 10;
       else
         {
+          globalSz *= 128*1024*1024;  // in GBytes
           int rem = globalSz % P.nProcs;
           localSz = globalSz/P.nProcs + (P.myProc < rem);
         }
