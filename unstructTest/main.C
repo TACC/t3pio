@@ -52,8 +52,8 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
              "factor = %d, iounits = %d, nWritersPer = %d, nstripes = %d, stripeSzMB = %d, "
              "fileSzGB = %15.7g, time = %15.7g, totalTime = %15.7g, rate = %15.7g },\n",
              t3pioV, P.nProcs, cmd.localSz, cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(), 
-             pio.factor(),pio.nIOUnits(), pio.nWritersPer(), pio.nStripes(), pio.stripeSzMB(), 
-             fileSz, pio.time(), pio.totalTime(), pio.rate());
+             pio.factor(),pio.nIOUnits(), pio.nWritersPer(), pio.nStripes(), 
+             pio.stripeSzMB(), fileSz, pio.time(), pio.totalTime(), pio.rate());
     }
   if (cmd.tableStyleOutput)
     {

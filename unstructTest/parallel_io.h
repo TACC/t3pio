@@ -27,6 +27,7 @@ public:
   int    numvar()      { return m_numvar;}
   int    stripeSz()    { return m_stripeSz;}
   int    nWritersPer() { return m_nWritersPer; }
+  int    nWriters()    { return m_nWriters; }
   int    stripeSzMB()  { return m_stripeSz/(1024*1024);}
 
 private:
@@ -40,6 +41,7 @@ private:
   int    m_stripeSz;
   int    m_numvar;
   int    m_nWritersPer;
+  int    m_nWriters;
 };
 
 #endif // PARALLELIO_H
