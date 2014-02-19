@@ -86,7 +86,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
 
 
 
-  while ( (opt = getopt(argc, argv, "s:hCSRLO:f:p:w:l:g:n:z:?v")) != -1)
+  while ( (opt = getopt(argc, argv, "s:hNCSRLO:f:p:w:l:g:n:z:?v")) != -1)
     {
       switch (opt)
         {

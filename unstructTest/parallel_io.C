@@ -236,7 +236,7 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   MPI_Datatype coreData, gblData, my_vector;
   MPI_Status   status;
   int          iTotalSz, ierr, ndim;
-  const char*  fn = "unstruct.mpiio";
+  const char*  fn = "UNSTRUCT.mpiio";
 
   rem = cmd.globalSz % P.nProcs;
   if (P.myProc < rem)
