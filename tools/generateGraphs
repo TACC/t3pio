@@ -44,6 +44,7 @@ local axisT = {
    iounits     = "Number of Writers",
    lSz         = "Local Cube Size",
    gSz         = "Global Cube Size",
+   nprocs      = "Number of tasks",   
    factor      = "Stripes/Writers",
    rate        = "Tranfer Rate (in MB/sec)",
 }
@@ -169,6 +170,10 @@ function build2D()
    if(masterTbl.title) then
       a[#a+1] = "set title '" .. masterTbl.title .. "'"
    end
+   if(masterTbl.y0) then
+      a[#a+1] = "set yrange [" .. masterTbl.y0 .. ":]"
+   end
+   
    
    a[#a+1] = "plot 'avg.data' title 'Avg Rate' with linespoints lw 2, \\"
    a[#a+1] = "     'min.data' title 'Min Rate' with linespoints lw 2, \\"
@@ -192,6 +197,10 @@ function build2D()
    if(masterTbl.title) then
       a[#a+1] = "set title '" .. masterTbl.title .. "'"
    end
+   if(masterTbl.y0) then
+      a[#a+1] = "set yrange [" .. masterTbl.y0 .. ":]"
+   end
+   
    
    a[#a+1] = "plot 'avg.data' title 'Avg Rate' with linespoints lw 2, \\"
    a[#a+1] = "     'avg.data' title 'std err'  with yerrorbars"
@@ -444,6 +453,12 @@ function options()
    cmdlineParser:add_option{ 
       name    = {'-y',},
       dest    = 'yaxis',
+      action  = 'store',
+   }
+
+   cmdlineParser:add_option{ 
+      name    = {'--y0',},
+      dest    = 'y0',
       action  = 'store',
    }
 
