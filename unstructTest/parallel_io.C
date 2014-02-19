@@ -233,7 +233,7 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
 
   MPI_File     fh;
   MPI_Offset   is, rem, offset;
-  MPI_Datatype coreData, gblData;
+  MPI_Datatype coreData, gblData, my_vector;
   MPI_Status   status;
   int          iTotalSz, ierr, ndim;
   const char*  fn = "unstruct.mpiio";
@@ -301,7 +301,9 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
 
 
   offset = is*sizeof(double);
-  ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, MPI_DOUBLE, "native", info);
+  ierr = MPI_Type_contiguous(num, MPI_DOUBLE, &my_vector);
+  ierr = MPI_Type_commit(&my_vector);
+  ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, my_vector, "native", info);
   ierr = MPI_File_write_all(fh, &data[0], num, MPI_DOUBLE, &status);
   ierr = MPI_File_close(&fh);
 
