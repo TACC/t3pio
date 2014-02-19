@@ -231,7 +231,6 @@ void ParallelIO::add_attribute(hid_t id, const char* descript, const char* value
 void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
 {
 
-  int          sz[1], gsz[1], starts[1];
   MPI_File     fh;
   MPI_Offset   is, rem, offset;
   MPI_Datatype coreData, gblData;
@@ -249,15 +248,12 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   m_numvar      = 1;
   m_totalSz     = cmd.globalSz*m_numvar*sizeof(double);
   iTotalSz      = m_totalSz/(1024*1024);
-  long long num = cmd.localSz;
+  int    num    = cmd.localSz;
   double *data  = new double[num];
   double xk     = is;
-  sz[0]         = num;
-  gsz[0]        = cmd.globalSz;
-  starts[0]     = P.myProc*num;
 
   
-  for (long long i = 0; i < num; ++i)
+  for (int i = 0; i < num; ++i)
     data[i] = xk++;
 
   double t0, t1, t2;
@@ -295,11 +291,6 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
     }
 
   ndim = 1;
-  ierr = MPI_Type_create_subarray(ndim, sz, sz, starts, MPI_ORDER_C, MPI_DOUBLE, &coreData);
-  ierr = MPI_Type_commit(&coreData);
-
-  ierr = MPI_Type_create_subarray(ndim, gsz, sz, starts, MPI_ORDER_C, MPI_DOUBLE, &gblData);
-  ierr = MPI_Type_commit(&gblData);
 
 
   t0 = walltime();
@@ -309,9 +300,9 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
     MPI_Abort(P.comm, -1);
 
 
-  offset = 0;
-  ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, gblData, "native", info);
-  ierr = MPI_File_write_all(fh, &data[0], 1, coreData, &status);
+  offset = is*sizeof(double);
+  ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, MPI_DOUBLE, "native", info);
+  ierr = MPI_File_write_all(fh, &data[0], num, MPI_DOUBLE, &status);
   ierr = MPI_File_close(&fh);
 
   m_totalTime = walltime() - t0;
