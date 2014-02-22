@@ -304,7 +304,7 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   gsz[0]    = cmd.globalSz/cmd.xwidth;
   gsz[1]    = cmd.xwidth;
   starts[0] = 0;
-  starts[1] = 0
+  starts[1] = 0;
     
   ierr = MPI_Type_create_subarray(nDim, sz, sz, starts, MPI_ORDER_C, MPI_DOUBLE, &coreData);
   ierr = MPI_Type_commit(&coreData);
