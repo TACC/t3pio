@@ -23,6 +23,7 @@ class CmdLineOptions
   int         stripeSz;  // in MB
   int         maxWritersPer;
   int         maxWriters;
+  int         xwidth;
   bool        collective;
   bool        useT3PIO;
   bool        luaStyleOutput;

@@ -235,7 +235,8 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   MPI_Offset   is, rem, offset;
   MPI_Datatype coreData, gblData, my_vector;
   MPI_Status   status;
-  int          iTotalSz, ierr, ndim;
+  int          iTotalSz, ierr, nDim;
+  int          sz[2], gsz[2], starts[2];
   const char*  fn = "UNSTRUCT.mpiio";
 
   rem = cmd.globalSz % P.nProcs;
@@ -290,7 +291,25 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
       m_nWritersPer = results.nWritersPer;
     }
 
-  ndim = 1;
+  //nDim = 1;
+  //offset = is*sizeof(double);
+  //ierr = MPI_Type_contiguous(num, MPI_DOUBLE, &my_vector);
+  //ierr = MPI_Type_commit(&my_vector);
+  //ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, my_vector, "native", info);
+
+  offset    = 0;
+  nDim      = 2;
+  sz[0]     = cmd.xwidth;
+  sz[1]     = cmd.localSz/cmd.xwidth;
+  gsz[0]    = cmd.xwidth;
+  gsz[1]    = cmd.globalSz/cmd.xwidth;
+  starts[0] = 0;
+  starts[1] = sz[1]*P.myProc;
+    
+  ierr = MPI_Type_create_subarray(nDim, sz, sz, starts, MPI_ORDER_C, MPI_DOUBLE, &coreData);
+  ierr = MPI_Type_commit(&coreData);
+  ierr = MPI_Type_create_subarray(nDim, gsz, sz, starts, MPI_ORDER_C, MPI_DOUBLE, &gblData);
+  ierr = MPI_Type_commit(&gblData);
 
 
   t0 = walltime();
@@ -299,12 +318,9 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   if (ierr)
     MPI_Abort(P.comm, -1);
 
+  ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, gblData, "native", info);
 
-  offset = is*sizeof(double);
-  ierr = MPI_Type_contiguous(num, MPI_DOUBLE, &my_vector);
-  ierr = MPI_Type_commit(&my_vector);
-  ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, my_vector, "native", info);
-  ierr = MPI_File_write_all(fh, &data[0], num, MPI_DOUBLE, &status);
+  ierr = MPI_File_write_all(fh, &data[0], 1, coreData, &status);
   ierr = MPI_File_close(&fh);
 
   m_totalTime = walltime() - t0;

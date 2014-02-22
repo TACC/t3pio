@@ -46,6 +46,7 @@ void printUsage(const char* execName)
               << " -z num        : maximum stripe size in MB\n"
               << " -p num        : maximum number of writers per node\n"
               << " -w num        : Total number of writers\n"
+              << " -x num        : xwidth\n"
               << std::endl;
 }
 
@@ -75,6 +76,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   luaStyleOutput   = false;
   tableStyleOutput = true;
   collective       = true;
+  xwidth           = 1;
   xferStyle        = "Collective";
   wrtStyle         = "Romio";
 
@@ -86,7 +88,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
 
 
 
-  while ( (opt = getopt(argc, argv, "s:hNCSRLO:f:p:w:l:g:n:z:?v")) != -1)
+  while ( (opt = getopt(argc, argv, "s:hNCSRLO:f:p:w:l:g:n:x:z:?v")) != -1)
     {
       switch (opt)
         {
@@ -124,6 +126,9 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           break;
         case 'f':
           factor  = strtol(optarg, (char **) NULL, 10);
+          break;
+        case 'x':
+          xwidth  = strtol(optarg, (char **) NULL, 10);
           break;
         case 's':
           stripes = strtol(optarg, (char **) NULL, 10);
@@ -181,6 +186,13 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           localSz = globalSz/P.nProcs + (P.myProc < rem);
         }
     }
+
+  if (xwidth != 1)
+    {
+      localSz  = (localSz/xwidth)*xwidth;
+      globalSz = localSz * P.nProcs; 
+    }
+
 
   if (globalSz < 0)
     globalSz = localSz * P.nProcs;
