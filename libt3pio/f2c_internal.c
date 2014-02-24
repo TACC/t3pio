@@ -37,11 +37,11 @@ int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, 
 
   ierr = t3pio_set_info(comm, info, dir,
 			T3PIO_GLOBAL_SIZE, 	   *global_size,
-			T3PIO_MAX_STRIPES, 	   *max_stripes,
+			T3PIO_STRIPE_COUNT, 	   *max_stripes,
 			T3PIO_FACTOR,      	   *factor,
 			T3PIO_MAX_WRITER_PER_NODE, *maxWritersPer,
-                        T3PIO_MAX_WRITERS,         *nWriters,
-                        T3PIO_MAX_STRIPE_SIZE,     *mStripeSz,
+                        T3PIO_MAX_AGGREGATORS,     *nWriters,
+                        T3PIO_STRIPE_SIZE_MB,      *mStripeSz,
 			T3PIO_NUM_NODES,           nNodes,
 			T3PIO_FILE,        	   file);
   *f_info = MPI_Info_c2f(info);

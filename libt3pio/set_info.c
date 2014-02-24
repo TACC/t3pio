@@ -43,13 +43,13 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
         case T3PIO_GLOBAL_SIZE:
           t3.globalSz   = va_arg(ap,int);
           break;
-        case T3PIO_MAX_STRIPES:
+        case T3PIO_STRIPE_COUNT:
           t3.maxStripes = va_arg(ap,int);
           break;
         case T3PIO_FACTOR:
           t3.factor = va_arg(ap,int);
           break;
-        case T3PIO_MAX_WRITERS:
+        case T3PIO_MAX_AGGREGATORS:
           t3.maxWriters = va_arg(ap,int);
           break;
         case T3PIO_NUM_NODES:
@@ -58,7 +58,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
         case T3PIO_MAX_WRITER_PER_NODE:
           maxWritersPer = va_arg(ap,int);
           break;
-        case T3PIO_MAX_STRIPE_SIZE:
+        case T3PIO_STRIPE_SIZE_MB:
           mStripeSz = va_arg(ap,int);
           break;
         case T3PIO_FILE:

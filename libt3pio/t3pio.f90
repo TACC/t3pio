@@ -13,8 +13,8 @@ module t3pio
 
 contains
    subroutine t3pio_set_info(comm, info, dirIn, ierr,       &
-        global_size, max_stripes, max_stripe_size, factor,  &
-        file, results, max_writers_per_node, max_writers)
+        global_size, stripe_count, stripe_size_mb, factor,  &
+        file, results, max_writers_per_node, max_aggregators)
 
       use mpi
       implicit none
@@ -22,10 +22,10 @@ contains
       integer, parameter              :: PATHMAX = 2048
       integer                         :: comm, info, ierr, myProc
       character(*)                    :: dirIn
-      integer,          optional      :: global_size, max_stripes, factor
+      integer,          optional      :: global_size, stripe_count, factor
       character(*),     optional      :: file
-      integer,          optional      :: max_writers_per_node, max_writers
-      integer,          optional      :: max_stripe_size
+      integer,          optional      :: max_writers_per_node, max_aggregators
+      integer,          optional      :: stripe_size_mb
       character(PATHMAX)              :: dir
       character(PATHMAX)              :: usrFile
       character(256)                  :: key, value
@@ -48,11 +48,11 @@ contains
       usrFile       = ""
 
 
-      if (present(max_writers))          nWriters      = max_writers
+      if (present(max_aggregators))      nWriters      = max_aggregators
       if (present(max_writers_per_node)) maxWritersPer = max_writers_per_node
       if (present(global_size))          gblSz         = global_size
-      if (present(max_stripes))          maxStripes    = max_stripes
-      if (present(max_stripe_size))      maxStripeSz   = max_stripe_size
+      if (present(stripe_count))         maxStripes    = stripe_count
+      if (present(stripe_size_mb))       maxStripeSz   = stripe_size_mb
       if (present(factor))               f             = factor
       if (present(file))                 usrFile       = file
 

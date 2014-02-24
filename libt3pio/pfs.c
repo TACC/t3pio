@@ -24,6 +24,8 @@
 
 void t3pio_init(T3Pio_t* t3)
 {
+  char *p;
+  int  v;
   t3->globalSz   = -1;
   t3->maxStripes = -1;
   t3->factor     = -1;
@@ -35,6 +37,15 @@ void t3pio_init(T3Pio_t* t3)
   t3->maxWriters = -1;
   t3->dir        = NULL;
   t3->fn         = NULL;
+
+  if ((p=getenv("T3PIO_STRIPE_COUNT")) != NULL)
+    t3->maxStripes = strtol(p, (char **) NULL, 10);
+  
+  if ((p=getenv("T3PIO_MAX_AGGREGATORS")) != NULL)
+    t3->maxWriters = strtol(p, (char **) NULL, 10);
+  
+  if ((p=getenv("T3PIO_STRIPE_SIZE_MB")) != NULL)
+    t3->stripeSz = strtol(p, (char **) NULL, 10);
 }
 
 int t3pio_usingLustreFS(const char * dir)

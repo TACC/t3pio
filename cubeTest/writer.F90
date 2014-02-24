@@ -135,10 +135,10 @@ contains
          call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
                              global_size          = iTotalSz,      &
                              factor               = Factor,        &
-                             max_stripes          = Stripes,       &
-                             max_stripe_size      = StripeSz,      &
+                             stripe_count         = Stripes,       &
+                             stripe_size_mb       = StripeSz,      &
                              max_writers_per_node = MaxWritersPer, &
-                             max_writers          = MaxWriters,    &
+                             max_aggregators      = MaxWriters,    &
                              results              = results )
          nIOUnits    = results % numIO
          nStripes    = results % numStripes
@@ -341,10 +341,10 @@ contains
          call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
                              global_size          = iTotalSz,      &
                              max_writers_per_node = MaxWritersPer, &
-                             max_writers          = MaxWriters,    &
+                             max_aggregators      = MaxWriters,    &
                              factor               = Factor,        &
-                             max_stripe_size      = StripeSz,      &
-                             max_stripes          = Stripes,       &
+                             stripe_size_mb       = StripeSz,      &
+                             stripe_count         = Stripes,       &
                              results              = results )
 
          nIOUnits    = results % numIO
