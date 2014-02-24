@@ -13,7 +13,7 @@ module writer
    use t3pio
    implicit none 
    real(8)          :: t0, t1, t2, t3
-   integer          :: nIOUnits, nStripes, stripeSize, nWritersPer
+   integer          :: nIOUnits, nStripes, stripeSize, nWritersPer, numNodes
    character(80)    :: fn
    character(256)   :: buffer
    integer(8)       :: lSz
@@ -145,6 +145,7 @@ contains
          stripeSize  = results % stripeSize
          Factor      = results % factor
          nWritersPer = results % nWritersPer
+         numNodes    = results % numNodes
       endif
 
       !
@@ -352,6 +353,7 @@ contains
          stripeSize  = results % stripeSize
          Factor      = results % factor
          nWritersPer = results % nWritersPer
+         numNodes    = results % numNodes
       endif
 
       t0 = walltime()

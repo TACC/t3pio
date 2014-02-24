@@ -50,10 +50,10 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
     {
       printf("%%%% { t3pioV = \"%s\", nprocs = %d, lSz = %ld, wrtStyle = \"%s\", xferStyle = \"%s\","
              "factor = %d, iounits = %d, nWritersPer = %d, nstripes = %d, stripeSzMB = %d, "
-             "fileSzGB = %15.7g, time = %15.7g, totalTime = %15.7g, rate = %15.7g },\n",
+             "numNodes = %d, fileSzGB = %15.7g, time = %15.7g, totalTime = %15.7g, rate = %15.7g },\n",
              t3pioV, P.nProcs, cmd.localSz, cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(), 
              pio.factor(),pio.nIOUnits(), pio.nWritersPer(), pio.nStripes(), 
-             pio.stripeSzMB(), fileSz, pio.time(), pio.totalTime(), pio.rate());
+             pio.stripeSzMB(), pio.numNodes(), fileSz, pio.time(), pio.totalTime(), pio.rate());
     }
   if (cmd.tableStyleOutput)
     {
@@ -67,6 +67,7 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
              " nWritersPer:      %12d\n"
              " nstripes:         %12d\n"
              " stripeSz (MB):    %12d\n"
+             " numNodes:         %12d\n"
              " fileSz (GB):      %12.3f\n"
              " time (sec):       %12.3f\n"
              " totalTime (sec):  %12.3f\n"
@@ -75,9 +76,9 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
              " xferStyle:        %12s\n"
              " t3pioV:           %12s\n",
              P.nProcs, cmd.localSz, pio.numvar(), pio.factor(), pio.nIOUnits(),
-             pio.nWritersPer(), pio.nStripes(), pio.stripeSzMB(), fileSz, pio.time(),
-             pio.totalTime(), pio.rate(), cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(),
-             t3pioV);
+             pio.nWritersPer(), pio.nStripes(), pio.stripeSzMB(), pio.numNodes(), 
+             fileSz, pio.time(), pio.totalTime(), pio.rate(), cmd.wrtStyle.c_str(), 
+             cmd.xferStyle.c_str(), t3pioV);
 
     }
 }

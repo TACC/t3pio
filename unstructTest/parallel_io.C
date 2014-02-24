@@ -125,6 +125,7 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
       m_nIOUnits    = results.numIO;
       m_stripeSz    = results.stripeSize;
       m_nWritersPer = results.nWritersPer;
+      m_numNodes    = results.numNodes;
     }
 
   xfer_mode = (cmd.collective) ? H5FD_MPIO_COLLECTIVE : H5FD_MPIO_INDEPENDENT;
@@ -289,6 +290,7 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
       m_nIOUnits    = results.numIO;
       m_stripeSz    = results.stripeSize;
       m_nWritersPer = results.nWritersPer;
+      m_numNodes    = results.numNodes;
     }
 
   //nDim = 1;

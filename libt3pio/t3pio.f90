@@ -7,6 +7,7 @@ module t3pio
       integer :: stripeSize  ! stripe size in bytes
       integer :: nWritersPer ! number of writers per node.
       integer :: nWriters    ! Total number of writers.
+      integer :: numNodes    ! number of nodes in this run.
    end type T3PIO_Results_t
 
 
@@ -35,9 +36,6 @@ contains
       integer                         :: gblSz, maxStripes, f
       integer                         :: t3piointernal, maxStripeSz
       type(T3PIO_Results_t), optional :: results
-
-      
-
 
       nWriters      = -1
       maxWritersPer = -1
@@ -84,6 +82,7 @@ contains
 
          results % factor      = results % numStripes / results % numIO
          results % nWritersPer = max(results % numIO /nNodes,1)
+         results % numNodes    = nNodes
       end if
 
    end subroutine t3pio_set_info

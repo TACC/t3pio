@@ -75,20 +75,20 @@ subroutine outputResults(wrtStyle, local, global)
    if (LuaOutput) then
       print 1000, adjustr(trim(t3pioV)), p % nProcs, local % num(1),        &
            global % num(1), Numvar, trim(wrtStyle), trim(xferStyle),        &
-           nWritersPer, nIOUnits, nStripes,stripeSize/(1024*1024), fileSz,  &
-           totalTime, rate
+           nWritersPer, nIOUnits, nStripes,stripeSize/(1024*1024),          &
+           numNodes, fileSz, totalTime, rate
    end if
    if (TableOutput) then
       print 1010, p % nProcs, local % num(1), global % num(1), Numvar,      &
-           nIOUnits, nWritersPer, nStripes, stripeSize/(1024*1024), fileSz, &
-           totalTime, rate, adjustr(trim(wrtStyle)),                        &
+           nIOUnits, nWritersPer, nStripes, stripeSize/(1024*1024),         &
+           numNodes, fileSz, totalTime, rate, adjustr(trim(wrtStyle)),      &
            adjustr(trim(xferStyle)), adjustr(trim(t3pioV))
    end if
 
-1000 format("%% { t3pioV = '", a,"', nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5,              &
-          ", numvar = ",i2, ', wrtStyle = "',a, '", xferStyle = "',a,       &
-          '", nWritersPer = ',i5, ", iounits = ",i5, ", nstripes = ", i5,   &
-          ", stripeSz = ", i10, ", fileSz = ", 1pg15.7,                     &
+1000 format("%% { t3pioV = '", a,"', nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5, &
+          ", numvar = ",i2, ', wrtStyle = "',a, '", xferStyle = "',a,             &
+          '", nWritersPer = ',i5, ", iounits = ",i5, ", nstripes = ", i5,         &
+          ", stripeSz = ", i10,", numNodes = ", i5, ", fileSz = ", 1pg15.7,       &
           ", totalTime = ", 1pg15.7, ", rate = ", 1pg15.7,"},")
 
 1010 format(/,"cubeTestHDF5 Results: ",/  &
@@ -101,6 +101,7 @@ subroutine outputResults(wrtStyle, local, global)
               " nWritersPer:   ", i7,/,   &
               " nstripes:      ", i7,/,   &
               " stripeSz (MB): ", i7,/,   &
+              " numNodes:      ", i7,/,   &
               " fileSz (GB):   ", f9.3,/, &
               " totalTime:     ", f9.3,/, &
               " rate (MB/s):   ", f9.3,/, &

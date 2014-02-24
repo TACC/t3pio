@@ -26,6 +26,7 @@ typedef struct
   int factor;        /* numStripes/numIO */
   int stripeSize;    /* stripe size in bytes*/
   int nWritersPer;   /* number of writers per node */
+  int numNodes;      /* number of nodes */
 } T3PIO_results_t;
 
 int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char *dir, ...);
