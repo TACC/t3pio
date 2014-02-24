@@ -36,13 +36,13 @@ ParallelIO::ParallelIO()
 
 
 #ifndef USE_HDF5
-void ParalleIO::h5writer(CmdLineOptions& cmd)
+void ParallelIO::h5writer(CmdLineOptions& cmd)
 {
   if (P.myProc == 0) 
     printf("This program requires HDF5 which is not available => quitting\n");
 }
 
-void ParalleIO::add_attribute(hid_t id, const char* descript, const char* value)
+void ParallelIO::add_attribute(hid_t id, const char* descript, const char* value)
 {
 }
 
