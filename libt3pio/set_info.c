@@ -26,6 +26,10 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   int     maxWritersPer = INT_MAX;
   int*    pNodes        = NULL;
 
+  if (getenv("T3PIO_BYPASS"))
+    return ierr;
+  
+
   T3PIO_results_t *results = NULL;
 
 
