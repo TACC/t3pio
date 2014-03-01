@@ -304,8 +304,10 @@ contains
       end if
       call MPI_Barrier(p % comm,ierr)
 
+      lSz  = 1
       do i = 1, local % nd
          sz(i)     = local % num(i)
+         lSz       = lSz * local % num(i)
          starts(i) = 0
       end do
 
@@ -316,7 +318,6 @@ contains
 
       allocate (u(lSz))
       call init3d(local, u)
-
 
       call MPI_Type_create_subarray(nDim , sz, sz, starts, MPI_ORDER_FORTRAN, MPI_DOUBLE_PRECISION, coreData, ierr)
       ASSERT(ierr == 0, "MPI_Type_create_subarray")
