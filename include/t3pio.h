@@ -13,11 +13,8 @@ extern "C" {
 #define T3PIO_START_RANGE         1000
 #define T3PIO_GLOBAL_SIZE         1001
 #define T3PIO_STRIPE_COUNT        1002
-#define T3PIO_FACTOR              1003
 #define T3PIO_FILE                1004
 #define T3PIO_RESULTS             1005   
-#define T3PIO_MAX_WRITER_PER_NODE 1006
-#define T3PIO_NUM_NODES           1007
 #define T3PIO_MAX_AGGREGATORS     1008
 #define T3PIO_STRIPE_SIZE_MB      1009
 #define T3PIO_END_RANGE           1010
