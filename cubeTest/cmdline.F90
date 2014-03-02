@@ -18,7 +18,8 @@ module cmdline
    logical :: HDF5Flag      ! if true then use HDF5 instead of MPI I/O
    logical :: H5chunk       ! if true then use HDF5 w/ chunks
    logical :: H5slab        ! if true then use HDF5 w/ slabs
-   logical :: Collective    ! if true then use collective, otherwise do independent.
+   logical :: Collective    ! if true then use collective,
+                            ! otherwise do independent.
    logical :: ROMIO         ! if true then use MPI I/O
    logical :: LuaOutput     ! if true then write output in a Lua
                             ! table format.
@@ -171,8 +172,6 @@ contains
       print *, "  -l num            : number of points in each direction locally"
       print *, "                      (default = 5)"
       print *, "  -G num            : Total File size in GB"
-      print *, "  -f num            : number of stripes per writer"
-      print *, "                      (default = 2)"
       print *, "  --both            : Report results in both a lua table and regular table"
       print *, "  --noT3PIO         : turn off t3pio"
       print *, "  --nstripes num    : Allow no more than num stripes "
