@@ -4,32 +4,25 @@
 #include "t3pio.h"
 #include "t3pio_internal.h"
 
-int t3piointernal_(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes,
-                   int* mStripeSz, int* factor, const char* file, int* maxWritersPer, int* nWriters,
-                   int* nNodes)
+int t3piointernal_(int* f_comm, int* f_info, const char* dir, int* global_sz, 
+                   int* max_stripes, int* mStripeSz, const char* file, int* nWriters)
 {
-  return t3pio_internal(f_comm, f_info, dir, global_size, max_stripes, mStripeSz, factor, file,
-                        maxWritersPer, nWriters, nNodes);
+  return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz, file, nWriters;
 }
-int T3PIOINTERNAL(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes,
-                   int* mStripeSz, int* factor, const char* file, int* maxWritersPer, int* nWriters,
-                   int* nNodes)
+int T3PIOINTERNAL(int* f_comm, int* f_info, const char* dir, int* global_sz, 
+                  int* max_stripes, int* mStripeSz, const char* file, int* nWriters)
 {
-  return t3pio_internal(f_comm, f_info, dir, global_size, max_stripes, mStripeSz, factor, file,
-                        maxWritersPer, nWriters, nNodes);
+  return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz, file, nWriters);
 }
 
-int t3piointernal(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes,
-                   int* mStripeSz, int* factor, const char* file, int* maxWritersPer, int* nWriters,
-                   int* nNodes)
+int t3piointernal(int* f_comm, int* f_info, const char* dir, int* global_sz, 
+                  int* max_stripes, int* mStripeSz, const char* file, int* nWriters)
 {
-  return t3pio_internal(f_comm, f_info, dir, global_size, max_stripes, mStripeSz, factor, file,
-                        maxWritersPer, nWriters, nNodes);
+  return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz, file, nWriters);
 }
 
-int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes,
-                   int* mStripeSz, int* factor, const char* file, int* maxWritersPer, int* nWriters,
-                   int* nNodes)
+int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_sz, 
+                   int* max_stripes, int* mStripeSz, const char* file, int* nWriters)
 {
   int      ierr, myProc;
   MPI_Comm comm = MPI_Comm_f2c(*f_comm);
@@ -38,11 +31,8 @@ int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, 
   ierr = t3pio_set_info(comm, info, dir,
 			T3PIO_GLOBAL_SIZE, 	   *global_size,
 			T3PIO_STRIPE_COUNT, 	   *max_stripes,
-			T3PIO_FACTOR,      	   *factor,
-			T3PIO_MAX_WRITER_PER_NODE, *maxWritersPer,
                         T3PIO_MAX_AGGREGATORS,     *nWriters,
                         T3PIO_STRIPE_SIZE_MB,      *mStripeSz,
-			T3PIO_NUM_NODES,           nNodes,
 			T3PIO_FILE,        	   file);
   *f_info = MPI_Info_c2f(info);
 

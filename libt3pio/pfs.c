@@ -26,15 +26,13 @@ void t3pio_init(T3Pio_t* t3)
 {
   char *p;
   int  v;
+  t3->stripeSz   = T3PIO_OPTIMAL;
+  t3->maxStripes = T3PIO_OPTIMAL;
+  t3->numIO      = T3PIO_OPTIMAL;
+  t3->numStripes = T3PIO_OPTIMAL;
+  t3->maxWriters = T3PIO_OPTIMAL;
   t3->globalSz   = -1;
-  t3->maxStripes = -1;
-  t3->factor     = -1;
-  t3->numNodes   = -1;
-  t3->numIO      = -1;
-  t3->numStripes = -1;
   t3->nodeMem    = -1;
-  t3->stripeSz   = -1;
-  t3->maxWriters = -1;
   t3->dir        = NULL;
   t3->fn         = NULL;
 
@@ -81,16 +79,17 @@ int t3pio_maxStripesPossible(void)
 }
 
 
-void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCoresPer, int* numCoresMax)
+void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCoresPer,
+    int* numCoresMax)
 {
   int ierr, iproc, icore;
   struct utsname u;
-  char * hostNm;
-  char * hostNmBuf;
+  char *  hostNm;
+  char *  hostNmBuf;
   char ** hostNmA;
-  char * p;
-  int nlenL, nlen, nCores;
-  int nNodes, nCoresMax, myProc;
+  char *  p;
+  int     nlenL, nlen, nCores;
+  int     nNodes, nCoresMax, myProc;
 
   uname(&u);
   nlenL = strlen(u.nodename);

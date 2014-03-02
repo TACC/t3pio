@@ -13,10 +13,10 @@
 #define prt(x) if (myProc == 0) printf("%s:%d: %s: %d\n",__FILE__,__LINE__,#x,x)
 
 
-void extract_key_values(MPI_Info info, int numNodes, T3PIO_results_t* results)
+void extract_key_values(MPI_Info info, T3PIO_results_t* r)
 {
   int ierr;
-  if (results)
+  if (r)
     {
       char key[128], value[128];
       int i, valuelen, nkeys, flag;
@@ -28,13 +28,10 @@ void extract_key_values(MPI_Info info, int numNodes, T3PIO_results_t* results)
           ierr = MPI_Info_get_valuelen(info, key, &valuelen, &flag);
           ierr = MPI_Info_get(info, key, valuelen+1, value, &flag);
 
-          if      (strcmp("cb_nodes",        key) == 0) sscanf(value, "%d", &(*results).numIO);
-          else if (strcmp("striping_factor", key) == 0) sscanf(value, "%d", &(*results).numStripes);
-          else if (strcmp("striping_unit",   key) == 0) sscanf(value, "%d", &(*results).stripeSize);
+          if      (strcmp("cb_nodes",        key) == 0) sscanf(value, "%d", &(*r).numIO);
+          else if (strcmp("striping_factor", key) == 0) sscanf(value, "%d", &(*r).numStripes);
+          else if (strcmp("striping_unit",   key) == 0) sscanf(value, "%d", &(*r).stripeSize);
         }
-      results->factor      = results->numStripes/results->numIO;
-      results->nWritersPer = max(results->numIO/numNodes, 1);
-      results->numNodes    = numNodes;
     }
 }
 
@@ -48,7 +45,6 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   int     nProcs, myProc;
   char    buf[128];
   int     mStripeSz     = -1;
-  int     remoteFile    = 0;
   int     maxWritersPer = INT_MAX;
   int*    pNodes        = NULL;
 
@@ -72,17 +68,8 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
         case T3PIO_STRIPE_COUNT:
           t3.maxStripes = va_arg(ap,int);
           break;
-        case T3PIO_FACTOR:
-          t3.factor = va_arg(ap,int);
-          break;
         case T3PIO_MAX_AGGREGATORS:
           t3.maxWriters = va_arg(ap,int);
-          break;
-        case T3PIO_NUM_NODES:
-          pNodes = va_arg(ap, int*);
-          break;
-        case T3PIO_MAX_WRITER_PER_NODE:
-          maxWritersPer = va_arg(ap,int);
           break;
         case T3PIO_STRIPE_SIZE_MB:
           mStripeSz = va_arg(ap,int);
@@ -97,17 +84,15 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     }
   va_end(ap);
 
-  /* Check for valid maxWritersPer */
-  if (maxWritersPer < 0)
-    maxWritersPer = INT_MAX;
-
   /* Set max Stripe Sz to make sense:
-     a) value < 1    => 2MByte
-     b) value > 1    => (value)*1 Mbyte
+     a) value == -2  => Do Not Set
+     b) value <   1  => 2MByte
+     c) value >   1  => (value)*1 Mbyte
+   */
 
-     */
-
-  if (mStripeSz < 1)
+  if (mStripeSz == T3PIO_BYPASS)
+    mStripeSz = -1;
+  else if (mStripeSz < 1)
     mStripeSz = 2;
   else
     mStripeSz = (1 << 20) * mStripeSz;
@@ -116,22 +101,14 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   MPI_Comm_rank(comm, &myProc);
   MPI_Comm_size(comm, &nProcs);
   
-  /* Set factor to 1 unless the user specified something different*/
-  if (t3.factor < 0 || t3.factor > 4)
-    t3.factor = 1;
-
-
   t3pio_numComputerNodes(comm, nProcs, &t3.numNodes, &t3.numCoresPer, &t3.maxCoresPer);
   t3.nodeMem    = t3pio_nodeMemory(comm, myProc);
   t3.stripeSz   = 1024 * 1024;
-  if (pNodes)
-    *pNodes     = t3.numNodes;
-
 
   if (getenv("T3PIO_BYPASS"))
     {
       if (results)
-        extract_key_values(info, t3.numNodes, results);
+        extract_key_values(info, results);
       return ierr;
     }
 
@@ -140,73 +117,51 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
       /* Check for user supplied file for reading */
 
       t3.numStripes = t3pio_readStripes(comm, myProc, t3.fn);
-      if (t3.numNodes * t3.factor < t3.numStripes)
-        t3.numStripes = t3.numNodes * t3.factor;
-
-      t3.stripeSz = -1;         /* Can not change stripe sz on files
-                                   to be read */
-      remoteFile = 1;
+      t3.stripeSz   = -1;    /* Can not change stripe sz on files to be read */
     }
-          
-  else
+  else if (t3.maxStripes != T3PIO_BYPASS)
     {
       int half        = max(t3.maxCoresPer/2, 1);
       int nWritersPer = min(t3.numCoresPer, half);
-      maxWritersPer   = min(nWritersPer, maxWritersPer)
       int maxPossible = t3pio_maxStripes(comm, myProc, dir);
-
+      
       /* No more than 2/3 of the max stripes possible */
-      t3.numStripes    = maxPossible*2/3;  
+      t3.numStripes   = maxPossible*2/3;  
 
       /* No more than maxWriters per node*/
-      t3.numStripes    = min(t3.numStripes, t3.factor*t3.numNodes*maxWritersPer);
+      t3.numStripes   = min(t3.numStripes, t3.numNodes*nWritersPer);
       
       if (t3.maxStripes > 0)
-        t3.numStripes = min(maxPossible,    t3.maxStripes);
+        t3.numStripes = min(maxPossible,   t3.maxStripes);
     }
 
-  t3.numIO = t3.numStripes / t3.factor;
-  if (t3.maxWriters > 0)
-    {
-      t3.numIO  = min(nProcs, t3.maxWriters);
-      t3.factor = t3.numStripes / t3.numIO;
-    }
-
-  /* use stripe given, do not change base on file size */
-  /*
-  if (t3.globalSz > 0 && !remoteFile)
-    {
-      double log2     = log(2.0);
-      double numCores = nProcs/t3.numNodes;
-      double coreMem  = t3.nodeMem/numCores;
-      double bufMemSz = coreMem/16.0;
-
-      double coreExp  = floor(log(bufMemSz)/log2);
-      double sz       = ((double)t3.globalSz) / ((double)t3.numIO);
-      double exp      = floor(log(sz)/log2);
-      exp             = min(coreExp,exp);
-      exp             = max(1.0, exp);
-      t3.stripeSz     = 1 << (((int) exp) + 20);
-      t3.stripeSz     = min(t3.stripeSz, mStripeSz)
-    }
-  */
+  if (t3.maxWriters == T3PIO_BYPASS) 
+    t3.numIO = -1;
+  else if (t3.maxWriters == T3PIO_OPTIMAL) 
+    t3.numIO = t3.numStripes;
+  else if (t3.maxWriters > 0)
+    t3.numIO  = min(nProcs, t3.maxWriters);
 
   t3.stripeSz = mStripeSz;
 
-  sprintf(buf, "%d", t3.numIO);
-  MPI_Info_set(info, (char *) "cb_nodes", buf);
-  sprintf(buf, "%d", t3.numStripes);
-  MPI_Info_set(info, (char *) "striping_factor", buf);
-
+  if (t3.numIO > 0)
+    {
+      sprintf(buf, "%d", t3.numIO);
+      MPI_Info_set(info, (char *) "cb_nodes", buf);
+    }
+  if (t3.numStripes > 0)
+    {
+      sprintf(buf, "%d", t3.numStripes);
+      MPI_Info_set(info, (char *) "striping_factor", buf);
+    }
   if (t3.stripeSz > 0)
     {
       sprintf(buf, "%d", t3.stripeSz);
       MPI_Info_set(info, (char *) "striping_unit", buf);
     }
 
-
   if (results)
-    extract_key_values(info, t3.numNodes, results);
+    extract_key_values(info, results);
 
   return ierr;
 }

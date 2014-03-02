@@ -7,6 +7,8 @@ extern "C" {
 
 #include <mpi.h>
 
+#define T3PIO_OPTIMAL               -1
+#define T3PIO_BYPASS                -2
 #define T3PIO_START_RANGE         1000
 #define T3PIO_GLOBAL_SIZE         1001
 #define T3PIO_STRIPE_COUNT        1002
