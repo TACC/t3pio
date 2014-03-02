@@ -5,31 +5,38 @@
 #include "t3pio_internal.h"
 
 int t3piointernal_(int* f_comm, int* f_info, const char* dir, int* global_sz, 
-                   int* max_stripes, int* mStripeSz, const char* file, int* nWriters)
+                   int* max_stripes, int* mStripeSz, const char* file,
+                   int* nWriters)
 {
-  return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz, file, nWriters;
+  return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz,
+                        file, nWriters);
 }
 int T3PIOINTERNAL(int* f_comm, int* f_info, const char* dir, int* global_sz, 
-                  int* max_stripes, int* mStripeSz, const char* file, int* nWriters)
+                  int* max_stripes, int* mStripeSz, const char* file,
+                  int* nWriters)
 {
-  return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz, file, nWriters);
+  return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz,
+                        file, nWriters);
 }
 
 int t3piointernal(int* f_comm, int* f_info, const char* dir, int* global_sz, 
-                  int* max_stripes, int* mStripeSz, const char* file, int* nWriters)
+                  int* max_stripes, int* mStripeSz, const char* file,
+                  int* nWriters)
 {
-  return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz, file, nWriters);
+  return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz,
+                        file, nWriters);
 }
 
 int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_sz, 
-                   int* max_stripes, int* mStripeSz, const char* file, int* nWriters)
+                   int* max_stripes, int* mStripeSz, const char* file,
+                   int* nWriters)
 {
   int      ierr, myProc;
   MPI_Comm comm = MPI_Comm_f2c(*f_comm);
   MPI_Info info = MPI_Info_f2c(*f_info);
 
   ierr = t3pio_set_info(comm, info, dir,
-			T3PIO_GLOBAL_SIZE, 	   *global_size,
+			T3PIO_GLOBAL_SIZE, 	   *global_sz,
 			T3PIO_STRIPE_COUNT, 	   *max_stripes,
                         T3PIO_MAX_AGGREGATORS,     *nWriters,
                         T3PIO_STRIPE_SIZE_MB,      *mStripeSz,

@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include "cmdLineOptions.h"
 #include "h5test.h"
+#include "t3pio.h"
 
 void printVersion(const char* execName)
 {
@@ -41,10 +42,8 @@ void printUsage(const char* execName)
               << " -n nvar       : nvar  (default=4)\n"
               << " -l num        : local size is num (default=10)\n"
               << " -g num        : global size in GBytes\n"
-              << " -f factor     : number of stripes per writer (default=2)\n"
               << " -s num        : maximum number of stripes\n"
               << " -z num        : maximum stripe size in MB\n"
-              << " -p num        : maximum number of writers per node\n"
               << " -w num        : Total number of writers\n"
               << " -x num        : xwidth\n"
               << std::endl;
@@ -59,10 +58,8 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   bool version, help, illegal;
   char choice;
 
-  maxWritersPer  = INT_MAX;
-
   useT3PIO         = true;
-  maxWriters       = -1;
+  maxWriters       = T3PIO_UNSET;
   version          = false;
   help             = false;
   localSz          = -1;
@@ -70,9 +67,8 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   h5chunk          = false;
   h5slab           = false;
   romio            = true;
-  factor           = 1;
-  stripes          = -1;
-  stripeSz         = -1;
+  stripes          = T3PIO_UNSET;
+  stripeSz         = T3PIO_UNSET;
   luaStyleOutput   = false;
   tableStyleOutput = true;
   collective       = true;
@@ -88,7 +84,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
 
 
 
-  while ( (opt = getopt(argc, argv, "s:hNCSRLO:f:p:w:l:g:n:x:z:?v")) != -1)
+  while ( (opt = getopt(argc, argv, "s:hNCSRLO:w:l:g:n:x:z:?v")) != -1)
     {
       switch (opt)
         {
@@ -124,9 +120,6 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
         case 'N':
           useT3PIO = false;
           break;
-        case 'f':
-          factor  = strtol(optarg, (char **) NULL, 10);
-          break;
         case 'x':
           xwidth  = strtol(optarg, (char **) NULL, 10);
           break;
@@ -148,9 +141,6 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
         case 'O':
           choice         = tolower(optarg[0]);
           luaStyleOutput = ( choice == 'b' || choice == 'l');
-          break;
-        case 'p':
-          maxWritersPer = strtol(optarg, (char **) NULL, 10);
           break;
         case 'w':
           maxWriters    = strtol(optarg, (char **) NULL, 10);

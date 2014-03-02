@@ -13,7 +13,7 @@ module writer
    use t3pio
    implicit none 
    real(8)          :: t0, t1, t2, t3
-   integer          :: nIOUnits, nStripes, stripeSize, nWritersPer, numNodes
+   integer          :: nIOUnits, nStripes, stripeSize
    character(80)    :: fn
    character(256)   :: buffer
    integer(8)       :: lSz
@@ -134,18 +134,13 @@ contains
       if (UseT3PIO) then
          call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
                              global_size          = iTotalSz,      &
-                             factor               = Factor,        &
                              stripe_count         = Stripes,       &
                              stripe_size_mb       = StripeSz,      &
-                             max_writers_per_node = MaxWritersPer, &
                              max_aggregators      = MaxWriters,    &
                              results              = results )
          nIOUnits    = results % numIO
          nStripes    = results % numStripes
          stripeSize  = results % stripeSize
-         Factor      = results % factor
-         nWritersPer = results % nWritersPer
-         numNodes    = results % numNodes
       endif
 
       !
@@ -342,9 +337,7 @@ contains
       if (UseT3PIO) then
          call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
                              global_size          = iTotalSz,      &
-                             max_writers_per_node = MaxWritersPer, &
                              max_aggregators      = MaxWriters,    &
-                             factor               = Factor,        &
                              stripe_size_mb       = StripeSz,      &
                              stripe_count         = Stripes,       &
                              results              = results )
@@ -352,9 +345,6 @@ contains
          nIOUnits    = results % numIO
          nStripes    = results % numStripes
          stripeSize  = results % stripeSize
-         Factor      = results % factor
-         nWritersPer = results % nWritersPer
-         numNodes    = results % numNodes
       endif
 
       t0 = walltime()

@@ -23,12 +23,9 @@ public:
   double totalSz()     { return m_totalSz;}
   int    nStripes()    { return m_nStripes;}
   int    nIOUnits()    { return m_nIOUnits;}
-  int    factor()      { return m_factor;}
   int    numvar()      { return m_numvar;}
   int    stripeSz()    { return m_stripeSz;}
-  int    nWritersPer() { return m_nWritersPer; }
   int    nWriters()    { return m_nWriters; }
-  int    numNodes()    { return m_numNodes; }
   int    stripeSzMB()  { return m_stripeSz/(1024*1024);}
 
 private:
@@ -38,12 +35,9 @@ private:
   double m_totalSz;
   int    m_nStripes;
   int    m_nIOUnits;
-  int    m_factor;
   int    m_stripeSz;
   int    m_numvar;
-  int    m_nWritersPer;
   int    m_nWriters;
-  int    m_numNodes;
 };
 
 #endif // PARALLELIO_H

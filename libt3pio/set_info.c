@@ -12,6 +12,12 @@
 
 #define prt(x) if (myProc == 0) printf("%s:%d: %s: %d\n",__FILE__,__LINE__,#x,x)
 
+int t3pio_parse_int_arg(int orig, int value)
+{
+  if (value == T3PIO_UNSET)
+    return orig;
+  return value;
+}
 
 void extract_key_values(MPI_Info info, T3PIO_results_t* r)
 {
@@ -66,13 +72,13 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
           t3.globalSz   = va_arg(ap,int);
           break;
         case T3PIO_STRIPE_COUNT:
-          t3.maxStripes = va_arg(ap,int);
+          t3.maxStripes = t3pio_parse_int_arg(t3.maxStripes, va_arg(ap,int));
           break;
         case T3PIO_MAX_AGGREGATORS:
-          t3.maxWriters = va_arg(ap,int);
+          t3.maxWriters = t3pio_parse_int_arg(t3.maxWriters, va_arg(ap,int));
           break;
         case T3PIO_STRIPE_SIZE_MB:
-          mStripeSz = va_arg(ap,int);
+          mStripeSz     = t3pio_parse_int_arg(t3.stripeSz,   va_arg(ap,int));
           break;
         case T3PIO_FILE:
           t3.fn = va_arg(ap,char *);

@@ -30,8 +30,7 @@ Var_t varT[] =
 
 ParallelIO::ParallelIO()
   : m_t(0.0), m_rate(0.0), m_totalSz(1.0), m_nStripes(1),
-    m_nIOUnits(1), m_factor(1), m_stripeSz(-1), m_numvar(1),
-    m_nWritersPer(1)
+    m_nIOUnits(1), m_stripeSz(-1), m_numvar(1)
 {}
 
 
@@ -115,17 +114,12 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
                                 T3PIO_STRIPE_COUNT,        cmd.stripes,
                                 T3PIO_STRIPE_SIZE_MB,      cmd.stripeSz,
                                 T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
-                                T3PIO_MAX_WRITER_PER_NODE, cmd.maxWritersPer,
-                                T3PIO_FACTOR,              cmd.factor,
                                 T3PIO_RESULTS,             &results);
   
 
-      m_factor      = results.factor;
       m_nStripes    = results.numStripes;
       m_nIOUnits    = results.numIO;
       m_stripeSz    = results.stripeSize;
-      m_nWritersPer = results.nWritersPer;
-      m_numNodes    = results.numNodes;
     }
 
   xfer_mode = (cmd.collective) ? H5FD_MPIO_COLLECTIVE : H5FD_MPIO_INDEPENDENT;
@@ -280,17 +274,11 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
                                 T3PIO_STRIPE_COUNT,        cmd.stripes,
                                 T3PIO_STRIPE_SIZE_MB,      cmd.stripeSz,
                                 T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
-                                T3PIO_MAX_WRITER_PER_NODE, cmd.maxWritersPer,
-                                T3PIO_FACTOR,              cmd.factor,
                                 T3PIO_RESULTS,             &results);
-  
 
-      m_factor      = results.factor;
       m_nStripes    = results.numStripes;
       m_nIOUnits    = results.numIO;
       m_stripeSz    = results.stripeSize;
-      m_nWritersPer = results.nWritersPer;
-      m_numNodes    = results.numNodes;
     }
 
   //nDim = 1;

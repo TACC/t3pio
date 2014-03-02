@@ -28,8 +28,7 @@ int  t3pio_maxStripesPossible(void);
 void  t3pio_version_internal(char *v, int *len);
 
 int  t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes,
-                    int* max_stripe_size, int* factor, const char* file, int* maxWritersPer,
-                    int* maxWriters, int* nNodes);
+                    int* max_stripe_size, const char* file, int* maxWriters);
 
 
 

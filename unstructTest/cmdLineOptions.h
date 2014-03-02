@@ -18,10 +18,8 @@ class CmdLineOptions
   long long   globalSz;
   long long   localSz;
   int         nvar;
-  int         factor;
   int         stripes;
   int         stripeSz;  // in MB
-  int         maxWritersPer;
   int         maxWriters;
   int         xwidth;
   bool        collective;

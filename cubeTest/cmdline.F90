@@ -2,17 +2,16 @@
 
 module cmdline
    use parallel
+   use t3pio
    implicit none
    integer :: Stripes       ! number of possible stripes
    integer :: StripeSz      ! Stripe size in MB.
-   integer :: Factor        ! number of stripes per writer
    integer :: nDim          ! number of dimension (2, 3)
    integer :: LocalSz       ! local size
    integer :: GblSz         ! Global size
    integer :: GblFileSz     ! Global File Size in GB.
    integer :: Numvar        ! number of variables
    integer :: MaxWriters    ! the max number of writers.
-   integer :: MaxWritersPer ! the max number of writers per node.
    logical :: UseT3PIO      ! if true then use T3PIO (on by default).
    logical :: VersionFlag   ! if true then report version and quit.
    logical :: HelpFlag      ! if true then print usage and quit
@@ -35,16 +34,14 @@ contains
       count = iargc()
       
       
-      MaxWritersPer = -1
-      MaxWriters    = -1
+      MaxWriters    = T3PIO_UNSET
       Numvar        = 1
-      Stripes       = -1
+      Stripes       = T3PIO_UNSET
       nDim          = 2
-      Factor        = -1
       LocalSz       = 5
       GblSz         = 0
-      StripeSz      = -1
-      GblFileSz     = -1
+      StripeSz      = T3PIO_UNSET
+      GblFileSz     = T3PIO_UNSET
       
       Collective    = .true.
       UseT3PIO      = .true.
@@ -68,11 +65,7 @@ contains
          if (i > count) exit
          call getarg(i,arg)
          
-         if (arg == "-f" .or. arg == "--factor") then
-            i = i + 1
-            call getarg(i,optarg)
-            read(optarg,*, err=11) Factor
-         elseif (arg == "-g" .or. arg == "--global") then
+         if (arg == "-g" .or. arg == "--global") then
             i = i + 1
             call getarg(i,optarg)
             read(optarg,*, err=11) GblSz
@@ -100,10 +93,6 @@ contains
             i = i + 1
             call getarg(i,optarg)
             read(optarg,*, err=11) MaxWriters
-         elseif (arg == "--mwritersper") then
-            i = i + 1
-            call getarg(i,optarg)
-            read(optarg,*, err=11) MaxWritersPer
          elseif (arg == "--numvar") then
             i = i + 1
             call getarg(i,optarg)
@@ -195,12 +184,10 @@ contains
       print *, "  --independent     : Use independent writes instead of collective"
       print *, "  --numvar num      : number of variables 1 to 9"
       print *, "  --mwriters    num : Total number of writers"
-      print *, "  --mwritersper num : the number of writers per node"
       print *, " "
       print *, " Defaults are:"
       print *, "    Dim is 2"
       print *, "    l   is 5"
-      print *, "    f   is 2"
       print *, "    Use HDF5 hyperslab"
       print *, "    numvar is 1"
       print *, " "
