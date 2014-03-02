@@ -58,7 +58,7 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
   hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1], rem;
   hsize_t is, num;
   H5FD_mpio_xfer_t  xfer_mode;   // HDF5 transfer mode (indep or collective)
-  const char * fn = "unstruct.h5";
+  const char * fn = "UNSTRUCT.h5";
 
   // compute size info
 
