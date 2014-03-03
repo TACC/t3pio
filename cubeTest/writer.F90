@@ -68,7 +68,7 @@ contains
       integer          :: info,infoF   ! mpi info
       integer          :: xfer_mode    ! Transfer mode: Collective/Independent
       integer          :: i, ierr, m, iseed
-      integer          :: iTotalSz, istat
+      integer          :: iTotalSz, istat, commF
       real(8)          :: walltime
       real(8), allocatable :: u(:)
 
@@ -163,7 +163,8 @@ contains
       call H5Fcreate_f(fn, H5F_ACC_TRUNC_F, file_id, ierr, access_prp = plist_id)
       ASSERT(ierr == 0, "H5fcreate_f")
 
-      call H5Pget_fapl_mpio_f(plist_id, commF, infoF)
+      call H5Pget_fapl_mpio_f(plist_id, commF, infoF, ierr)
+      ASSERT(ierr == 0, "H5Pget_fapl_mpio_f")
       call t3pio_extract_key_values(infoF, results)
       nIOUnits    = results % numIO
       nStripes    = results % numStripes
@@ -280,8 +281,10 @@ contains
       rate = totalSz /(totalTime * 1024.0 * 1024.0)
 
       deallocate(u)
-      MPI_Info_free(&info);
-      MPI_Info_free(&infoF);
+      call MPI_Info_free(info, ierr)
+      ASSERT(ierr == 0, "MPI_Info_free(info)")
+      call MPI_Info_free(infoF, ierr)
+      ASSERT(ierr == 0, "MPI_Info_free(infoF)")
 #     endif
    end subroutine h5_writer
 
