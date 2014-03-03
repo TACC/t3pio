@@ -57,6 +57,7 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
   hid_t   plist_id;      //Property List id
   hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1], rem;
   hsize_t is, num;
+  MPI_Comm commF;
   H5FD_mpio_xfer_t  xfer_mode;   // HDF5 transfer mode (indep or collective)
   const char * fn = "UNSTRUCT.h5";
 
@@ -101,8 +102,11 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
 
 
   // Build MPI info;
-  MPI_Info info = MPI_INFO_NULL;
+  MPI_Info info  = MPI_INFO_NULL;
+  MPI_Info infoF = MPI_INFO_NULL;
+  
   MPI_Info_create(&info);
+  MPI_Info_create(&infoF);
 
 
   T3PIO_results_t results;
@@ -131,7 +135,17 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
   
   // Create file collectively
   file_id = H5Fcreate(fn, H5F_ACC_TRUNC, H5P_DEFAULT, plist_id);
+
+  H5Pget_fapl_mpio(plist_id, &commF, &infoF);
+  t3pio_extract_key_values(infoF, &results);  
+  m_nStripes = results.numStripes;
+  m_nIOUnits = results.numIO;
+  m_stripeSz = results.stripeSize;
   H5Pclose(plist_id);
+
+
+  
+
 
   // Create Group
   group_id = H5Gcreate(file_id, "Solution", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
@@ -199,6 +213,8 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
   free(data);
   H5Gclose(group_id);
   H5Fclose(file_id);
+  MPI_Info_free(&info);
+  MPI_Info_free(&infoF);
 }
 
 void ParallelIO::add_attribute(hid_t id, const char* descript, const char* value)
@@ -260,8 +276,10 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
 
 
   // Build MPI info;
-  MPI_Info info = MPI_INFO_NULL;
+  MPI_Info info  = MPI_INFO_NULL;
+  MPI_Info infoF = MPI_INFO_NULL;
   MPI_Info_create(&info);
+  MPI_Info_create(&infoF);
 
   T3PIO_results_t results;
 
@@ -304,9 +322,9 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
     MPI_Abort(P.comm, -1);
 
 
-  ierr = MPI_File_get_info(fh, &info);
+  ierr = MPI_File_get_info(fh, &infoF);
   
-  t3pio_extract_key_values(info, &results);  
+  t3pio_extract_key_values(infoF, &results);  
   m_nStripes = results.numStripes;
   m_nIOUnits = results.numIO;
   m_stripeSz = results.stripeSize;
@@ -319,5 +337,7 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
 
   m_totalTime = walltime() - t0;
   m_rate      = m_totalSz/(m_totalTime * 1024.0 * 1024.0);
+  MPI_Info_free(&info);
+  MPI_Info_free(&infoF);
 }
 

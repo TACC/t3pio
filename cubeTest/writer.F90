@@ -65,7 +65,7 @@ contains
       integer, allocatable :: newSeed(:)
 
       character(40)    :: date, time
-      integer          :: info         ! mpi info
+      integer          :: info,infoF   ! mpi info
       integer          :: xfer_mode    ! Transfer mode: Collective/Independent
       integer          :: i, ierr, m, iseed
       integer          :: iTotalSz, istat
@@ -129,7 +129,10 @@ contains
 
       info = MPI_INFO_NULL
       call MPI_Info_create(info, ierr)
-      ASSERT(ierr == 0, "MPI_Info_create")
+      ASSERT(ierr == 0, "MPI_Info_create(info)")
+      infoF = MPI_INFO_NULL
+      call MPI_Info_create(infoF, ierr)
+      ASSERT(ierr == 0, "MPI_Info_create(infoF)")
 
       if (UseT3PIO) then
          call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
@@ -138,9 +141,6 @@ contains
                              stripe_size_mb       = StripeSz,      &
                              max_aggregators      = MaxWriters,    &
                              results              = results )
-         nIOUnits    = results % numIO
-         nStripes    = results % numStripes
-         stripeSize  = results % stripeSize
       endif
 
       !
@@ -162,6 +162,12 @@ contains
       t0 = walltime()
       call H5Fcreate_f(fn, H5F_ACC_TRUNC_F, file_id, ierr, access_prp = plist_id)
       ASSERT(ierr == 0, "H5fcreate_f")
+
+      call H5Pget_fapl_mpio_f(plist_id, commF, infoF)
+      call t3pio_extract_key_values(infoF, results)
+      nIOUnits    = results % numIO
+      nStripes    = results % numStripes
+      stripeSize  = results % stripeSize
       call H5Pclose_f(plist_id, ierr)
       ASSERT(ierr == 0, "H5Pclose_f")
 
@@ -274,6 +280,8 @@ contains
       rate = totalSz /(totalTime * 1024.0 * 1024.0)
 
       deallocate(u)
+      MPI_Info_free(&info);
+      MPI_Info_free(&infoF);
 #     endif
    end subroutine h5_writer
 
@@ -283,7 +291,7 @@ contains
 
       type(grid_t)         :: local, global
       real(8), allocatable :: u(:)
-      integer              :: info,  i, ierr
+      integer              :: info,  i, ierr, infoF
       integer(8)           :: offset
 
       real(8)              :: walltime
@@ -335,6 +343,9 @@ contains
       call MPI_Info_create(info,ierr)
       ASSERT(ierr == 0, "MPI_Info_create")
 
+      call MPI_Info_create(infoF,ierr)
+      ASSERT(ierr == 0, "MPI_Info_create")
+
       iTotalSz = totalSz / (1024*1024)
       if (UseT3PIO) then
          call t3pio_set_info(MPI_COMM_WORLD, info, "./", ierr,     &
@@ -351,10 +362,10 @@ contains
       call MPI_File_open(p % comm, fn, MPI_MODE_CREATE+MPI_MODE_RDWR, info, filehandle, ierr)
       ASSERT(ierr == 0, "MPI_File_open")
 
-      call MPI_File_get_info(filehandle, info, ierr)
+      call MPI_File_get_info(filehandle, infoF, ierr)
       ASSERT(ierr == 0, "MPI_File_get_info")
 
-      call t3pio_extract_key_values(info, results)
+      call t3pio_extract_key_values(infoF, results)
 
       nIOUnits    = results % numIO
       nStripes    = results % numStripes
@@ -377,6 +388,10 @@ contains
       rate = totalSz /(totalTime * 1024.0 * 1024.0)
       deallocate(u)
 
+      call MPI_Info_free(info, ierr)
+      ASSERT(ierr == 0, "MPI_Info_free(info)")
+      call MPI_Info_free(infoF, ierr)
+      ASSERT(ierr == 0, "MPI_Info_free(infoF)")
 
    end subroutine parallel_writer
 
