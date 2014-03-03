@@ -1,12 +1,12 @@
 #define OMPI_SKIP_MPICXX  1
 #define MPICH_SKIP_MPICXX 1
-#include "parallel.h"
+#include "comm.h"
 #include <stdio.h>
 #include "cmdLineOptions.h"
 #include "h5test.h"
 #include "parallel_io.h"
 #include "t3pio.h"
-Parallel P;
+Comm P;
 
 
 void outputResults(CmdLineOptions& cmd, ParallelIO& pio);

@@ -86,7 +86,7 @@ subroutine outputResults(wrtStyle, local, global)
    end if
 
 1000 format("%% { t3pioV = '", a,"', nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5, &
-          ", numvar = ",i2, ', wrtStyle = "',a, '", xferStyle = "',a,             &
+          ", numvar = ",i2, ', wrtStyle = "',a, '", xferStyle = "',a,'"',         &
           ", iounits = ",i5, ", nstripes = ", i5, ", stripeSz = ", i10,           &
           ", fileSz = ", 1pg15.7, ", totalTime = ", 1pg15.7,                      &
           ", rate = ", 1pg15.7,"},")

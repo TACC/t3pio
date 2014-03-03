@@ -1,12 +1,12 @@
-#include "parallel.h"
+#include "comm.h"
 
 
-Parallel::Parallel()
+Comm::Comm()
 {
 }
 
 
-void Parallel::init(int * argc, char *** argv, MPI_Comm commIn)
+void Comm::init(int * argc, char *** argv, MPI_Comm commIn)
 {
   int flag;
 
@@ -22,15 +22,12 @@ void Parallel::init(int * argc, char *** argv, MPI_Comm commIn)
   MPI_Comm_size(comm, &nProcs);
 }
 
-
-void Parallel::fini()
+void Comm::fini()
 {
   MPI_Finalize();
 }
 
-
-
-Parallel::~Parallel()
+Comm::~Comm()
 {
   // Do nothing
 }

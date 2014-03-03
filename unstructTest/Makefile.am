@@ -4,7 +4,7 @@ SUBDIRS = .
 
 CXXFLAGS += -I$(top_srcdir)/libt3pio 
 
-unstructTest_SOURCES        = main.C parallel.C cmdLineOptions.C parallel_io.C measure.C
+unstructTest_SOURCES        = main.C comm.C cmdLineOptions.C parallel_io.C measure.C
 unstructTest_CXXFLAGS       = -I$(top_srcdir)/include
 unstructTest_DEPENDENCIES  := ../libt3pio/libt3pio.la
 unstructTest_LDADD          = -L../libt3pio -lt3pio

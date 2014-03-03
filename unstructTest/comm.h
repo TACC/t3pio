@@ -1,13 +1,13 @@
-#ifndef PARALLEL_H
-#define PARALLEL_H
+#ifndef COMM_H
+#define COMM_H
 
 #include "mpi.h"
 
-class Parallel
+class Comm
 {
 public:
-  Parallel();
-  ~Parallel();
+  Comm();
+  ~Comm();
   void init(int * argc, char *** argv, MPI_Comm comm);
   void fini();
 
@@ -20,4 +20,4 @@ public:
 
 
 
-#endif //PARALLEL_H
+#endif //COMM_H

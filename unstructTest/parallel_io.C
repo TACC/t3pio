@@ -1,6 +1,6 @@
 #include "h5test.h"
 #include "parallel_io.h"
-#include "parallel.h"
+#include "comm.h"
 #include "cmdLineOptions.h"
 #include <stdlib.h>
 #include <iostream>

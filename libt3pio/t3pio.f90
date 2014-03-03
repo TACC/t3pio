@@ -8,7 +8,6 @@ module t3pio
       integer :: numIO       ! The number of readers/writers
       integer :: numStripes  ! The number of stripes
       integer :: stripeSize  ! stripe size in bytes
-      integer :: nWriters    ! Total number of writers.
    end type T3PIO_Results_t
 
 contains

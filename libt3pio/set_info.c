@@ -51,8 +51,6 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   int     nProcs, myProc;
   char    buf[128];
   int     mStripeSz     = -1;
-  int     maxWritersPer = INT_MAX;
-  int*    pNodes        = NULL;
 
   T3PIO_results_t *results = NULL;
 
@@ -98,10 +96,12 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
 
   if (mStripeSz == T3PIO_BYPASS)
     mStripeSz = -1;
-  else if (mStripeSz < 1)
-    mStripeSz = 2;
   else
-    mStripeSz = (1 << 20) * mStripeSz;
+    {
+      if (mStripeSz < 1)
+        mStripeSz = 2;
+      mStripeSz = (1 << 20) * mStripeSz;
+    }
 
 
   MPI_Comm_rank(comm, &myProc);

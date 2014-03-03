@@ -31,7 +31,7 @@ int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_sz,
                    int* max_stripes, int* mStripeSz, const char* file,
                    int* nWriters)
 {
-  int      ierr, myProc;
+  int      ierr;
   MPI_Comm comm = MPI_Comm_f2c(*f_comm);
   MPI_Info info = MPI_Info_f2c(*f_info);
 

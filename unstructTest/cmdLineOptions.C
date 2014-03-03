@@ -1,4 +1,4 @@
-#include "parallel.h"
+#include "comm.h"
 #include <iostream>
 #include <limits.h>
 #include <stdlib.h>
