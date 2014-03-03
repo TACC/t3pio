@@ -281,10 +281,10 @@ contains
       rate = totalSz /(totalTime * 1024.0 * 1024.0)
 
       deallocate(u)
-      call MPI_Info_free(info, ierr)
-      ASSERT(ierr == 0, "MPI_Info_free(info)")
-      call MPI_Info_free(infoF, ierr)
-      ASSERT(ierr == 0, "MPI_Info_free(infoF)")
+      ! call MPI_Info_free(info, ierr)
+      ! ASSERT(ierr == 0, "MPI_Info_free(info)")
+      ! call MPI_Info_free(infoF, ierr)
+      ! ASSERT(ierr == 0, "MPI_Info_free(infoF)")
 #     endif
    end subroutine h5_writer
 
@@ -391,10 +391,10 @@ contains
       rate = totalSz /(totalTime * 1024.0 * 1024.0)
       deallocate(u)
 
-      call MPI_Info_free(info, ierr)
-      ASSERT(ierr == 0, "MPI_Info_free(info)")
-      call MPI_Info_free(infoF, ierr)
-      ASSERT(ierr == 0, "MPI_Info_free(infoF)")
+      ! call MPI_Info_free(info, ierr)
+      ! ASSERT(ierr == 0, "MPI_Info_free(info)")
+      ! call MPI_Info_free(infoF, ierr)
+      ! ASSERT(ierr == 0, "MPI_Info_free(infoF)")
 
    end subroutine parallel_writer
 
