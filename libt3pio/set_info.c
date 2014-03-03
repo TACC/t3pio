@@ -19,7 +19,7 @@ int t3pio_parse_int_arg(int orig, int value)
   return value;
 }
 
-void extract_key_values(MPI_Info info, T3PIO_results_t* r)
+void t3pio_extract_key_values(MPI_Info info, T3PIO_results_t* r)
 {
   int ierr;
   if (r)
@@ -114,7 +114,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
   if (getenv("T3PIO_BYPASS"))
     {
       if (results)
-        extract_key_values(info, results);
+        t3pio_extract_key_values(info, results);
       return ierr;
     }
 
@@ -167,7 +167,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     }
 
   if (results)
-    extract_key_values(info, results);
+    t3pio_extract_key_values(info, results);
 
   return ierr;
 }

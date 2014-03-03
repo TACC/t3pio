@@ -314,7 +314,8 @@ contains
       allocate (u(lSz))
       call init3d(local, u)
 
-      call MPI_Type_create_subarray(nDim , sz, sz, starts, MPI_ORDER_FORTRAN, MPI_DOUBLE_PRECISION, coreData, ierr)
+      call MPI_Type_create_subarray(nDim , sz, sz, starts, MPI_ORDER_FORTRAN,   &
+                                    MPI_DOUBLE_PRECISION, coreData, ierr)
       ASSERT(ierr == 0, "MPI_Type_create_subarray")
       call MPI_Type_commit(coreData, ierr)
       ASSERT(ierr == 0, "MPI_Type_commit")
@@ -325,7 +326,8 @@ contains
       end do
 
 
-      call MPI_Type_create_subarray(nDim, gsz, sz, starts, MPI_ORDER_FORTRAN, MPI_DOUBLE_PRECISION, gblData, ierr)
+      call MPI_Type_create_subarray(nDim, gsz, sz, starts, MPI_ORDER_FORTRAN,  &
+                                    MPI_DOUBLE_PRECISION, gblData, ierr)
       ASSERT(ierr == 0, "MPI_Type_create_subarray")
       call MPI_Type_commit(gblData, ierr)
       ASSERT(ierr == 0, "MPI_Type_commit")
@@ -342,9 +344,6 @@ contains
                              stripe_count         = Stripes,       &
                              results              = results )
 
-         nIOUnits    = results % numIO
-         nStripes    = results % numStripes
-         stripeSize  = results % stripeSize
       endif
 
       t0 = walltime()
@@ -352,6 +351,15 @@ contains
       call MPI_File_open(p % comm, fn, MPI_MODE_CREATE+MPI_MODE_RDWR, info, filehandle, ierr)
       ASSERT(ierr == 0, "MPI_File_open")
 
+      call MPI_File_get_info(filehandle, info, ierr)
+      ASSERT(ierr == 0, "MPI_File_get_info")
+
+      call t3pio_extract_key_values(info, results)
+
+      nIOUnits    = results % numIO
+      nStripes    = results % numStripes
+      stripeSize  = results % stripeSize
+      
       offset = 0
       call MPI_File_set_view(filehandle, offset, MPI_DOUBLE_PRECISION, gblData, "native", info, ierr)
       ASSERT(ierr == 0, "MPI_File_set_view")

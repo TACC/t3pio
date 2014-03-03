@@ -116,7 +116,6 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
                                 T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
                                 T3PIO_RESULTS,             &results);
   
-
       m_nStripes    = results.numStripes;
       m_nIOUnits    = results.numIO;
       m_stripeSz    = results.stripeSize;
@@ -264,7 +263,6 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   MPI_Info info = MPI_INFO_NULL;
   MPI_Info_create(&info);
 
-
   T3PIO_results_t results;
 
   if (cmd.useT3PIO)
@@ -275,10 +273,6 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
                                 T3PIO_STRIPE_SIZE_MB,      cmd.stripeSz,
                                 T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
                                 T3PIO_RESULTS,             &results);
-
-      m_nStripes    = results.numStripes;
-      m_nIOUnits    = results.numIO;
-      m_stripeSz    = results.stripeSize;
     }
 
   //nDim = 1;
@@ -308,6 +302,15 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   ierr = MPI_File_open(P.comm, (char *) fn, MPI_MODE_WRONLY | MPI_MODE_CREATE, info, &fh);
   if (ierr)
     MPI_Abort(P.comm, -1);
+
+
+  ierr = MPI_File_get_info(fh, &info);
+  
+  t3pio_extract_key_values(info, &results);  
+  m_nStripes = results.numStripes;
+  m_nIOUnits = results.numIO;
+  m_stripeSz = results.stripeSize;
+
 
   ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, gblData, "native", info);
 

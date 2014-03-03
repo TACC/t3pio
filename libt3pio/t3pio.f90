@@ -11,6 +11,33 @@ module t3pio
    end type T3PIO_Results_t
 
 contains
+   subroutine t3pio_extract_key_values(info, results)
+      use mpi
+      implicit none
+
+      integer               :: info, i, nkeys, ierr
+      integer               :: valuelen
+      logical               :: flag
+      character(256)        :: key, value
+      type(T3PIO_Results_t) :: results
+
+      call MPI_Info_get_nkeys(info, nkeys, ierr)
+
+      do i = 0, nkeys - 1
+         call MPI_Info_get_nthkey(info, i, key, ierr)
+         call MPI_Info_get_valuelen(info, key, valuelen, flag, ierr)
+         call MPI_Info_get(info, key, valuelen+1, value, flag, ierr)
+         
+         if       (key == "cb_nodes") then
+            read(value,'(i15)') results % numIO
+         else if  (key == "striping_factor") then
+            read(value,'(i15)') results % numStripes
+         else if  (key == "striping_unit") then
+            read(value,'(i15)') results % stripeSize
+         end if
+      end do
+   end subroutine t3pio_extract_key_values
+
    subroutine t3pio_set_info(comm, info, dirIn, ierr, global_size,    &
                              stripe_count, stripe_size_mb, file,      &
                              max_aggregators, results)
@@ -27,10 +54,8 @@ contains
       integer,          optional      :: stripe_size_mb
       character(PATHMAX)              :: dir
       character(PATHMAX)              :: usrFile
-      character(256)                  :: key, value
       integer                         :: len, valuelen
-      integer                         :: nkeys, i, nWriters
-      logical                         :: flag
+      integer                         :: nWriters
       integer                         :: gblSz, maxStripes, f
       integer                         :: t3piointernal, maxStripeSz
       type(T3PIO_Results_t), optional :: results
@@ -58,21 +83,7 @@ contains
                            usrFile, nWriters)
       
       if (present(results)) then
-         call MPI_Info_get_nkeys(info, nkeys, ierr)
-
-         do i = 0, nkeys - 1
-            call MPI_Info_get_nthkey(info, i, key, ierr)
-            call MPI_Info_get_valuelen(info, key, valuelen, flag, ierr)
-            call MPI_Info_get(info, key, valuelen+1, value, flag, ierr)
-
-            if       (key == "cb_nodes") then
-               read(value,'(i15)') results % numIO
-            else if  (key == "striping_factor") then
-               read(value,'(i15)') results % numStripes
-            else if  (key == "striping_unit") then
-               read(value,'(i15)') results % stripeSize
-            end if
-         end do
+         call t3pio_extract_key_values(info, results)
       end if
 
    end subroutine t3pio_set_info
