@@ -57,6 +57,7 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
   hid_t   plist_id;      //Property List id
   hsize_t sz[1], gsz[1], starts[1], count[1], block[1], h5stride[1], rem;
   hsize_t is, num;
+  int     ierr;
   MPI_Comm commF;
   H5FD_mpio_xfer_t  xfer_mode;   // HDF5 transfer mode (indep or collective)
   const char * fn = "UNSTRUCT.h5";
@@ -119,10 +120,6 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
                                 T3PIO_STRIPE_SIZE_MB,      cmd.stripeSz,
                                 T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
                                 T3PIO_RESULTS,             &results);
-  
-      m_nStripes    = results.numStripes;
-      m_nIOUnits    = results.numIO;
-      m_stripeSz    = results.stripeSize;
     }
 
   xfer_mode = (cmd.collective) ? H5FD_MPIO_COLLECTIVE : H5FD_MPIO_INDEPENDENT;
@@ -136,16 +133,15 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
   // Create file collectively
   file_id = H5Fcreate(fn, H5F_ACC_TRUNC, H5P_DEFAULT, plist_id);
 
-  H5Pget_fapl_mpio(plist_id, &commF, &infoF);
+  MPI_File* pFH = NULL;
+  ierr    = H5Fget_vfd_handle(file_id, H5P_DEFAULT, (void **) &pFH);
+  ierr    = MPI_File_get_info(*pFH, &infoF);
+
   t3pio_extract_key_values(infoF, &results);  
   m_nStripes = results.numStripes;
   m_nIOUnits = results.numIO;
   m_stripeSz = results.stripeSize;
   H5Pclose(plist_id);
-
-
-  
-
 
   // Create Group
   group_id = H5Gcreate(file_id, "Solution", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
@@ -328,7 +324,6 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   m_nStripes = results.numStripes;
   m_nIOUnits = results.numIO;
   m_stripeSz = results.stripeSize;
-
 
   ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, gblData, "native", info);
 
