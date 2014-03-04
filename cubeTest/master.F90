@@ -91,7 +91,7 @@ subroutine outputResults(wrtStyle, local, global)
           ", stripeSz = ", i10, ", fileSz = ", 1pg15.7,", totalTime = ", 1pg15.7, &
           ", rate = ", 1pg15.7,"},")
 
-1010 format(/,"cubeTestHDF5 Results: ",/  &
+1010 format(/,"cubeTest Results: ",/  &
               "--------------------- "//  &
               " Nprocs:        ", i7,/,   &
               " lSz:           ", i7,/,   &
