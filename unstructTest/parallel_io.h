@@ -6,7 +6,7 @@
 #ifdef USE_HDF5
 #  include "hdf5.h"
 #else
-typedef unsigned long long hid_t;
+typedef int hid_t;
 #endif
 
 class ParallelIO

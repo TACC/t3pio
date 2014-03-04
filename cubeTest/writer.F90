@@ -141,6 +141,9 @@ contains
                              stripe_size_mb       = StripeSz,      &
                              max_aggregators      = MaxWriters,    &
                              results              = results )
+         nIOUnits    = results % numIO
+         nStripes    = results % numStripes
+         stripeSize  = results % stripeSize
       endif
 
       !
@@ -163,13 +166,7 @@ contains
       call H5Fcreate_f(fn, H5F_ACC_TRUNC_F, file_id, ierr, access_prp = plist_id)
       ASSERT(ierr == 0, "H5fcreate_f")
 
-      call H5Pget_fapl_mpio_f(plist_id, commF, infoF, ierr)
-      ASSERT(ierr == 0, "H5Pget_fapl_mpio_f")
-      call t3pio_extract_key_values(infoF, results)
-      aggregators = 0
-      nIOUnits    = results % numIO
-      nStripes    = results % numStripes
-      stripeSize  = results % stripeSize
+      call numagg(file_id, aggregators)
       call H5Pclose_f(plist_id, ierr)
       ASSERT(ierr == 0, "H5Pclose_f")
 
@@ -294,15 +291,16 @@ contains
    subroutine parallel_writer(local, global)
       implicit none
 
-      type(grid_t)         :: local, global
-      real(8), allocatable :: u(:)
-      integer              :: info,  i, ierr, infoF
-      integer(8)           :: offset
+      type(grid_t)          :: local, global
+      real(8), allocatable  :: u(:)
+      integer               :: info,  i, ierr, infoF
+      integer(8)            :: offset
 
-      real(8)              :: walltime
+      real(8)               :: walltime
 
-      integer              :: sz(3),gsz(3), starts(3), iTotalSz
-      integer              :: status(MPI_STATUS_SIZE), filehandle, coreData, gblData
+      integer               :: sz(3),gsz(3), starts(3), iTotalSz
+      integer               :: status(MPI_STATUS_SIZE), filehandle
+      integer               :: coreData, gblData
       type(T3PIO_results_t) :: results
 
       fn = FILE_NAME // ".mpiio"

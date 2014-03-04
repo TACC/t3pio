@@ -90,7 +90,7 @@ contains
             TableOutput = .true.
          elseif (arg == "--independent") then
             Collective  = .false.
-         elseif (arg == "--mwriters") then
+         elseif (arg == "--mwriters" .or. arg == "-w" .or. arg == "-W" ) then
             i = i + 1
             call getarg(i,optarg)
             read(optarg,*, err=11) MaxWriters
@@ -98,11 +98,12 @@ contains
             i = i + 1
             call getarg(i,optarg)
             read(optarg,*, err=11) Numvar
-         elseif (arg == "--stripes" .or. arg == "--nstripes") then
+         elseif (arg == "--stripes" .or. arg == "--nstripes" .or. &
+                 arg == "-s" .or. arg == "-S") then
             i = i + 1
             call getarg(i,optarg)
             read(optarg,*, err=11) Stripes
-         elseif (arg == "--stripeSz") then
+         elseif (arg == "--stripeSz" .or. arg == "-s" .or. arg == "-S") then
             i = i + 1
             call getarg(i,optarg)
             read(optarg,*, err=11) StripeSz
@@ -161,7 +162,7 @@ contains
       if (p % myproc > 0) return
 
 
-      print *, "Usage: cubeTestHDF5 [options]"
+      print *, "Usage: cubeTest [options]"
       print *, "options:"
       print *, "  -v                : version"
       print *, "  -H                : This message and quit"
@@ -174,14 +175,17 @@ contains
       print *, "  -G num            : Total File size in GB"
       print *, "  --both            : Report results in both a lua table and regular table"
       print *, "  --noT3PIO         : turn off t3pio"
+      print *, "  -S num            : num stripes"
       print *, "  --nstripes num    : Allow no more than num stripes "
       print *, "                      (file system limit by default)"
+      print *, "  -Z num            : Stripe Size in MB (1 to 256)"
       print *, "  --stripeSz num    : Stripe Size in MB (1 to 256)"
       print *, "  --h5chunk         : use HDF5 with chunks",h5slabDft
       print *, "  --romio           : use MPI I/O",romioDft
       print *, "  --h5slab          : use HDF5 with slab"
       print *, "  --independent     : Use independent writes instead of collective"
       print *, "  --numvar num      : number of variables 1 to 9"
+      print *, "  -W    num         : Total number of writers"
       print *, "  --mwriters    num : Total number of writers"
       print *, " "
       print *, " Defaults are:"

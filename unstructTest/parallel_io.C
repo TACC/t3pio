@@ -305,10 +305,12 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   starts[0] = 0;
   starts[1] = 0;
     
-  ierr = MPI_Type_create_subarray(nDim, sz, sz, starts, MPI_ORDER_C, MPI_DOUBLE, &coreData);
+  ierr = MPI_Type_create_subarray(nDim, sz, sz, starts, MPI_ORDER_C, MPI_DOUBLE,
+                                  &coreData);
   ierr = MPI_Type_commit(&coreData);
   starts[0] = sz[0]*P.myProc;
-  ierr = MPI_Type_create_subarray(nDim, gsz, sz, starts, MPI_ORDER_C, MPI_DOUBLE, &gblData);
+  ierr = MPI_Type_create_subarray(nDim, gsz, sz, starts, MPI_ORDER_C, MPI_DOUBLE,
+                                  &gblData);
   ierr = MPI_Type_commit(&gblData);
 
 

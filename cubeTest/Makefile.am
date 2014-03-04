@@ -14,11 +14,13 @@ AM_LIBTOOLFLAGS =
 # cubeTest Binaries
 #----------------------------
 
-fc_sources                 := master.F90  assert.F90 cmdline.F90 grid.F90 parallel.F90 writer.F90
-c_sources                  := measure.c
+fc_sources             := master.F90  assert.F90 cmdline.F90 grid.F90 \
+                          parallel.F90 writer.F90
+c_sources              := measure.c numaggregators.c
 
 cubeTest_SOURCES       := $(fc_sources) $(c_sources)
 cubeTest_FFLAGS        := -I$(top_srcdir)/include
+cubeTest_CFLAGS        := -I$(top_srcdir)/include
 cubeTest_DEPENDENCIES  := ../libt3pio/libt3pio.la
 cubeTest_LDADD         := -L../libt3pio -lt3pio
 cubeTest_LDFLAGS       := -Wl,-rpath,$(PHDF5_DIR)/lib 
@@ -28,7 +30,7 @@ standalone_PROGRAMS         = cubeTest
 
 
 if PHDF5_ENABLED
-   AM_FCFLAGS           += -DUSE_HDF5  -I $(PHDF5_DIR)/include
+   AM_FCFLAGS       += -DUSE_HDF5  -I $(PHDF5_DIR)/include
    cubeTest_LDADD   += -L$(PHDF5_DIR)/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5  -lz -lm
    cubeTest_LDFLAGS += -Wl,-rpath,@prefix@/lib
 endif
