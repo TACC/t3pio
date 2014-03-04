@@ -42,6 +42,7 @@ local axisT = {
    stripeSz    = "Stripe Size in MBytes",
    stripeSzMB  = "Stripe Size in MBytes",
    iounits     = "Number of Writers",
+   aggregators = "Number of Aggregators",
    lSz         = "Local Cube Size",
    gSz         = "Global Cube Size",
    nprocs      = "Number of tasks",   
