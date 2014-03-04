@@ -31,7 +31,7 @@ standalone_PROGRAMS         = cubeTest
 
 if PHDF5_ENABLED
    AM_FCFLAGS       += -DUSE_HDF5  -I $(PHDF5_DIR)/include
-   AM_CFLAGS        += -DUSE_HDF5  -I $(PHDF5_DIR)/include
+   CFLAGS           += -DUSE_HDF5  -I $(PHDF5_DIR)/include
    cubeTest_LDADD   += -L$(PHDF5_DIR)/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5  -lz -lm
    cubeTest_LDFLAGS += -Wl,-rpath,@prefix@/lib
 endif
