@@ -13,7 +13,7 @@ module writer
    use t3pio
    implicit none 
    real(8)          :: t0, t1, t2, t3
-   integer          :: nIOUnits, nStripes, stripeSize
+   integer          :: nIOUnits, nStripes, stripeSize, aggregators
    character(80)    :: fn
    character(256)   :: buffer
    integer(8)       :: lSz
@@ -166,6 +166,7 @@ contains
       call H5Pget_fapl_mpio_f(plist_id, commF, infoF, ierr)
       ASSERT(ierr == 0, "H5Pget_fapl_mpio_f")
       call t3pio_extract_key_values(infoF, results)
+      aggregators = 0
       nIOUnits    = results % numIO
       nStripes    = results % numStripes
       stripeSize  = results % stripeSize
@@ -211,7 +212,8 @@ contains
             ! (6) Select hyperslab in the file.
             call H5Dget_space_f(dset_id, filespace, ierr)
             ASSERT(ierr == 0, "H5Dget_space_f")
-            call H5Sselect_hyperslab_f(filespace, H5S_SELECT_SET_F, starts, count, ierr, h5stride, sz)
+            call H5Sselect_hyperslab_f(filespace, H5S_SELECT_SET_F, starts, count, ierr, &
+                                       h5stride, sz)
             ASSERT(ierr == 0, "H5Sselect_hyperslab_f")
 
          else if (H5slab) then
@@ -358,6 +360,7 @@ contains
                              stripe_count         = Stripes,       &
                              results              = results )
 
+         nIOUnits    = results % numIO
       endif
 
       t0 = walltime()
@@ -370,7 +373,7 @@ contains
 
       call t3pio_extract_key_values(infoF, results)
 
-      nIOUnits    = results % numIO
+      aggregators = results % numIO
       nStripes    = results % numStripes
       stripeSize  = results % stripeSize
       

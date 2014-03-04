@@ -30,7 +30,7 @@ Var_t varT[] =
 
 ParallelIO::ParallelIO()
   : m_t(0.0), m_rate(0.0), m_totalSz(1.0), m_nStripes(1),
-    m_nIOUnits(1), m_stripeSz(-1), m_numvar(1)
+    m_nIOUnits(1), m_stripeSz(-1), m_numvar(1), m_aggregators(0)
 {}
 
 
@@ -287,6 +287,7 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
                                 T3PIO_STRIPE_SIZE_MB,      cmd.stripeSz,
                                 T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
                                 T3PIO_RESULTS,             &results);
+      m_nIOUnits = results.numIO;
     }
 
   //nDim = 1;
@@ -321,9 +322,9 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   ierr = MPI_File_get_info(fh, &infoF);
   
   t3pio_extract_key_values(infoF, &results);  
-  m_nStripes = results.numStripes;
-  m_nIOUnits = results.numIO;
-  m_stripeSz = results.stripeSize;
+  m_aggregators = results.numIO;
+  m_nStripes    = results.numStripes;
+  m_stripeSz    = results.stripeSize;
 
   ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, gblData, "native", info);
 

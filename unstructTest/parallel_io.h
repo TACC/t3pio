@@ -23,6 +23,7 @@ public:
   double totalSz()     { return m_totalSz;}
   int    nStripes()    { return m_nStripes;}
   int    nIOUnits()    { return m_nIOUnits;}
+  int    aggregators() { return m_aggregators;}
   int    numvar()      { return m_numvar;}
   int    stripeSz()    { return m_stripeSz;}
   int    nWriters()    { return m_nWriters; }
@@ -38,6 +39,7 @@ private:
   int    m_stripeSz;
   int    m_numvar;
   int    m_nWriters;
+  int    m_aggregators;
 };
 
 #endif // PARALLELIO_H

@@ -49,11 +49,12 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
   if (cmd.luaStyleOutput)
     {
       printf("%%%% { t3pioV = \"%s\", nprocs = %d, lSz = %ld, wrtStyle = \"%s\","
-             " xferStyle = \"%s\", iounits = %d, nstripes = %d, stripeSzMB = %d,"
-             " fileSzGB = %15.7g, time = %15.7g, totalTime = %15.7g, rate = %15.7g },\n",
+             " xferStyle = \"%s\", iounits = %d, aggregators = %d, nstripes = %d, "
+             " stripeSzMB = %d, fileSzGB = %15.7g, time = %15.7g, totalTime = %15.7g,"
+             " rate = %15.7g },\n",
              t3pioV, P.nProcs, cmd.localSz, cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(), 
-             pio.nIOUnits(),   pio.nStripes(), pio.stripeSzMB(), fileSz, pio.time(),
-             pio.totalTime(), pio.rate());
+             pio.nIOUnits(),   pio.aggregators(), pio.nStripes(), pio.stripeSzMB(),
+             fileSz, pio.time(), pio.totalTime(), pio.rate());
     }
   if (cmd.tableStyleOutput)
     {
@@ -63,6 +64,7 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
              " lSz:              %12ld\n"
              " Numvar:           %12d\n"
              " iounits:          %12d\n"
+             " aggregators:      %12d\n"
              " nstripes:         %12d\n"
              " stripeSz (MB):    %12d\n"
              " fileSz (GB):      %12.3f\n"
@@ -72,9 +74,9 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
              " wrtStyle:         %12s\n"
              " xferStyle:        %12s\n"
              " t3pioV:           %12s\n",
-             P.nProcs, cmd.localSz, pio.numvar(), pio.nIOUnits(), pio.nStripes(),
-             pio.stripeSzMB(), fileSz, pio.time(), pio.totalTime(), pio.rate(),
-             cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(), t3pioV);
+             P.nProcs, cmd.localSz, pio.numvar(), pio.nIOUnits(), pio.aggregators(),
+             pio.nStripes(), pio.stripeSzMB(), fileSz, pio.time(), pio.totalTime(),
+             pio.rate(), cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(), t3pioV);
 
     }
 }
