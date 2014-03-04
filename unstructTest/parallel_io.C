@@ -120,6 +120,7 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
                                 T3PIO_STRIPE_SIZE_MB,      cmd.stripeSz,
                                 T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
                                 T3PIO_RESULTS,             &results);
+      m_nIOUnits = results.numIO;
     }
 
   xfer_mode = (cmd.collective) ? H5FD_MPIO_COLLECTIVE : H5FD_MPIO_INDEPENDENT;
@@ -138,9 +139,9 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
   ierr    = MPI_File_get_info(*pFH, &infoF);
 
   t3pio_extract_key_values(infoF, &results);  
-  m_nStripes = results.numStripes;
-  m_nIOUnits = results.numIO;
-  m_stripeSz = results.stripeSize;
+  m_aggregators = results.numIO;
+  m_nStripes    = results.numStripes;
+  m_stripeSz    = results.stripeSize;
   H5Pclose(plist_id);
 
   // Create Group
