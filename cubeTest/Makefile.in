@@ -80,8 +80,9 @@ build_triplet = @build@
 host_triplet = @host@
 standalone_PROGRAMS = cubeTest$(EXEEXT)
 @PHDF5_ENABLED_TRUE@am__append_1 = -DUSE_HDF5  -I $(PHDF5_DIR)/include
-@PHDF5_ENABLED_TRUE@am__append_2 = -L$(PHDF5_DIR)/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5  -lz -lm
-@PHDF5_ENABLED_TRUE@am__append_3 = -Wl,-rpath,@prefix@/lib
+@PHDF5_ENABLED_TRUE@am__append_2 = -DUSE_HDF5  -I $(PHDF5_DIR)/include
+@PHDF5_ENABLED_TRUE@am__append_3 = -L$(PHDF5_DIR)/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5  -lz -lm
+@PHDF5_ENABLED_TRUE@am__append_4 = -Wl,-rpath,@prefix@/lib
 subdir = cubeTest
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/build-aux/depcomp
@@ -389,10 +390,10 @@ fc_sources := master.F90  assert.F90 cmdline.F90 grid.F90 \
 c_sources := measure.c numaggregators.c
 cubeTest_SOURCES := $(fc_sources) $(c_sources)
 cubeTest_FFLAGS := -I$(top_srcdir)/include
-cubeTest_CFLAGS := -I$(top_srcdir)/include
+cubeTest_CFLAGS := -I$(top_srcdir)/include $(am__append_2)
 cubeTest_DEPENDENCIES := ../libt3pio/libt3pio.la
-cubeTest_LDADD := -L../libt3pio -lt3pio $(am__append_2)
-cubeTest_LDFLAGS := -Wl,-rpath,$(PHDF5_DIR)/lib $(am__append_3)
+cubeTest_LDADD := -L../libt3pio -lt3pio $(am__append_3)
+cubeTest_LDFLAGS := -Wl,-rpath,$(PHDF5_DIR)/lib $(am__append_4)
 standalonedir = @prefix@/bin
 
 #IGNORED_MODULES = --ignore mpi --ignore hdf5 --ignore t3pio
