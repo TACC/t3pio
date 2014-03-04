@@ -58,7 +58,7 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
     }
   if (cmd.tableStyleOutput)
     {
-      printf("\nunstructTestHDF5:\n"
+      printf("\nunstructTest:\n"
              "-------------------\n\n"
              " Nprocs:           %12d\n"  
              " lSz:              %12ld\n"
