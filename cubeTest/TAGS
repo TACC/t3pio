@@ -1,0 +1,34 @@
+
+measure.c,114
+double f_walltime(4,44
+#define f_dateZ 28,476
+#define f_dateL 29,515
+void f_dateZ(31,555
+void f_dateL(51,835
+
+numaggregators.c,20
+void f_numagg(5,65
+
+writer.F90,195
+   subroutine h5_writer(51,1996
+   subroutine parallel_writer(291,10009
+   subroutine init3d(402,13587
+   subroutine add_attribute(429,14293
+   subroutine add_solution_description(464,15423
+
+master.F90,34
+subroutine outputResults(51,1026
+
+parallel.F90,67
+   subroutine msg_init(19,292
+   subroutine partitionProc(32,637
+
+assert.F90,24
+subroutine assert(2,14
+
+grid.F90,36
+   subroutine partitionGrid 12,205
+
+cmdline.F90,59
+   subroutine parse(30,1242
+   subroutine usage(148,4845

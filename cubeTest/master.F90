@@ -18,7 +18,7 @@ program main
 
    if (VersionFlag .or. HelpFlag) then
       if (p % myProc == 0) then
-         print *, "cubeTestHDF5 version 1.0"
+         print *, "cubeTest version 1.0"
          if (HelpFlag) call usage()
       end if
       call MPI_Finalize(ierr)

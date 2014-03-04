@@ -40,3 +40,30 @@ t3pio-dist:
 
 echoMe:
 	@echo AX_LUSTRE_FS: @AX_LUSTRE_FS@
+
+tags:
+	find . \( -regex '.*~$$\|.*/\.git\|.*/\.git/' -prune \)  \
+               -o -type f > file_list.1
+	sed -e 's|.*/.git.*||g'                                  \
+            -e 's|.*/TAGS||g'                                    \
+            -e 's|.*/a.out||g'                                   \
+            -e 's|.*/makefile||g'                                \
+            -e 's|.*/Makefile||g'                                \
+            -e 's|.*/Makefile.in||g'                             \
+            -e 's|.*/configure$$||g'                             \
+            -e 's|.*/.DS_Store$$||g'                             \
+            -e 's|.*\.tgz$$||g'                                  \
+            -e 's|.*\.tar\.gz$$||g'                              \
+            -e 's|.*\.tar\.bz2$$||g'                             \
+            -e 's|.*/?^#.*||g'                                   \
+            -e 's|.*/?#.*||g'                                    \
+            -e 's|.*/?\.#.*||g'                                  \
+            -e 's|./.*\.log$$||g'                                \
+            -e 's|./testreports/.*||g'                           \
+            -e 's|./config\.status$$||g'                         \
+            -e 's|.*\~$$||g'                                     \
+            -e 's|./file_list\..*||g'                            \
+            -e '/^\s*$$/d'                                       \
+	       < file_list.1 > file_list.2
+	etags  `cat file_list.2`
+	$(RM) file_list.*

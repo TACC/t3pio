@@ -1,0 +1,44 @@
+
+config.h.in,957
+#undef AX_LUSTRE_FS4,116
+#undef BUILD_ARCH7,174
+#undef BUILD_DATE10,210
+#undef BUILD_HOST13,251
+#undef BUILD_USER16,312
+#undef BUILD_VERSION19,350
+#undef F77_DUMMY_MAIN23,465
+#undef F77_FUNC27,636
+#undef F77_FUNC_30,718
+#undef FC_DUMMY_MAIN_EQ_F7733,801
+#undef HAVE_DLFCN_H36,887
+#undef HAVE_INTTYPES_H39,968
+#undef HAVE_LIBLUSTRE42,1055
+#undef HAVE_LUSTRE_LUSTREAPI_H45,1146
+#undef HAVE_MEMORY_H48,1236
+#undef HAVE_STDINT_H51,1316
+#undef HAVE_STDLIB_H54,1396
+#undef HAVE_STRINGS_H57,1477
+#undef HAVE_STRING_H60,1558
+#undef HAVE_SYS_STAT_H63,1640
+#undef HAVE_SYS_TYPES_H66,1725
+#undef HAVE_UNISTD_H69,1808
+#undef LT_OBJDIR73,1914
+#undef MEMSIZE76,1962
+#undef NUMCORES79,2013
+#undef PACKAGE82,2052
+#undef PACKAGE_BUGREPORT85,2147
+#undef PACKAGE_NAME88,2220
+#undef PACKAGE_STRING91,2300
+#undef PACKAGE_TARNAME94,2382
+#undef PACKAGE_URL97,2454
+#undef PACKAGE_VERSION100,2519
+#undef STDC_HEADERS103,2598
+#undef VERSION106,2651
+
+/Users/mclay/w/t3pio/include/TAGS,include
+
+/Users/mclay/w/t3pio/libt3pio/TAGS,include
+
+/Users/mclay/w/t3pio/cubeTest/TAGS,include
+
+/Users/mclay/w/t3pio/unstructTest/TAGS,include
