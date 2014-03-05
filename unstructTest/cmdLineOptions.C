@@ -59,7 +59,7 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   char choice;
 
   useT3PIO         = true;
-  maxWriters       = T3PIO_UNSET;
+  maxWriters       = T3PIO_IGNORE_ARGUMENT;
   version          = false;
   help             = false;
   localSz          = -1;
@@ -67,8 +67,8 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   h5chunk          = false;
   h5slab           = false;
   romio            = true;
-  stripes          = T3PIO_UNSET;
-  stripeSz         = T3PIO_UNSET;
+  stripes          = T3PIO_IGNORE_ARGUMENT;
+  stripeSz         = T3PIO_IGNORE_ARGUMENT;
   luaStyleOutput   = false;
   tableStyleOutput = true;
   collective       = true;

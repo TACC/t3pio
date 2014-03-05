@@ -1,8 +1,8 @@
 module t3pio
 
-   integer, parameter :: T3PIO_OPTIMAL = -1
-   integer, parameter :: T3PIO_BYPASS  = -2
-   integer, parameter :: T3PIO_UNSET   = -3
+   integer, parameter :: T3PIO_OPTIMAL         = -1
+   integer, parameter :: T3PIO_BYPASS          = -2
+   integer, parameter :: T3PIO_IGNORE_ARGUMENT = -3
 
    type T3PIO_Results_t
       integer :: numIO       ! The number of readers/writers

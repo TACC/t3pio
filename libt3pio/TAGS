@@ -1,40 +1,0 @@
-
-qa.c,32
-const char* t3pio_version(4,43
-
-t3pio.f90,122
-   subroutine t3pio_extract_key_values(14,375
-   subroutine t3pio_set_info(41,1320
-   subroutine t3pio_version(91,3271
-
-pfs.c,372
-#   define HAVE_LUSTRE 20,419
-#define MAXLINE 24,519
-void t3pio_init(26,541
-int t3pio_usingLustreFS(50,1172
-  #define RW_USER 54,1262
-static int t3pio_compare 66,1558
-int t3pio_maxStripesPossible(76,1793
-void t3pio_numComputerNodes(83,1883
-int t3pio_asklustre(174,3998
-int t3pio_maxStripes(229,5511
-int t3pio_nodeMemory(289,6754
-int t3pio_readStripes(323,7391
-
-set_info.c,158
-#define min(10,165
-#define max(11,201
-#define prt(13,238
-int t3pio_parse_int_arg(15,320
-void t3pio_extract_key_values(22,431
-int t3pio_set_info(44,1175
-
-f2c_internal.c,250
-int t3piointernal_(7,104
-int T3PIOINTERNAL(14,413
-int t3piointernal(22,720
-int t3pio_internal(30,1027
-void t3piointernalversion_(51,1646
-void t3piointernalversion(55,1730
-void T3PIOINTERNALVERSION(59,1813
-void  t3pio_version_internal(64,1897

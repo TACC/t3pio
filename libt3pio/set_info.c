@@ -14,7 +14,7 @@
 
 int t3pio_parse_int_arg(int orig, int value)
 {
-  if (value == T3PIO_UNSET)
+  if (value == T3PIO_IGNORE_ARGUMENT)
     return orig;
   return value;
 }

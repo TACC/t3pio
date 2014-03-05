@@ -35,14 +35,14 @@ contains
       count = iargc()
       
       
-      MaxWriters    = T3PIO_UNSET
+      MaxWriters    = T3PIO_IGNORE_ARGUMENT
       Numvar        = 1
-      Stripes       = T3PIO_UNSET
+      Stripes       = T3PIO_IGNORE_ARGUMENT
       nDim          = 2
       LocalSz       = 5
       GblSz         = 0
-      StripeSz      = T3PIO_UNSET
-      GblFileSz     = T3PIO_UNSET
+      StripeSz      = T3PIO_IGNORE_ARGUMENT
+      GblFileSz     = T3PIO_IGNORE_ARGUMENT
       
       Collective    = .true.
       UseT3PIO      = .true.

@@ -9,7 +9,7 @@ extern "C" {
 
 #define T3PIO_OPTIMAL               -1
 #define T3PIO_BYPASS                -2
-#define T3PIO_UNSET                 -3
+#define T3PIO_IGNORE_ARGUMENT       -3
 #define T3PIO_START_RANGE         1000
 #define T3PIO_GLOBAL_SIZE         1001
 #define T3PIO_STRIPE_COUNT        1002
