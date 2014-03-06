@@ -25,9 +25,9 @@
 
 const char* path2dir(const char * path)
 {
-  char dir[PATH_MAX];
+  static char dir[PATH_MAX];
   char *p;
-  strcpy(dir,fn);
+  strcpy(dir,path);
   p = strrchr(dir,'/');
   if (p == NULL)
     strcpy(dir,"./");
