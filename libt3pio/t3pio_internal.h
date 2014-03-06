@@ -15,7 +15,6 @@ typedef struct
   int nodeMem;
   int stripeSz;
   int maxWriters;
-  char* dir;
   char* fn;
 } T3Pio_t;
 

@@ -23,6 +23,20 @@
 #endif
 #define MAXLINE 4096
 
+const char* path2dir(const char * path)
+{
+  char dir[PATH_MAX];
+  char *p;
+  strcpy(dir,fn);
+  p = strrchr(dir,'/');
+  if (p == NULL)
+    strcpy(dir,"./");
+  else
+    *p = '\0';
+
+  return &dir[0];
+}
+
 void t3pio_init(T3Pio_t* t3)
 {
   char *p;
@@ -34,7 +48,6 @@ void t3pio_init(T3Pio_t* t3)
   t3->maxWriters = T3PIO_OPTIMAL;
   t3->globalSz   = -1;
   t3->nodeMem    = -1;
-  t3->dir        = NULL;
   t3->fn         = NULL;
 
   if ((p=getenv("T3PIO_STRIPE_COUNT")) != NULL)
@@ -171,23 +184,25 @@ void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCor
 #endif /* NUMCORES */
 }
 
-int t3pio_asklustre(MPI_Comm comm, int myProc, const char* dir)
+int t3pio_asklustre(MPI_Comm comm, int myProc, const char* path)
 {
   int        ierr;
   int        stripes = t3pio_maxStripesPossible();
   
 #ifdef HAVE_LUSTRE
+  const char * dir = path2dir(path);
   if (myProc == 0 && t3pio_usingLustreFS(dir))
     {
-
       char line[MAXLINE];
       int stripe_size        = 0;
       int stripe_offset      = -1;
       int stripe_pattern     = 0;
       int stripes_max        = -1;
       int flags              = (O_WRONLY | O_CREAT | O_EXCL);
+
       // Create a Lustre Striped Test File
       char fn[MAXLINE];
+
       sprintf(&fn[0], "%s/foo_%d.bar", dir, getpid());
       int rc = llapi_file_create(fn, stripe_size, stripe_offset, stripes_max,
                                  stripe_pattern);
@@ -200,7 +215,6 @@ int t3pio_asklustre(MPI_Comm comm, int myProc, const char* dir)
           fprintf(fp, "foo.bar\n");
           fclose(fp);
           sprintf(&line[0],"lfs getstripe -q %s",fn);
-
 
           if ( (fp = popen(line, "r")) == NULL)
             {
@@ -226,7 +240,7 @@ int t3pio_asklustre(MPI_Comm comm, int myProc, const char* dir)
 }
 
 
-int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
+int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* path)
 {
   const char *p, *p0;
   int  ierr;
@@ -239,12 +253,12 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 
 #ifdef HAVE_LUSTRE
 #ifdef AX_LUSTRE_FS
-  /* Find realpath of dir */
-  if ( dir == NULL)
+  /* Find realpath of path */
+  if ( path == NULL)
     return stripes;
 
-  if ( dir[0] == '/' )
-    realpath(dir,abspath);
+  if ( path[0] == '/' )
+    realpath(path,abspath);
   else
     {
       size_t len, dlen;
@@ -253,8 +267,8 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
       len = strlen(path);
       memcpy(&path[len],"/",1); len++;
 
-      dlen = strlen(dir);
-      memcpy(&path[len],dir,dlen); len += dlen;
+      dlen = strlen(path);
+      memcpy(&path[len],path,dlen); len += dlen;
       path[len] = '\0';
       realpath(path,abspath);
     }
@@ -278,13 +292,11 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* dir)
 
   stripes = (stripes > stripesMax) ? stripesMax : stripes;
 #else
-  stripes = t3pio_asklustre(comm, myProc, dir);
+  stripes = t3pio_asklustre(comm, myProc, path);
 #endif  /* AX_LUSTRE_FS */
 #endif  /* HAVE_LUSTRE */
   return stripes;
 }
-
-
 
 int t3pio_nodeMemory(MPI_Comm comm, int myProc)
 {
@@ -319,21 +331,13 @@ int t3pio_nodeMemory(MPI_Comm comm, int myProc)
 }
 
 
-
 int t3pio_readStripes(MPI_Comm comm, int myProc, const char * fn)
 {
   int count   = 0;
   int stripes = 4;
   int ierr;
 #ifdef HAVE_LUSTRE
-  char dir[PATH_MAX];
-  char *p;
-  strcpy(dir,fn);
-  p = strrchr(dir,'/');
-  if (p == NULL)
-    strcpy(dir,"./");
-  else
-    *p = '\0';
+  const char* dir = path2dir(fn);
   
   if (myProc == 0 && t3pio_usingLustreFS(dir))
     {

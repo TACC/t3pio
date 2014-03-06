@@ -41,7 +41,7 @@ void t3pio_extract_key_values(MPI_Info info, T3PIO_results_t* r)
     }
 }
 
-int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
+int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
 {
 
   T3Pio_t t3;
@@ -54,10 +54,9 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
 
   T3PIO_results_t *results = NULL;
 
-
   t3pio_init(&t3);
   
-  va_start(ap, dir);
+  va_start(ap, path);
 
   while ( (argType = va_arg(ap, int)) != 0)
     {
@@ -129,7 +128,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* dir, ...)
     {
       int half        = max(t3.maxCoresPer/2, 1);
       int nWritersPer = min(t3.numCoresPer, half);
-      int maxPossible = t3pio_maxStripes(comm, myProc, dir);
+      int maxPossible = t3pio_maxStripes(comm, myProc, path);
       
       /* No more than 2/3 of the max stripes possible */
       t3.numStripes   = maxPossible*2/3;  
