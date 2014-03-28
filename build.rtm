@@ -63,7 +63,7 @@ case $SYSHOST in
      PREFIX="$HOME/t/t3pio"
      EXTRA="--with-node-memory=32060 --with-numcores=16"
      PHDF5_DIR=$HDF5_DIR
-     
+     ;;
 
   *)
      PREFIX="$HOME/t/t3pio"
