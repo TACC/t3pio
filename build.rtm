@@ -77,7 +77,7 @@ case $SYSHOST in
 
   *)
      PREFIX="$HOME/t/t3pio"
-     PHDF5_DIR=$HDF5_DIR
+     PHDF5_DIR=$TACC_HDF5_DIR
      ;;   
 esac
 
