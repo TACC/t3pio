@@ -126,12 +126,12 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
     }
   else if (t3.maxStripes != T3PIO_BYPASS)
     {
-      int half        = max(t3.maxCoresPer/2, 1);
-      int nWritersPer = min(t3.numCoresPer, half);
+      int corePer     = max(t3.maxCoresPer, 1);
+      int nWritersPer = min(t3.numCoresPer, corePer/4);
       int maxPossible = t3pio_maxStripes(comm, myProc, path);
       
-      /* No more than 2/3 of the max stripes possible */
-      t3.numStripes   = maxPossible*2/3;  
+      /* No more than 1/2 of the max stripes possible */
+      t3.numStripes   = maxPossible*1/2;  
 
       /* No more than maxWriters per node*/
       t3.numStripes   = min(t3.numStripes, t3.numNodes*nWritersPer);

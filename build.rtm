@@ -32,15 +32,23 @@ runMe()
   done
 }
 
-myhost=$(hostname -f)
-myhost=${myhost%.tacc.utexas.edu}
-first=${myhost%%.*}
-SYSHOST=${myhost#*.}
+if [ -z $SYSHOST ]; then
+  myhost=$(hostname -f)
+  myhost=${myhost%.tacc.utexas.edu}
+  first=${myhost%%.*}
+  SYSHOST=${myhost#*.}
+fi
+
 
 FLAGS="-g -O3"
 if [ "$TARG_BUILD_SCENARIO" = dbg ]; then
    FLAGS="-g -O0"
 fi
+
+CC=mpicc
+CXX=mpicxx
+FC=mpif90
+F77=mpif90
 
 
 case $SYSHOST in
@@ -55,6 +63,16 @@ case $SYSHOST in
      PHDF5_DIR=$TACC_HDF5_DIR
     ;;
 
+  kraken)
+     PREFIX="$SCRATCH/t3pio"
+     EXTRA="--with-node-memory=32060 --with-numcores=16 --enable-static --disable-shared"
+     PHDF5_DIR=$HDF5_DIR
+     CC=cc
+     CXX=CC
+     FC=ftn
+     F77=ftn
+     ;;
+
   *)
      PREFIX="$HOME/t/t3pio"
      PHDF5_DIR=$TACC_HDF5_DIR
@@ -63,7 +81,7 @@ esac
 
 
 cmdA=("-make distclean"
-      "FCFLAGS=\"$FLAGS\" FFLAGS=\"$FLAGS\" CFLAGS=\"$FLAGS\" CXXFLAGS=\"$FLAGS\" FC=mpif90 F77=mpif90 CC=mpicc CXX=mpicxx ./configure --prefix=$PREFIX --with-phdf5=$TACC_HDF5_DIR $EXTRA"
+      "FCFLAGS=\"$FLAGS\" FFLAGS=\"$FLAGS\" CFLAGS=\"$FLAGS\" CXXFLAGS=\"$FLAGS\" FC=$FC F77=$F77 CC=$CC CXX=$CXX ./configure --prefix=$PREFIX --with-phdf5=$PHDF5_DIR $EXTRA"
       "make"
       "make install"
       )
