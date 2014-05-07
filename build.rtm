@@ -79,7 +79,7 @@ esac
 
 
 cmdA=("-make distclean"
-      "FCFLAGS=\"$FLAGS\" FFLAGS=\"$FLAGS\" CFLAGS=\"$FLAGS\" CXXFLAGS=\"$FLAGS\" FC=$FC F77=$F77 CC=$CC CXX=$CXX ./configure --prefix=$PREFIX --with-phdf5=$PHDF5_DIR --with-lustreMaxStripesPerFile=2000 $EXTRA"
+      "FCFLAGS=\"$FLAGS\" FFLAGS=\"$FLAGS\" CFLAGS=\"$FLAGS\" CXXFLAGS=\"$FLAGS\" FC=$FC F77=$F77 CC=$CC CXX=$CXX ./configure --prefix=$PREFIX --with-phdf5=$PHDF5_DIR $EXTRA"
       "make"
       "make install"
       )
