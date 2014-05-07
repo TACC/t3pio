@@ -32,8 +32,9 @@ echo Configure date................ : $BUILD_DATE
 echo Build architecture............ : $BUILD_ARCH
 echo Program Version............... : $BUILD_VERSION
 echo Lustre Filesystems............ : $AX_LUSTRE_FS
-echo Nodal Memory Size in MB....... : $MEMSIZE
-echo Number of cores per node...... : $NUMCORES
+echo Good Citzenship stripe limit.. : $GOOD_CITZENSHIP_STRIPES
+echo Lustre Max Stripes per file... : $LUSTRE_MAX_STRIPES_PER_FILE
+echo Max stripes per node.......... : $MAX_STRIPES_PER_NODE
 
 echo
 echo Optional Features:
@@ -46,6 +47,12 @@ fi
 
 echo
 echo '-------------------------------------------------------------------------------'
+
+if test $LUSTRE_MAX_STRIPES_PER_FILE -gt 160 ; then
+   echo "Warning: Make sure that your Lustre server is running 2.4 or greater."
+   echo "         Otherwise bad thing can happen if the max stripes is wrong."
+fi
+
 
 echo
 echo Configure complete, now type \'make\' and then \'make install\'.

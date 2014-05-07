@@ -76,113 +76,13 @@ int t3pio_usingLustreFS(const char * dir)
   return onLustre;
 }
 
-static int t3pio_compare (const void * a, const void * b)
-{
-  /* The pointers point to offsets into "array", so we need to
-     dereference them to get at the strings. */
-
-  return strcmp (*(const char **) a, *(const char **) b);
-}
-
-
 
 int t3pio_maxStripesPossible(void)
 {
-  const int lustreMax = 160;
+  const int lustreMax = LUSTRE_MAX_STRIPES_PER_FILE;
   return lustreMax;
 }
 
-
-void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes, int* numCoresPer,
-    int* numCoresMax)
-{
-  int ierr, iproc, icore;
-  struct utsname u;
-  char *  hostNm;
-  char *  hostNmBuf;
-  char ** hostNmA;
-  char *  p;
-  int     nlenL, nlen, nCores;
-  int     nNodes, nCoresMax, myProc;
-
-  uname(&u);
-  nlenL = strlen(u.nodename);
-  ierr = MPI_Allreduce(&nlenL, &nlen, 1, MPI_INT, MPI_MAX, comm);
-
-  hostNm = (char *) malloc(nlen+1);
-  strcpy(hostNm, u.nodename);
-
-  hostNmBuf = (char*)  malloc((nlen+1)*nProc);
-  hostNmA   = (char**) malloc(nProc*sizeof(char*));
-
-  ierr = MPI_Allgather(&hostNm[0],    nlen+1, MPI_CHAR,
-                       &hostNmBuf[0], nlen+1, MPI_CHAR, comm);
-
-  p = &hostNmBuf[0];
-  
-  for (iproc = 0; iproc < nProc; ++iproc)
-    {
-      hostNmA[iproc] = p;
-      p += nlen + 1;
-    }
-  
-
-  qsort (hostNmA, nProc, sizeof (const char *), t3pio_compare);
-  nNodes    = 1;
-  p         = hostNmA[0];
-  nCores    = 1;
-  nCoresMax = 0;
-
-
-  for (iproc = 1; iproc < nProc; ++iproc)
-    {
-      if (strcmp(hostNmA[iproc], p) == 0)
-        nCores++;
-      else
-        {
-          if (nCores > nCoresMax)
-            nCoresMax = nCores;
-          nNodes++;
-          p = hostNmA[iproc];
-          nCores = 0;
-        }
-    }
-  if (nCoresMax == 0)
-    nCoresMax = nCores;
-  free(hostNm);
-  free(hostNmBuf);
-  free(hostNmA);
-  *numCoresPer = nCoresMax;
-  *numNodes    = nNodes;
-
-#ifdef NUMCORES
-  *numCoresMax = NUMCORES;
-#else
-#ifdef __linux__
-  MPI_Comm_rank(comm, &myProc);
-  if (myProc == 0)
-    {
-      char buffer[MAXLINE];
-      FILE* fp = fopen("/proc/cpuinfo","r");
-      char* eof;
-      
-      while( (eof = fgets(&buffer[0], MAXLINE, fp)) != 0)
-        {
-          if (strncasecmp(&buffer[0],"processor", 9) == 0)
-            {
-              char* p = strchr(&buffer[0], ':');
-              if (p == NULL)
-                continue;
-              ++p;
-              nCoresMax = (int) strtol(p, (char**) NULL, 10) + 1;
-            }
-        }
-    }
-  ierr = MPI_Bcast(&nCoresMax, 1, MPI_INTEGER, 0, comm);
-#endif  /* __linux__ */
-  *numCoresMax = nCoresMax;
-#endif /* NUMCORES */
-}
 
 int t3pio_asklustre(MPI_Comm comm, int myProc, const char* path)
 {
@@ -297,39 +197,6 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* path)
 #endif  /* HAVE_LUSTRE */
   return stripes;
 }
-
-int t3pio_nodeMemory(MPI_Comm comm, int myProc)
-{
-  char  line[MAXLINE];
-  int   memSz;
-
-#ifdef MEMSIZE
-  memSz = MEMSIZE;
-#else
-  if (myProc == 0)
-    {
-      FILE* fp;
-      if ( (fp = popen("free -m","r")) == NULL)
-        {
-          fprintf(stderr,"Unable to popen \"free -m\"\n");
-          abort();
-        }
-      
-      while ( fgets(line, MAXLINE, fp) != NULL)
-        {
-          if (strncmp(line,"Mem:",4) == 0)
-            {
-              sscanf(&line[4],"%d", &memSz);
-              break;
-            }
-        }
-      fclose(fp);
-    }
-  int ierr = MPI_Bcast(&memSz, 1, MPI_INTEGER, 0, comm);
-#endif
-  return memSz;
-}
-
 
 int t3pio_readStripes(MPI_Comm comm, int myProc, const char * fn)
 {

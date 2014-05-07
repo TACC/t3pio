@@ -43,21 +43,41 @@ if test x$with_phdf5 != xno; then
 fi
 AC_SUBST(PHDF5_DIR)
 
-AC_ARG_WITH(node-memory, [ --with-node-memory      Set nodal memory in MB],
-with_node_memory=$withval, with_node_memory=no)
-NODE_MEMORY=0
-if test x$with_node_memory != xno; then
-   NODE_MEMORY=1
-   MEMSIZE=$with_node_memory
-   AC_DEFINE_UNQUOTED(MEMSIZE, $MEMSIZE, [nodal memory size in MB])
-fi
+AC_DEFINE(LUSTRE_MAX_STRIPES_PER_FILE, 160, [Max stripes possible with lustre])
+AC_ARG_WITH(lustreMaxStripesPerFile,
+    AC_HELP_STRING([--with-lustreMaxStripesPerFile=ans],[Max stripes possible with lustre, Lustre 2.1 ==> 160, Lustre 2.4 ==> 2000 [[160]]]),
+    LUSTRE_MAX_STRIPES_PER_FILE="$withval"
+    AC_MSG_RESULT([LUSTRE_MAX_STRIPES_PER_FILE=$with_lustreMaxStripesPerFile])
+    AC_DEFINE_UNQUOTED(LUSTRE_MAX_STRIPES_PER_FILE,$with_lustreMaxStripesPerFile)dnl
+    ,
+    withval="160"
+    AC_MSG_RESULT([LUSTRE_MAX_STRIPES_PER_FILE=$withval])
+    LUSTRE_MAX_STRIPES_PER_FILE="$withval"
+    AC_DEFINE_UNQUOTED(LUSTRE_MAX_STRIPES_PER_FILE, $withval))dnl
 
-AC_ARG_WITH(numcores, [ --with-numcores      The number of cores per node],
-with_numcores=$withval, with_numcores=no)
-if test x$with_numcores != xno; then
-   NUMCORES=$with_numcores
-   AC_DEFINE_UNQUOTED(NUMCORES, $with_numcores, [The number of cores per node])
-fi
+AC_DEFINE(GOOD_CITZENSHIP_STRIPES, 80, [Max number of stripes in T3PIO automatic mode])
+AC_ARG_WITH(goodCitzenshipStripes,
+    AC_HELP_STRING([--with-goodCitzenshipStripes=ans],[Max number of stripes in automatic mode [[80]]]),
+    GOOD_CITZENSHIP_STRIPES="$withval"
+    AC_MSG_RESULT([GOOD_CITZENSHIP_STRIPES=$with_goodCitzenshipStripes])
+    AC_DEFINE_UNQUOTED(GOOD_CITZENSHIP_STRIPES,$with_goodCitzenshipStripes)dnl
+    ,
+    withval="80"
+    AC_MSG_RESULT([GOOD_CITZENSHIP_STRIPES=$withval])
+    GOOD_CITZENSHIP_STRIPES="$withval"
+    AC_DEFINE_UNQUOTED(GOOD_CITZENSHIP_STRIPES, $withval))dnl
+
+AC_DEFINE(MAX_STRIPES_PER_NODE, 4, [Max number of stripes for a single node])
+AC_ARG_WITH(maxStripesPerNode,
+    AC_HELP_STRING([--with-maxStripesPerNode=ans],[Max number of stripes for a single node [[4]]]),
+    MAX_STRIPES_PER_NODE="$withval"
+    AC_MSG_RESULT([MAX_STRIPES_PER_NODE=$with_maxStripesPerNode])
+    AC_DEFINE_UNQUOTED(MAX_STRIPES_PER_NODE,$with_maxStripesPerNode)dnl
+    ,
+    withval="4"
+    AC_MSG_RESULT([MAX_STRIPES_PER_NODE=$withval])
+    MAX_STRIPES_PER_NODE="$withval"
+    AC_DEFINE_UNQUOTED(MAX_STRIPES_PER_NODE, $withval))dnl
 
 AC_ARG_WITH(lustre, [ --with-lustre      lustre filesystem string: /scratch:90:/work:30:],
 with_lustre=$withval, with_lustre=no)

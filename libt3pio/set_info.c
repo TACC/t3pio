@@ -50,6 +50,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
   va_list ap;
   int     nProcs, myProc;
   char    buf[128];
+  int     S_dne, S_auto_max;
   int     mStripeSz     = -1;
 
   T3PIO_results_t *results = NULL;
@@ -106,9 +107,9 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
   MPI_Comm_rank(comm, &myProc);
   MPI_Comm_size(comm, &nProcs);
   
-  t3pio_numComputerNodes(comm, nProcs, &t3.numNodes, &t3.numCoresPer, &t3.maxCoresPer);
-  t3.nodeMem    = t3pio_nodeMemory(comm, myProc);
   t3.stripeSz   = 1024 * 1024;
+
+  S_dne       = t3pio_maxStripes(comm, myProc, path);
 
   if (getenv("T3PIO_BYPASS"))
     {
@@ -126,18 +127,16 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
     }
   else if (t3.maxStripes != T3PIO_BYPASS)
     {
-      int corePer     = max(t3.maxCoresPer, 1);
-      int nWritersPer = min(t3.numCoresPer, corePer/4);
-      int maxPossible = t3pio_maxStripes(comm, myProc, path);
-      
-      /* No more than 1/2 of the max stripes possible */
-      t3.numStripes   = maxPossible*1/2;  
-
-      /* No more than maxWriters per node*/
-      t3.numStripes   = min(t3.numStripes, t3.numNodes*nWritersPer);
-      
+      S_auto_max  = min(S_dne, GOOD_CITZENSHIP_STRIPES);
+      if (t3.numNodes >= S_auto_max )
+        t3.numStripes  = S_auto_max;
+      else
+        {
+          int k = min(S_auto_max / t3.numNodes, MAX_STRIPES_PER_NODE);
+          t3.numStripes = k * t3.numNodes;
+        }
       if (t3.maxStripes > 0)
-        t3.numStripes = min(maxPossible,   t3.maxStripes);
+        t3.numStripes = min(S_dne, t3.maxStripes);
     }
 
   if (t3.maxWriters == T3PIO_BYPASS) 

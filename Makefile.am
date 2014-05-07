@@ -5,8 +5,8 @@ SHELL := bash
 
 
 world_update:
-	@git status -s > /tmp/rtm$$$$;                                             \
-        if [ -s /tmp/rtm$$$$ ]; then                                               \
+	@git status -s > /tmp/git_st_$$$$;                                         \
+        if [ -s /tmp/git_st_$$$$ ]; then                                           \
             echo "All files not checked in => try again";                          \
         else                                                                       \
             git push origin;                                                       \
@@ -14,12 +14,12 @@ world_update:
             git push github;                                                       \
             git push --tags github;                                                \
         fi;                                                                        \
-        rm -f /tmp/rtm$$$$
+        rm -f /tmp/git_st_$$$$
 
 gittag:
         ifneq ($(TAG),)
-	  @git status -s > /tmp/t3pio$$$$;                                             \
-          if [ -s /tmp/t3pio$$$$ ]; then                                               \
+	  @git status -s > /tmp/git_st_$$$$;                                           \
+          if [ -s /tmp/git_st_$$$$ ]; then                                             \
 	    echo "All files not checked in => try again";                              \
 	  else                                                                         \
 	    $(RM)                                                      $(VERSION_SRC); \
@@ -30,7 +30,7 @@ gittag:
             git tag -a $(TAG) -m 'Setting TAG_VERSION to $(TAG)'                     ; \
 	    git push --tags                                                          ; \
           fi;                                                                          \
-          rm -f /tmp/t3pio$$$$
+          rm -f /tmp/git_st_$$$$
         else
 	  @echo "To git tag do: make gittag TAG=?"
         endif

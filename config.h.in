@@ -32,6 +32,9 @@
 /* Define if F77 and FC dummy `main' functions are identical. */
 #undef FC_DUMMY_MAIN_EQ_F77
 
+/* Max number of stripes in T3PIO automatic mode */
+#undef GOOD_CITZENSHIP_STRIPES
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
@@ -72,11 +75,11 @@
    */
 #undef LT_OBJDIR
 
-/* nodal memory size in MB */
-#undef MEMSIZE
+/* Max stripes possible with lustre */
+#undef LUSTRE_MAX_STRIPES_PER_FILE
 
-/* The number of cores per node */
-#undef NUMCORES
+/* Max number of stripes for a single node */
+#undef MAX_STRIPES_PER_NODE
 
 /* Name of package */
 #undef PACKAGE
