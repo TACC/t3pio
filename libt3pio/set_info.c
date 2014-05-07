@@ -112,7 +112,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
   t3.stripeSz   = 1024 * 1024;
 
   S_dne       = t3pio_maxStripes(comm, myProc, path);
-
+  t3pio_numComputerNodes(comm, nProcs, &t3.numNodes);
   if (getenv("T3PIO_BYPASS"))
     {
       if (results)
