@@ -76,6 +76,64 @@ int t3pio_usingLustreFS(const char * dir)
   return onLustre;
 }
 
+static int t3pio_compare (const void * a, const void * b)
+{
+  /* The pointers point to offsets into "array", so we need to
+     dereference them to get at the strings. */
+
+  return strcmp (*(const char **) a, *(const char **) b);
+}
+
+void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes)
+{
+  int ierr, iproc, icore;
+  struct utsname u;
+  char *  hostNm;
+  char *  hostNmBuf;
+  char ** hostNmA;
+  char *  p;
+  int     nlenL, nlen;
+  int     nNodes;
+
+  uname(&u);
+  nlenL = strlen(u.nodename);
+  ierr = MPI_Allreduce(&nlenL, &nlen, 1, MPI_INT, MPI_MAX, comm);
+
+  hostNm = (char *) malloc(nlen+1);
+  strcpy(hostNm, u.nodename);
+
+  hostNmBuf = (char*)  malloc((nlen+1)*nProc);
+  hostNmA   = (char**) malloc(nProc*sizeof(char*));
+
+  ierr = MPI_Allgather(&hostNm[0],    nlen+1, MPI_CHAR,
+                       &hostNmBuf[0], nlen+1, MPI_CHAR, comm);
+
+  p = &hostNmBuf[0];
+  
+  for (iproc = 0; iproc < nProc; ++iproc)
+    {
+      hostNmA[iproc] = p;
+      p += nlen + 1;
+    }
+  
+
+  qsort (hostNmA, nProc, sizeof (const char *), t3pio_compare);
+  nNodes    = 1;
+  p         = hostNmA[0];
+
+  for (iproc = 1; iproc < nProc; ++iproc)
+    {
+      if (strcmp(hostNmA[iproc], p) != 0)
+        {
+          nNodes++;
+          p = hostNmA[iproc];
+        }
+    }
+  free(hostNm);
+  free(hostNmBuf);
+  free(hostNmA);
+  *numNodes    = nNodes;
+}
 
 int t3pio_maxStripesPossible(void)
 {
