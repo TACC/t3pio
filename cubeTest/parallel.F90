@@ -65,7 +65,7 @@ contains
    subroutine build2d_partition(np)
       integer np(2)
       real(8) :: xp
-      integer :: exponent, npx, npy, npz, npxy, rem
+      integer :: exponent, npx
       
       xp       = sqrt(real(p % nProcs))
       exponent = int(log(xp)/log(2.0)) + 1
@@ -81,7 +81,7 @@ contains
    subroutine build3d_partition(np)
       integer np(3)
       real(8) :: xp
-      integer :: exponent, npx, npy, npz, npxy, rem
+      integer :: exponent, npx, npy, npz, npxy
       
       xp  = p % nProcs
       npz = xp**(1.0/3.0) + 1.5
