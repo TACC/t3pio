@@ -12,6 +12,7 @@ module cmdline
    integer :: GblFileSz     ! Global File Size in GB.
    integer :: Numvar        ! number of variables
    integer :: MaxWriters    ! the max number of writers.
+   logical :: PartYZ        ! partition processor grid in y-z only.
    logical :: UseT3PIO      ! if true then use T3PIO (on by default).
    logical :: VersionFlag   ! if true then report version and quit.
    logical :: HelpFlag      ! if true then print usage and quit
@@ -52,6 +53,7 @@ contains
       HDF5Flag      = .false.
       LuaOutput     = .false.
       TableOutput   = .true.
+      PartYZ        = .false.
       
 #ifdef USE_HDF5
       ROMIO         = .false.
@@ -82,6 +84,8 @@ contains
             i = i + 1
             call getarg(i,optarg)
             read(optarg,*, err=11) nDim
+         elseif (arg == "--yz") then
+            PartYZ      = .true.
          elseif (arg == "--lua") then
             LuaOutput   = .true.
             TableOutput = .false.

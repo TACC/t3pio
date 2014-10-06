@@ -25,7 +25,7 @@ program main
       call exit()
    end if
 
-   call partitionProc(nDim)
+   call partitionProc(nDim, PartYZ)
 
    ! partition grid to local locations.
    call partitionGrid(global, local)
