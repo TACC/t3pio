@@ -63,7 +63,7 @@ case $SYSHOST in
 
   xc30)
      PREFIX="$SCRATCH/t3pio"
-     EXTRA="--enable-static --disable-shared"
+     EXTRA="--enable-static --disable-shared LDFLAGS=-static"
      PHDF5_DIR=$HDF5_DIR
      CC=cc
      CXX=CC
