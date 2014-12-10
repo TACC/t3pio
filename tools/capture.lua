@@ -30,6 +30,7 @@
 
 require("strict")
 
+_DEBUG      = false
 local dbg   = require("Dbg"):dbg()
 local posix = require("posix")
 function capture(cmd)
