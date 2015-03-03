@@ -17,17 +17,20 @@ public:
   void h5writer(CmdLineOptions& cmd);
   void MPIIOwriter(CmdLineOptions& cmd);
   void add_attribute(hid_t id, const char* descript, const char* value);
-  double rate()        { return m_rate;}
-  double time()        { return m_t;}
-  double totalTime()   { return m_totalTime;}
-  double totalSz()     { return m_totalSz;}
-  int    nStripes()    { return m_nStripes;}
-  int    nIOUnits()    { return m_nIOUnits;}
-  int    aggregators() { return m_aggregators;}
-  int    numvar()      { return m_numvar;}
-  int    stripeSz()    { return m_stripeSz;}
-  int    nWriters()    { return m_nWriters; }
-  int    stripeSzMB()  { return m_stripeSz/(1024*1024);}
+  double rate()             { return m_rate;}
+  double time()             { return m_t;}
+  double totalTime()        { return m_totalTime;}
+  double totalSz()          { return m_totalSz;}
+  int    nStripes()         { return m_nStripes;}
+  int    nIOUnits()         { return m_nIOUnits;}
+  int    aggregators()      { return m_aggregators;}
+  int    numvar()           { return m_numvar;}
+  int    stripeSz()         { return m_stripeSz;}
+  int    nWriters()         { return m_nWriters; }
+  int    stripeSzMB()       { return m_stripeSz/(1024*1024);}
+  int    dne_stripes()      { return m_dne_stripes; }
+  int    auto_max_stripes() { return m_auto_max_stripes; }
+  int    nStripesT3()       { return m_nStripesT3; }
 
 private:
   double m_t;
@@ -40,6 +43,9 @@ private:
   int    m_numvar;
   int    m_nWriters;
   int    m_aggregators;
+  int    m_dne_stripes;
+  int    m_auto_max_stripes;
+  int    m_nStripesT3;
 };
 
 #endif // PARALLELIO_H

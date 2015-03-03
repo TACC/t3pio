@@ -27,9 +27,12 @@ typedef struct
   int stripeSize;    /* stripe size in bytes*/
   int nWritersPer;   /* number of writers per node */
   int numNodes;      /* number of nodes */
+  int S_dne;         /* the do not exceed number of stripes */
+  int S_auto_max;    /* min(s_dne, GOOD_CITZENSHIP_STRIPES) */
+  int nStripesT3;    /* Number of stripes T3PIO would choose */
+  
 } T3PIO_results_t;
 
-void t3pio_extract_key_values(MPI_Info info, T3PIO_results_t* r);
 int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char *dir, ...);
 
 const char* t3pio_version();

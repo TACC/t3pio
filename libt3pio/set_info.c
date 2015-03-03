@@ -19,7 +19,7 @@ int t3pio_parse_int_arg(int orig, int value)
   return value;
 }
 
-void t3pio_extract_key_values(MPI_Info info, T3PIO_results_t* r)
+void t3pio_extract_key_values(MPI_Info info, T3Pio_t* t3, T3PIO_results_t* r)
 {
   int ierr;
   if (r)
@@ -39,20 +39,21 @@ void t3pio_extract_key_values(MPI_Info info, T3PIO_results_t* r)
           else if (strcmp("striping_unit",   key) == 0) sscanf(value, "%d", &(*r).stripeSize);
         }
     }
+  r->S_dne      = t3->S_dne;
+  r->S_auto_max = t3->S_auto_max;
+  r->nStripesT3 = t3->nStripesT3;
 }
 
 
 
 int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
 {
-
   T3Pio_t t3;
   int     argType;
   int     ierr = 0;
   va_list ap;
   int     nProcs, myProc;
   char    buf[128];
-  int     S_dne, S_auto_max;
   int     mStripeSz     = -1;
 
   T3PIO_results_t *results = NULL;
@@ -111,12 +112,13 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
   
   t3.stripeSz   = 1024 * 1024;
 
-  S_dne       = t3pio_maxStripes(comm, myProc, path);
+  t3.S_dne      = t3pio_maxStripes(comm, myProc, path);
+  t3.S_auto_max = min(t3.S_dne, GOOD_CITZENSHIP_STRIPES);
   t3pio_numComputerNodes(comm, nProcs, &t3.numNodes);
   if (getenv("T3PIO_BYPASS"))
     {
       if (results)
-        t3pio_extract_key_values(info, results);
+        t3pio_extract_key_values(info, &t3, results);
       return ierr;
     }
 
@@ -126,19 +128,20 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
 
       t3.numStripes = t3pio_readStripes(comm, myProc, t3.fn);
       t3.stripeSz   = -1;    /* Can not change stripe sz on files to be read */
+      t3.nStripesT3 = t3.numStripes;
     }
   else if (t3.maxStripes != T3PIO_BYPASS)
     {
-      S_auto_max  = min(S_dne, GOOD_CITZENSHIP_STRIPES);
-      if (t3.numNodes >= S_auto_max )
-        t3.numStripes  = S_auto_max;
+      if (t3.numNodes >= t3.S_auto_max )
+        t3.numStripes  = t3.S_auto_max;
       else
         {
-          int k = min(S_auto_max / t3.numNodes, MAX_STRIPES_PER_NODE);
+          int k = min(t3.S_auto_max / t3.numNodes, MAX_STRIPES_PER_NODE);
           t3.numStripes = k * t3.numNodes;
         }
+      t3.nStripesT3 = t3.numStripes;
       if (t3.maxStripes > 0)
-        t3.numStripes = min(S_dne, t3.maxStripes);
+        t3.numStripes = min(t3.S_dne, t3.maxStripes);
     }
 
   if (t3.maxWriters == T3PIO_BYPASS) 
@@ -167,7 +170,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
     }
 
   if (results)
-    t3pio_extract_key_values(info, results);
+    t3pio_extract_key_values(info, &t3, results);
 
   return ierr;
 }

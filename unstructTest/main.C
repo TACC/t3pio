@@ -73,10 +73,13 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
              " rate (MB/s):      %12.3f\n"
              " wrtStyle:         %12s\n"
              " xferStyle:        %12s\n"
+             " S_dne:            %12d\n"
+             " S_auto_max:       %12d\n"
+             " nStripesT3:       %12d\n"
              " t3pioV:           %12s\n",
              P.nProcs, cmd.localSz, pio.numvar(), pio.nIOUnits(), pio.aggregators(),
              pio.nStripes(), pio.stripeSzMB(), fileSz, pio.time(), pio.totalTime(),
-             pio.rate(), cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(), t3pioV);
-
+             pio.rate(), cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(), pio.dne_stripes(),
+             pio.auto_max_stripes(), pio.nStripesT3(), t3pioV);
     }
 }

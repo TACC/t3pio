@@ -1,6 +1,7 @@
 #ifndef T3PIO_INTERNAL_H
 #define T3PIO_INTERNAL_H
 
+#include "t3pio.h"
 #include <mpi.h>
 typedef struct
 {
@@ -15,9 +16,13 @@ typedef struct
   int nodeMem;
   int stripeSz;
   int maxWriters;
+  int S_dne;
+  int S_auto_max;
+  int nStripesT3;
   char* fn;
 } T3Pio_t;
 
+void t3pio_extract_key_values(MPI_Info info, T3Pio_t *t3, T3PIO_results_t* r);
 void t3pio_init(T3Pio_t* t3);
 void t3pio_numComputerNodes(MPI_Comm comm, int nProc,  int* numNodes);
 int  t3pio_maxStripes(MPI_Comm comm,       int myProc, const char* dir);

@@ -30,7 +30,8 @@ Var_t varT[] =
 
 ParallelIO::ParallelIO()
   : m_t(0.0), m_rate(0.0), m_totalSz(1.0), m_nStripes(1),
-    m_nIOUnits(1), m_stripeSz(-1), m_numvar(1), m_aggregators(0)
+    m_nIOUnits(1), m_stripeSz(-1), m_numvar(1), m_aggregators(0),
+    m_dne_stripes(-1), m_auto_max_stripes(-1), m_stripesT3(-1)
 {}
 
 
@@ -120,7 +121,10 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
                                 T3PIO_STRIPE_SIZE_MB,      cmd.stripeSz,
                                 T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
                                 T3PIO_RESULTS,             &results);
-      m_nIOUnits = results.numIO;
+      m_nIOUnits         = results.numIO;
+      m_dne_stripes      = results.S_dne_stripes;
+      m_auto_max_stripes = results.S_auto_max_stripes;
+      m_nStripesT3       = results.nStripesT3;
     }
 
   xfer_mode = (cmd.collective) ? H5FD_MPIO_COLLECTIVE : H5FD_MPIO_INDEPENDENT;

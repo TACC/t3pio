@@ -22,7 +22,7 @@ Version = "0.0"
 
 require("strict")
 require("pairsByKeys")
-require("string_split")
+require("string_utils")
 local Dbg       = require("Dbg")
 local Optiks    = require("Optiks")
 local concatTbl = table.concat

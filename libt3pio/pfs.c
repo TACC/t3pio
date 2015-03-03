@@ -49,6 +49,9 @@ void t3pio_init(T3Pio_t* t3)
   t3->globalSz   = -1;
   t3->nodeMem    = -1;
   t3->fn         = NULL;
+  t3->S_dne      = -1; 
+  t3->S_auto_max = -1; 
+  t3->nStripesT3 = -1;
 
   if ((p=getenv("T3PIO_STRIPE_COUNT")) != NULL)
     t3->maxStripes = strtol(p, (char **) NULL, 10);

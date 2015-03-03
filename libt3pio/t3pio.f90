@@ -58,6 +58,7 @@ contains
       integer                         :: nWriters
       integer                         :: gblSz, maxStripes, f
       integer                         :: t3piointernal, maxStripeSz
+      integer                         :: s_dne, s_auto_max, nStripesT3
       type(T3PIO_Results_t), optional :: results
 
       nWriters      = T3PIO_OPTIMAL
@@ -80,7 +81,7 @@ contains
       usrFile = usrFile(1:len-1) // CHAR(0)
 
       ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, maxStripeSz, &
-                           usrFile, nWriters)
+                           usrFile, nWriters, s_dne, s_auto_max, nStripesT3)
       
       if (present(results)) then
          call t3pio_extract_key_values(info, results)
