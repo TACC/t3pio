@@ -14,6 +14,7 @@ module writer
    implicit none 
    real(8)          :: t0, t1, t2, t3
    integer          :: nIOUnits, nStripes, stripeSize, aggregators
+   integer          :: s_dne, s_auto_max, nStripesT3
    character(80)    :: fn
    character(256)   :: buffer
    integer(8)       :: lSz
@@ -144,6 +145,9 @@ contains
          nIOUnits    = results % numIO
          nStripes    = results % numStripes
          stripeSize  = results % stripeSize
+         s_dne       = results % s_dne
+         s_auto_max  = results % s_auto_max
+         nStripesT3  = results % nStripesT3
       endif
 
       !
@@ -359,6 +363,9 @@ contains
                              results              = results )
 
          nIOUnits    = results % numIO
+         s_dne       = results % s_dne
+         s_auto_max  = results % s_auto_max
+         nStripesT3  = results % nStripesT3
       endif
 
       t0 = walltime()

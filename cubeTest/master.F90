@@ -80,9 +80,10 @@ subroutine outputResults(wrtStyle, local, global)
    end if
    if (TableOutput) then
       print 1010, p % nProcs, local % num(1), global % num(1), Numvar,      &
-           nIOUnits, aggregators, nStripes, stripeSize/(1024*1024),         &
-           fileSz, totalTime, rate, adjustr(trim(wrtStyle)),                &
-           adjustr(trim(xferStyle)), adjustr(trim(t3pioV))
+           nIOUnits, aggregators, nStripes, s_dne, s_auto_max, nStripesT3,  &
+           stripeSize/(1024*1024), fileSz, totalTime, rate,                 &
+           adjustr(trim(wrtStyle)), adjustr(trim(xferStyle)),               &
+           adjustr(trim(t3pioV))
    end if
 
 1000 format("%% { t3pioV = '", a,"', nprocs = ",i6, ", lSz = ",i4, ", gSz = ",i5, &
@@ -100,6 +101,9 @@ subroutine outputResults(wrtStyle, local, global)
               " iounits:       ", i7,/,   &
               " aggregators:   ", i7,/,   &
               " nstripes:      ", i7,/,   &
+              " s_dne:         ", i7,/,   &
+              " s_auto_max:    ", i7,/,   &
+              " nStripesT3:    ", i7,/,   &
               " stripeSz (MB): ", i7,/,   &
               " fileSz (GB):   ", f9.3,/, &
               " totalTime:     ", f9.3,/, &

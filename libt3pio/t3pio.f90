@@ -8,6 +8,9 @@ module t3pio
       integer :: numIO       ! The number of readers/writers
       integer :: numStripes  ! The number of stripes
       integer :: stripeSize  ! stripe size in bytes
+      integer :: s_dne       ! max number of stripes (do not exceed)
+      integer :: s_auto_max  ! min(s_dne,GOOD_CITZENSHIP_STRIPES)
+      integer :: nStripesT3  ! The number of stripes T3PIO would chose automatically.
    end type T3PIO_Results_t
 
 contains
@@ -85,6 +88,9 @@ contains
       
       if (present(results)) then
          call t3pio_extract_key_values(info, results)
+         results % s_dne      = s_dne
+         results % s_auto_max = s_auto_max
+         results % nStripesT3 = nStripesT3
       end if
 
    end subroutine t3pio_set_info
