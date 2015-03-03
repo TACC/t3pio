@@ -31,7 +31,7 @@ Var_t varT[] =
 ParallelIO::ParallelIO()
   : m_t(0.0), m_rate(0.0), m_totalSz(1.0), m_nStripes(1),
     m_nIOUnits(1), m_stripeSz(-1), m_numvar(1), m_aggregators(0),
-    m_dne_stripes(-1), m_auto_max_stripes(-1), m_stripesT3(-1)
+    m_dne_stripes(-1), m_auto_max_stripes(-1), m_nStripesT3(-1)
 {}
 
 
