@@ -24,7 +24,7 @@ int t3piointernal(int* f_comm, int* f_info, const char* dir, int* global_sz,
                   int* nWriters, int* s_dne, int* s_auto_max, int* nStripesT3)
 {
   return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz,
-                        file, nWriters, s_dne, s_auto_max, nStripesT3)
+                        file, nWriters, s_dne, s_auto_max, nStripesT3);
 }
 
 int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_sz, 
