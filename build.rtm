@@ -50,7 +50,7 @@ CXX=mpicxx
 FC=mpif90
 F77=mpif90
 
-EXTRA="--with-phdf5=$PHDF5_DIR"
+EXTRA='--with-phdf5=$PHDF5_DIR'
 
 case $SYSHOST in
   ls4)
