@@ -122,8 +122,8 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
                                 T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
                                 T3PIO_RESULTS,             &results);
       m_nIOUnits         = results.numIO;
-      m_dne_stripes      = results.S_dne_stripes;
-      m_auto_max_stripes = results.S_auto_max_stripes;
+      m_dne_stripes      = results.S_dne;
+      m_auto_max_stripes = results.S_auto_max;
       m_nStripesT3       = results.nStripesT3;
     }
 
