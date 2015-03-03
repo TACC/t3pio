@@ -93,7 +93,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
 
   /* Set max Stripe Sz to make sense:
      a) value == -2  => Do Not Set
-     b) value <   1  => 2MByte
+     b) value <   1  => 1MByte
      c) value >   1  => (value)*1 Mbyte
    */
 
@@ -102,7 +102,7 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
   else
     {
       if (mStripeSz < 1)
-        mStripeSz = 2;
+        mStripeSz = 1;
       mStripeSz = (1 << 20) * mStripeSz;
     }
 
