@@ -25,10 +25,14 @@ program main
       call exit()
    end if
 
+   if (DebugFlg .and. p % myProc == 0) print *, "Finished parsing command line"
+
    call partitionProc(nDim, PartYZ)
 
    ! partition grid to local locations.
    call partitionGrid(global, local)
+
+   if (DebugFlg .and. p % myProc == 0) print *, "Finished partitioning Proc & Grid"
 
    ! parallel write out file.
    if (HDF5Flag) then

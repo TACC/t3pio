@@ -313,6 +313,8 @@ contains
          call MPI_File_delete(fn, MPI_INFO_NULL, ierr)
       end if
       call MPI_Barrier(p % comm,ierr)
+      
+      if ( DebugFlg and p % myProc == 0 ) print *, "Starting Parallel Write"
 
       lSz  = 1
       do i = 1, local % nd
@@ -368,6 +370,8 @@ contains
          nStripesT3  = results % nStripesT3
       endif
 
+      if ( DebugFlg and p % myProc == 0 ) print *, "Finished T3Pio Call"
+
       t0 = walltime()
 
       call MPI_File_open(p % comm, fn, MPI_MODE_CREATE+MPI_MODE_RDWR, info, filehandle, ierr)
@@ -388,12 +392,16 @@ contains
 
       lSz = local % num(1) * local % num(2) * local % num(3)
 
+      
+      if ( DebugFlg and p % myProc == 0 ) print *, "Before MPI_File_write_all"
       call MPI_File_write_all(filehandle, u, 1, coreData, status, ierr)
       ASSERT(ierr == 0, "MPI_File_write_all")
+      if ( DebugFlg and p % myProc == 0 ) print *, "After MPI_File_write_all"
 
       call MPI_File_close(filehandle,ierr)
       ASSERT(ierr == 0, "MPI_File_close")
 
+      if ( DebugFlg and p % myProc == 0 ) print *, "After File close"
       totalTime = walltime() - t0
 
       rate = totalSz /(totalTime * 1024.0 * 1024.0)

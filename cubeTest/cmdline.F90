@@ -25,6 +25,7 @@ module cmdline
    logical :: LuaOutput     ! if true then write output in a Lua
                             ! table format.
    logical :: TableOutput   ! if true then write output in table format.
+   logical :: DebugFlg      ! if true the print info to proc 0. 
 
 contains
 
@@ -54,6 +55,7 @@ contains
       LuaOutput     = .false.
       TableOutput   = .true.
       PartYZ        = .false.
+      DebugFlg      = .false.
       
 #ifdef USE_HDF5
       ROMIO         = .false.
@@ -86,6 +88,8 @@ contains
             read(optarg,*, err=11) nDim
          elseif (arg == "--yz") then
             PartYZ      = .true.
+         elseif (arg == "-D") then
+            DebugFlg    = .true.
          elseif (arg == "--lua") then
             LuaOutput   = .true.
             TableOutput = .false.
@@ -191,6 +195,8 @@ contains
       print *, "  --numvar num      : number of variables 1 to 9"
       print *, "  -W    num         : Total number of writers"
       print *, "  --mwriters    num : Total number of writers"
+      print *, "  -D                : Turn on debugging."
+
       print *, " "
       print *, " Defaults are:"
       print *, "    Dim is 2"
