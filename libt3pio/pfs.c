@@ -175,7 +175,7 @@ int t3pio_lustre_version()
   return a[0] * 1000000 + a[1] * 1000 + a[2];
 }
 
-int t3pio_maxStripesPossible(int myProc)
+int t3pio_maxStripesPossible(MPI_Comm comm, int myProc)
 {
   int ierr;
   int lustreMax = 160;
