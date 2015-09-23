@@ -28,8 +28,9 @@ void t3pio_numComputerNodes(MPI_Comm comm, int nProc,  int* numNodes);
 int  t3pio_maxStripes(MPI_Comm comm,       int myProc, const char* dir);
 int  t3pio_readStripes(MPI_Comm comm,      int myProc, const char* fn);
 int  t3pio_nodeMemory(MPI_Comm comm,       int myProc);
-int  t3pio_maxStripesPossible(void);
-void  t3pio_version_internal(char *v, int *len);
+int  t3pio_maxStripesPossible(MPI_Comm comm, int myProc);
+int  t3pio_lustre_version();
+void t3pio_version_internal(char *v, int *len);
 
 int  t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes,
                     int* max_stripe_size, const char* file, int* maxWriters, int* s_dne,
