@@ -43,17 +43,14 @@ if test x$with_phdf5 != xno; then
 fi
 AC_SUBST(PHDF5_DIR)
 
-AC_DEFINE(LUSTRE_MAX_STRIPES_PER_FILE, 160, [Max stripes possible with lustre])
-AC_ARG_WITH(lustreMaxStripesPerFile,
-    AC_HELP_STRING([--with-lustreMaxStripesPerFile=ans],[Max stripes possible with lustre, Lustre 2.1 ==> 160, Lustre 2.4 ==> 2000 [[160]]]),
-    LUSTRE_MAX_STRIPES_PER_FILE="$withval"
-    AC_MSG_RESULT([LUSTRE_MAX_STRIPES_PER_FILE=$with_lustreMaxStripesPerFile])
-    AC_DEFINE_UNQUOTED(LUSTRE_MAX_STRIPES_PER_FILE,$with_lustreMaxStripesPerFile)dnl
-    ,
-    withval="160"
-    AC_MSG_RESULT([LUSTRE_MAX_STRIPES_PER_FILE=$withval])
-    LUSTRE_MAX_STRIPES_PER_FILE="$withval"
-    AC_DEFINE_UNQUOTED(LUSTRE_MAX_STRIPES_PER_FILE, $withval))dnl
+# find lustre version
+LUSTRE_VERSION=0.0.0
+if test -f /proc/fs/lustre/version; then
+  v=$(cat  /proc/fs/lustre/version | grep 'lustre:')
+  v=$(expr "$v" : 'lustre: *\(.*\)')
+  LUSTRE_VERSION=$v
+fi
+AC_DEFINE(LUSTRE_VERSION, $LUSTRE_VERSION)
 
 AC_DEFINE(GOOD_CITZENSHIP_STRIPES, 80, [Max number of stripes in T3PIO automatic mode])
 AC_ARG_WITH(goodCitzenshipStripes,

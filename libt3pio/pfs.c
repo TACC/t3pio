@@ -138,9 +138,56 @@ void t3pio_numComputerNodes(MPI_Comm comm, int nProc, int* numNodes)
   *numNodes    = nNodes;
 }
 
-int t3pio_maxStripesPossible(void)
+
+int t3pio_lustre_version()
 {
-  const int lustreMax = LUSTRE_MAX_STRIPES_PER_FILE;
+  const char *fn = "/proc/fs/lustre/version";
+  long int  a[3] = { 0, 0, 0};
+  int  i;
+  char *p;
+  char line[MAXLINE];
+  FILE* fp = fopen(fn,"r");
+  if (! fp)
+    return 0;
+
+  /* Find lustre version */
+  while(fgets(line, MAXLINE, fp) != NULL)
+    {
+      if (strncmp("lustre:",line,7) == 0)
+        {
+          size_t idx = strspn(&line[7]," ");
+          p          = &line[7+idx];
+          break;
+        }
+    }
+
+  /* Extract Major.minor.sub-minor version numbers*/
+  i = 0;
+  while(*p && i <= 2)
+    {
+      size_t idx = strcspn(p,".\n");
+      p[idx]     = '\0';
+      a[i++]     = strtol(p,NULL, 10);
+      p         += idx+1;
+    }
+  
+  /* Convert version into canonical integer*/
+  return a[0] * 1000000 + a[1] * 1000 + a[2];
+}
+
+int t3pio_maxStripesPossible(int myProc)
+{
+  int ierr;
+  int lustreMax = 160;
+#ifdef HAVE_LUSTRE
+  if (myProc == 0)
+    {
+      int version = t3pio_lustre_version();
+      if (version >= 2004000)
+        lustreMax = 2000;
+    }
+  ierr = MPI_Bcast(&lustreMax, 1, MPI_INTEGER, 0, comm);
+#endif
   return lustreMax;
 }
 
@@ -148,7 +195,7 @@ int t3pio_maxStripesPossible(void)
 int t3pio_asklustre(MPI_Comm comm, int myProc, const char* path)
 {
   int        ierr;
-  int        stripes = t3pio_maxStripesPossible();
+  int        stripes = 1;
   
 #ifdef HAVE_LUSTRE
   const char * dir = path2dir(path);
@@ -207,7 +254,7 @@ int t3pio_maxStripes(MPI_Comm comm, int myProc, const char* path)
   int  ierr;
   int  matchLen    = 0;
   int  stripes;
-  int  stripesMax  = t3pio_maxStripesPossible();
+  int  stripesMax  = t3pio_maxStripesPossible(comm, myProc);
   char abspath[PATH_MAX];
   
   stripes = stripesMax;
