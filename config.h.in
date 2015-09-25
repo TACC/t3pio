@@ -41,6 +41,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* Define to 1 if you have the `lustreapi' library (-llustreapi). */
+#undef HAVE_LIBLUSTREAPI
+
 /* Define to 1 if you have the `lustre' library (-llustre). */
 #undef HAVE_LIBLUSTRE
 
