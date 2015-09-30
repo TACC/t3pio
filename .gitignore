@@ -18,3 +18,5 @@ libtool
 *.tar.bz2
 qaversion.h
 a.out
+*.i
+*.log
