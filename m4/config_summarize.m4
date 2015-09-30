@@ -21,6 +21,7 @@ echo '----------------------------------- SUMMARY ------------------------------
 echo
 echo Package version............... : $PACKAGE-$VERSION
 echo
+echo Lustre Client Version......... : $LUSTRE_VERSION
 echo Fortran compiler.............. : $FC
 echo Fortran compiler flags........ : $FCFLAGS
 echo C compiler.................... : $CC
@@ -48,7 +49,7 @@ fi
 echo
 echo '-------------------------------------------------------------------------------'
 
-if test $LUSTRE_MAX_STRIPES_PER_FILE -gt 160 ; then
+if test "$LUSTRE_MAX_STRIPES_PER_FILE" -gt 160 ; then
    echo "Warning: Make sure that your Lustre server is running 2.4 or greater."
    echo "         Otherwise bad thing can happen if the max stripes is wrong."
 fi

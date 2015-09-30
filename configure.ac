@@ -44,16 +44,21 @@ if test x$with_phdf5 != xno; then
 fi
 AC_SUBST(PHDF5_DIR)
 
+MAX_STRIPES_POSSIBLE=160
+
 # find lustre version
 LUSTRE_VERSION=0.0.0
 if test -f /proc/fs/lustre/version; then
   v=$(cat  /proc/fs/lustre/version | grep 'lustre:')
   v=$(expr "$v" : 'lustre: *\(.*\)')
   LUSTRE_VERSION=$v
+  if test m4_version_compare($v, [2.4.0]) -ge 0; then
+    MAX_STRIPES_POSSIBLE=2000
+  fi
 fi
 AC_DEFINE(LUSTRE_VERSION, $LUSTRE_VERSION)
 
-AC_DEFINE(LUSTRE_MAX_STRIPES_PER_FILE, 160, [Max stripes possible with lustre])
+AC_DEFINE(LUSTRE_MAX_STRIPES_PER_FILE, $MAX_STRIPES_POSSIBLE, [Max stripes possible with lustre])
 AC_ARG_WITH(lustreMaxStripesPerFile,
     AC_HELP_STRING([--with-lustreMaxStripesPerFile=ans],[Max stripes possible with lustre, Lustre 2.1 ==> 160, Lustre 2.4 ==> 2000 [[160]]]),
     LUSTRE_MAX_STRIPES_PER_FILE="$withval"
