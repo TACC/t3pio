@@ -23264,18 +23264,39 @@ if test x$with_phdf5 != xno; then
 fi
 
 
+MAX_STRIPES_POSSIBLE=160
+
 # find lustre version
 LUSTRE_VERSION=0.0.0
 if test -f /proc/fs/lustre/version; then
-  v=$(cat  /proc/fs/lustre/version | grep 'lustre:')
-  v=$(expr "$v" : 'lustre: *\(.*\)')
-  LUSTRE_VERSION=$v
+  V=$(cat  /proc/fs/lustre/version | grep 'lustre:')
+  V=$(expr "$V" : 'lustre: *\(.*\)')
+  LUSTRE_VERSION=$V
+
+  a=$(expr "$V" : '\([^.@>:@*\)\..*')
+  r=$(expr "$V" : '[^.@>:@*\.\(.*\)')
+  b=$(expr "$r" : '\([^.@>:@*\)\..*')
+  c=$(expr "$r" : '[^.@>:@*\.\(.*\)')
+
+  if test -z "$b" ; then
+     b=$r
+  fi
+
+  if test -z "$c"; then
+    c=0
+  fi
+
+  V=$( expr $a \* 1000000 + $b \* 1000 + $c )
+
+  if test "$V" -ge 2004000; then
+    MAX_STRIPES_POSSIBLE=160
+  fi
 fi
 $as_echo "#define LUSTRE_VERSION \$LUSTRE_VERSION" >>confdefs.h
 
 
 
-$as_echo "#define LUSTRE_MAX_STRIPES_PER_FILE 160" >>confdefs.h
+$as_echo "#define LUSTRE_MAX_STRIPES_PER_FILE \$MAX_STRIPES_POSSIBLE" >>confdefs.h
 
 
 # Check whether --with-lustreMaxStripesPerFile was given.
@@ -26705,6 +26726,7 @@ echo '----------------------------------- SUMMARY ------------------------------
 echo
 echo Package version............... : $PACKAGE-$VERSION
 echo
+echo Lustre Client Version......... : $LUSTRE_VERSION
 echo Fortran compiler.............. : $FC
 echo Fortran compiler flags........ : $FCFLAGS
 echo C compiler.................... : $CC
@@ -26732,7 +26754,7 @@ fi
 echo
 echo '-------------------------------------------------------------------------------'
 
-if test $LUSTRE_MAX_STRIPES_PER_FILE -gt 160 ; then
+if test "$LUSTRE_MAX_STRIPES_PER_FILE" -gt 160 ; then
    echo "Warning: Make sure that your Lustre server is running 2.4 or greater."
    echo "         Otherwise bad thing can happen if the max stripes is wrong."
 fi

@@ -49,11 +49,27 @@ MAX_STRIPES_POSSIBLE=160
 # find lustre version
 LUSTRE_VERSION=0.0.0
 if test -f /proc/fs/lustre/version; then
-  v=$(cat  /proc/fs/lustre/version | grep 'lustre:')
-  v=$(expr "$v" : 'lustre: *\(.*\)')
-  LUSTRE_VERSION=$v
-  if test m4_version_compare($v, [2.4.0]) -ge 0; then
-    MAX_STRIPES_POSSIBLE=2000
+  V=$(cat  /proc/fs/lustre/version | grep 'lustre:')
+  V=$(expr "$V" : 'lustre: *\(.*\)')
+  LUSTRE_VERSION=$V
+
+  a=$(expr "$V" : '\(@<:@^.@>:@*\)\..*')
+  r=$(expr "$V" : '@<:@^.@>:@*\.\(.*\)')
+  b=$(expr "$r" : '\(@<:@^.@>:@*\)\..*')
+  c=$(expr "$r" : '@<:@^.@>:@*\.\(.*\)')
+
+  if test -z "$b" ; then
+     b=$r
+  fi
+
+  if test -z "$c"; then
+    c=0
+  fi
+
+  V=$( expr $a \* 1000000 + $b \* 1000 + $c )
+
+  if test "$V" -ge 2004000; then
+    MAX_STRIPES_POSSIBLE=160
   fi
 fi
 AC_DEFINE(LUSTRE_VERSION, $LUSTRE_VERSION)
