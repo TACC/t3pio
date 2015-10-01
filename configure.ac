@@ -86,14 +86,16 @@ AC_ARG_WITH(lustreMaxStripesPerFile,
     LUSTRE_MAX_STRIPES_PER_FILE="$withval"
     AC_DEFINE_UNQUOTED(LUSTRE_MAX_STRIPES_PER_FILE, $withval))dnl
 
-AC_DEFINE(GOOD_CITZENSHIP_STRIPES, 80, [Max number of stripes in T3PIO automatic mode])
+GOOD_CITZENSHIP=80
+
+AC_DEFINE(GOOD_CITZENSHIP_STRIPES, $GOOD_CITZENSHIP, [Max number of stripes in T3PIO automatic mode])
 AC_ARG_WITH(goodCitzenshipStripes,
     AC_HELP_STRING([--with-goodCitzenshipStripes=ans],[Max number of stripes in automatic mode [[80]]]),
     GOOD_CITZENSHIP_STRIPES="$withval"
     AC_MSG_RESULT([GOOD_CITZENSHIP_STRIPES=$with_goodCitzenshipStripes])
     AC_DEFINE_UNQUOTED(GOOD_CITZENSHIP_STRIPES,$with_goodCitzenshipStripes)dnl
     ,
-    withval="80"
+    withval="GOOD_CITZENSHIP"
     AC_MSG_RESULT([GOOD_CITZENSHIP_STRIPES=$withval])
     GOOD_CITZENSHIP_STRIPES="$withval"
     AC_DEFINE_UNQUOTED(GOOD_CITZENSHIP_STRIPES, $withval))dnl

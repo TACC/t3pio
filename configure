@@ -23319,8 +23319,10 @@ _ACEOF
 
 fi
 
+GOOD_CITZENSHIP=80
 
-$as_echo "#define GOOD_CITZENSHIP_STRIPES 80" >>confdefs.h
+
+$as_echo "#define GOOD_CITZENSHIP_STRIPES \$GOOD_CITZENSHIP" >>confdefs.h
 
 
 # Check whether --with-goodCitzenshipStripes was given.
@@ -23333,7 +23335,7 @@ $as_echo "GOOD_CITZENSHIP_STRIPES=$with_goodCitzenshipStripes" >&6; }
 _ACEOF
 
 else
-  withval="80"
+  withval="GOOD_CITZENSHIP"
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: GOOD_CITZENSHIP_STRIPES=$withval" >&5
 $as_echo "GOOD_CITZENSHIP_STRIPES=$withval" >&6; }
     GOOD_CITZENSHIP_STRIPES="$withval"
