@@ -81,7 +81,7 @@ AC_ARG_WITH(lustreMaxStripesPerFile,
     AC_MSG_RESULT([LUSTRE_MAX_STRIPES_PER_FILE=$with_lustreMaxStripesPerFile])
     AC_DEFINE_UNQUOTED(LUSTRE_MAX_STRIPES_PER_FILE,$with_lustreMaxStripesPerFile)dnl
     ,
-    withval="160"
+    withval="$MAX_STRIPES_POSSIBLE"
     AC_MSG_RESULT([LUSTRE_MAX_STRIPES_PER_FILE=$withval])
     LUSTRE_MAX_STRIPES_PER_FILE="$withval"
     AC_DEFINE_UNQUOTED(LUSTRE_MAX_STRIPES_PER_FILE, $withval))dnl

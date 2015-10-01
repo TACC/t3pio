@@ -23309,7 +23309,7 @@ $as_echo "LUSTRE_MAX_STRIPES_PER_FILE=$with_lustreMaxStripesPerFile" >&6; }
 _ACEOF
 
 else
-  withval="160"
+  withval="$MAX_STRIPES_POSSIBLE"
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: LUSTRE_MAX_STRIPES_PER_FILE=$withval" >&5
 $as_echo "LUSTRE_MAX_STRIPES_PER_FILE=$withval" >&6; }
     LUSTRE_MAX_STRIPES_PER_FILE="$withval"
