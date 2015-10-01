@@ -23273,10 +23273,10 @@ if test -f /proc/fs/lustre/version; then
   V=$(expr "$V" : 'lustre: *\(.*\)')
   LUSTRE_VERSION=$V
 
-  a=$(expr "$V" : '\([^.@>:@*\)\..*')
-  r=$(expr "$V" : '[^.@>:@*\.\(.*\)')
-  b=$(expr "$r" : '\([^.@>:@*\)\..*')
-  c=$(expr "$r" : '[^.@>:@*\.\(.*\)')
+  a=$(expr "$V" : '\([^.]*\)\..*')
+  r=$(expr "$V" : '[^.]*\.\(.*\)')
+  b=$(expr "$r" : '\([^.]*\)\..*')
+  c=$(expr "$r" : '[^.]*\.\(.*\)')
 
   if test -z "$b" ; then
      b=$r
