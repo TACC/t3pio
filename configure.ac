@@ -69,7 +69,7 @@ if test -f /proc/fs/lustre/version; then
   V=$( expr $a \* 1000000 + $b \* 1000 + $c )
 
   if test "$V" -ge 2004000; then
-    MAX_STRIPES_POSSIBLE=160
+    MAX_STRIPES_POSSIBLE=2000
   fi
 fi
 AC_DEFINE(LUSTRE_VERSION, $LUSTRE_VERSION)
