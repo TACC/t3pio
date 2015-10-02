@@ -6,30 +6,34 @@
 
 int t3piointernal_(int* f_comm, int* f_info, const char* dir, int* global_sz, 
                    int* max_stripes, int* mStripeSz, const char* file,
-                   int* nWriters, int* s_dne, int* s_auto_max, int* nStripesT3)
+                   int* nWriters, int* s_dne, int* s_auto_max, int* nStripesT3,
+                   int* nStripesSet)
 {
   return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz,
-                        file, nWriters, s_dne, s_auto_max, nStripesT3);
+                        file, nWriters, s_dne, s_auto_max, nStripesT3, nStripesSet);
 }
 int T3PIOINTERNAL(int* f_comm, int* f_info, const char* dir, int* global_sz, 
                   int* max_stripes, int* mStripeSz, const char* file,
-                  int* nWriters, int* s_dne, int* s_auto_max, int* nStripesT3)
+                  int* nWriters, int* s_dne, int* s_auto_max, int* nStripesT3,
+                  int* nStripesSet)
 {
   return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz,
-                        file, nWriters, s_dne, s_auto_max, nStripesT3);
+                        file, nWriters, s_dne, s_auto_max, nStripesT3, nStripesSet);
 }
 
 int t3piointernal(int* f_comm, int* f_info, const char* dir, int* global_sz, 
                   int* max_stripes, int* mStripeSz, const char* file,
-                  int* nWriters, int* s_dne, int* s_auto_max, int* nStripesT3)
+                  int* nWriters, int* s_dne, int* s_auto_max, int* nStripesT3,
+                  int* nStripesSet)
 {
   return t3pio_internal(f_comm, f_info, dir, global_sz, max_stripes, mStripeSz,
-                        file, nWriters, s_dne, s_auto_max, nStripesT3);
+                        file, nWriters, s_dne, s_auto_max, nStripesT3, nStripesSet);
 }
 
 int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_sz, 
                    int* max_stripes, int* mStripeSz, const char* file,
-                   int* nWriters, int* s_dne, int* s_auto_max, int* nStripesT3)
+                   int* nWriters, int* s_dne, int* s_auto_max, int* nStripesT3,
+                   int* nStripesSet)
 {
   int             ierr;
   T3PIO_results_t results;
@@ -44,10 +48,11 @@ int t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_sz,
 			T3PIO_FILE,        	   file,
                         T3PIO_RESULTS,             &results);
 
-  *s_dne      = results.S_dne;
-  *s_auto_max = results.S_auto_max;
-  *nStripesT3 = results.nStripesT3;
-  *f_info     = MPI_Info_c2f(info);
+  *s_dne       = results.S_dne;
+  *s_auto_max  = results.S_auto_max;
+  *nStripesT3  = results.nStripesT3;
+  *nStripesSet = results.nStripesSet;
+  *f_info      = MPI_Info_c2f(info);
 
   return   ierr;
 }

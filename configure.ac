@@ -44,8 +44,13 @@ if test x$with_phdf5 != xno; then
 fi
 AC_SUBST(PHDF5_DIR)
 
-MAX_STRIPES_POSSIBLE=160
+#Constants used here:
+Max_Stripes_Small=160
+Max_Stripes_Big=2000
+GOOD_CITZENSHIP=80
+#End Constants used here:
 
+MAX_STRIPES_POSSIBLE=$Max_Stripes_Small
 # find lustre version
 LUSTRE_VERSION=0.0.0
 if test -f /proc/fs/lustre/version; then
@@ -69,7 +74,7 @@ if test -f /proc/fs/lustre/version; then
   V=$( expr $a \* 1000000 + $b \* 1000 + $c )
 
   if test "$V" -ge 2004000; then
-    MAX_STRIPES_POSSIBLE=2000
+    MAX_STRIPES_POSSIBLE=$Max_Stripes_Big
   fi
 fi
 AC_DEFINE(LUSTRE_VERSION, $LUSTRE_VERSION)
@@ -86,7 +91,6 @@ AC_ARG_WITH(lustreMaxStripesPerFile,
     LUSTRE_MAX_STRIPES_PER_FILE="$withval"
     AC_DEFINE_UNQUOTED(LUSTRE_MAX_STRIPES_PER_FILE, $withval))dnl
 
-GOOD_CITZENSHIP=80
 
 AC_DEFINE(GOOD_CITZENSHIP_STRIPES, $GOOD_CITZENSHIP, [Max number of stripes in T3PIO automatic mode])
 AC_ARG_WITH(goodCitzenshipStripes,
@@ -95,7 +99,7 @@ AC_ARG_WITH(goodCitzenshipStripes,
     AC_MSG_RESULT([GOOD_CITZENSHIP_STRIPES=$with_goodCitzenshipStripes])
     AC_DEFINE_UNQUOTED(GOOD_CITZENSHIP_STRIPES,$with_goodCitzenshipStripes)dnl
     ,
-    withval="GOOD_CITZENSHIP"
+    withval="$GOOD_CITZENSHIP"
     AC_MSG_RESULT([GOOD_CITZENSHIP_STRIPES=$withval])
     GOOD_CITZENSHIP_STRIPES="$withval"
     AC_DEFINE_UNQUOTED(GOOD_CITZENSHIP_STRIPES, $withval))dnl

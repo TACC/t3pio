@@ -85,7 +85,7 @@ subroutine outputResults(wrtStyle, local, global)
    if (TableOutput) then
       print 1010, p % nProcs, local % num(1), global % num(1), Numvar,      &
            nIOUnits, aggregators, nStripes, s_dne, s_auto_max, nStripesT3,  &
-           stripeSize/(1024*1024), fileSz, totalTime, rate,                 &
+           nStripesSet,stripeSize/(1024*1024), fileSz, totalTime, rate,     &
            adjustr(trim(wrtStyle)), adjustr(trim(xferStyle)),               &
            adjustr(trim(t3pioV))
    end if
@@ -108,6 +108,7 @@ subroutine outputResults(wrtStyle, local, global)
               " s_dne:         ", i7,/,   &
               " s_auto_max:    ", i7,/,   &
               " nStripesT3:    ", i7,/,   &
+              " nStripesSet:   ", i7,/,   &
               " stripeSz (MB): ", i7,/,   &
               " fileSz (GB):   ", f9.3,/, &
               " totalTime:     ", f9.3,/, &

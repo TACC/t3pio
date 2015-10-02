@@ -23,6 +23,7 @@ typedef struct
 {
   int numIO;         /* The number of Reader/Writers */
   int numStripes;    /* The number of stripes */
+  int numStripesSet; /* The number of stripes that T3Pio set*/
   int factor;        /* numStripes/numIO */
   int stripeSize;    /* stripe size in bytes*/
   int nWritersPer;   /* number of writers per node */
@@ -30,7 +31,7 @@ typedef struct
   int S_dne;         /* the do not exceed number of stripes */
   int S_auto_max;    /* min(s_dne, GOOD_CITZENSHIP_STRIPES) */
   int nStripesT3;    /* Number of stripes T3PIO would choose */
-  
+  int nStripesSet;   /* Number of stripes T3PIO tried to set*/
 } T3PIO_results_t;
 
 int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char *dir, ...);

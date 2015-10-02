@@ -39,9 +39,10 @@ void t3pio_extract_key_values(MPI_Info info, T3Pio_t* t3, T3PIO_results_t* r)
           else if (strcmp("striping_unit",   key) == 0) sscanf(value, "%d", &(*r).stripeSize);
         }
     }
-  r->S_dne      = t3->S_dne;
-  r->S_auto_max = t3->S_auto_max;
-  r->nStripesT3 = t3->nStripesT3;
+  r->S_dne       = t3->S_dne;
+  r->S_auto_max  = t3->S_auto_max;
+  r->nStripesT3  = t3->nStripesT3;
+  r->nStripesSet = t3->numStripes;
 }
 
 
@@ -115,8 +116,6 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
   t3.S_dne      = t3pio_maxStripes(comm, myProc, path);
   t3.S_auto_max = min(t3.S_dne, GOOD_CITZENSHIP_STRIPES);
   t3pio_numComputerNodes(comm, nProcs, &t3.numNodes);
-  if (myProc == 0)
-    printf("(1) S_dne: %d, S_auto_max: %d\n",t3.S_dne, t3.S_auto_max);
 
 
   if (getenv("T3PIO_BYPASS"))
@@ -142,15 +141,11 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
         {
           int k = min(t3.S_auto_max / t3.numNodes, MAX_STRIPES_PER_NODE);
           t3.numStripes = k * t3.numNodes;
-          if (myProc == 0)
-            printf("(2) k: %d, numNodes: %d, numStripes: %d\n",k, t3.numNodes, t3.numStripes);
 
         }
       t3.nStripesT3 = t3.numStripes;
       if (t3.maxStripes > 0)
         t3.numStripes = min(t3.S_dne, t3.maxStripes);
-      if (myProc == 0)
-        printf("(3) numStripes: %d\n", t3.numStripes);
     }
 
   if (t3.maxWriters == T3PIO_BYPASS) 
@@ -169,8 +164,6 @@ int t3pio_set_info(MPI_Comm comm, MPI_Info info, const char* path, ...)
     }
   if (t3.numStripes > 0)
     {
-      if (myProc == 0)
-        printf("(4) numStripes: %d\n", t3.numStripes);
       sprintf(buf, "%d", t3.numStripes);
       MPI_Info_set(info, (char *) "striping_factor", buf);
     }

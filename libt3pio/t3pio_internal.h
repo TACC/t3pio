@@ -19,6 +19,7 @@ typedef struct
   int S_dne;
   int S_auto_max;
   int nStripesT3;
+  int nStripesSet;
   char* fn;
 } T3Pio_t;
 
@@ -34,7 +35,7 @@ void t3pio_version_internal(char *v, int *len);
 
 int  t3pio_internal(int* f_comm, int* f_info, const char* dir, int* global_size, int* max_stripes,
                     int* max_stripe_size, const char* file, int* maxWriters, int* s_dne,
-                    int* s_auto_max, int* nStripesT3);
+                    int* s_auto_max, int* nStripesT3, int* nStripesSet);
 
 
 

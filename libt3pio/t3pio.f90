@@ -11,6 +11,7 @@ module t3pio
       integer :: s_dne       ! max number of stripes (do not exceed)
       integer :: s_auto_max  ! min(s_dne,GOOD_CITZENSHIP_STRIPES)
       integer :: nStripesT3  ! The number of stripes T3PIO would chose automatically.
+      integer :: nStripesSet ! The number of stripes that T3PIO tried to set.
    end type T3PIO_Results_t
 
 contains
@@ -57,6 +58,7 @@ contains
       integer,          optional      :: stripe_size_mb
       character(PATHMAX)              :: dir
       character(PATHMAX)              :: usrFile
+      integer                         :: nStripesSet
       integer                         :: len, valuelen
       integer                         :: nWriters
       integer                         :: gblSz, maxStripes, f
@@ -83,14 +85,16 @@ contains
       len     = len_trim(usrFile)+1
       usrFile = usrFile(1:len-1) // CHAR(0)
 
-      ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, maxStripeSz, &
-                           usrFile, nWriters, s_dne, s_auto_max, nStripesT3)
+      ierr = t3piointernal(comm, info, dir, gblSz, maxStripes, maxStripeSz,  &
+                           usrFile, nWriters, s_dne, s_auto_max, nStripesT3, &
+                           nStripesSet)
       
       if (present(results)) then
          call t3pio_extract_key_values(info, results)
-         results % s_dne      = s_dne
-         results % s_auto_max = s_auto_max
-         results % nStripesT3 = nStripesT3
+         results % s_dne       = s_dne
+         results % s_auto_max  = s_auto_max
+         results % nStripesT3  = nStripesT3
+         results % nStripesSet = nStripesSet
       end if
 
    end subroutine t3pio_set_info

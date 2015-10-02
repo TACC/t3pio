@@ -14,7 +14,7 @@ module writer
    implicit none 
    real(8)          :: t0, t1, t2, t3
    integer          :: nIOUnits, nStripes, stripeSize, aggregators
-   integer          :: s_dne, s_auto_max, nStripesT3
+   integer          :: s_dne, s_auto_max, nStripesT3, nStripesSet
    character(80)    :: fn
    character(256)   :: buffer
    integer(8)       :: lSz
@@ -148,6 +148,7 @@ contains
          s_dne       = results % s_dne
          s_auto_max  = results % s_auto_max
          nStripesT3  = results % nStripesT3
+         nStripesSet = results % nStripesSet
       endif
 
       !
@@ -368,6 +369,7 @@ contains
          s_dne       = results % s_dne
          s_auto_max  = results % s_auto_max
          nStripesT3  = results % nStripesT3
+         nStripesSet = results % nStripesSet
       endif
 
       if ( DebugFlg .and. p % myProc == 0 ) print *, "Finished T3Pio Call"
