@@ -16,6 +16,7 @@ AC_SUBST(PATH_TO_GIT)
 AC_PATH_PROG(PATH_TO_GIT, git, "")
 AM_INIT_AUTOMAKE
 AC_PROG_CC
+AC_PROG_CXX
 AC_PROG_FC
 AC_PROG_F77
 AC_F77_WRAPPERS
@@ -29,7 +30,6 @@ if test "x${ax_cv_compiler_vendor}" = "xintel" ; then
 fi
 
 PP_CC_VERSION_OPTION
-AC_PROG_CXX
 AC_HEADER_STDC
 AC_CHECK_HEADERS(lustre/lustreapi.h)
 AC_CHECK_LIB(lustre,llapi_file_create)
